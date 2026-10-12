@@ -171,7 +171,7 @@ export const WithdrawModal: React.FC = () => {
               disabled={numAmount <= 0 || numAmount > maxBalance}
               className="mt-2 w-full py-3 px-6 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_20px_rgba(255,255,255,0.35)] hover:shadow-[0_0_28px_rgba(255,255,255,0.65)] hover:bg-neutral-100 disabled:opacity-40 transition-all text-center flex items-center justify-center gap-2"
             >
-              <span>تأكيد سحب {numAmount ? numAmount.toLocaleString() : 0} ﷼</span>
+              <span>تأكيد سحب {numAmount ? numAmount.toLocaleString() : 0} <RiyalSymbol /></span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
@@ -184,7 +184,7 @@ export const WithdrawModal: React.FC = () => {
             <div className="flex flex-col gap-1">
               <h2 className="text-xl font-bold text-white font-heading">تمت معالجة طلب السحب!</h2>
               <p className="text-xs text-[#A3A3A3]">
-                تم تحويل مبلغ {numAmount.toLocaleString()} ﷼ إلى حسابك. ستصلك رسالة تأكيد بنكية خلال دقائق.
+                تم تحويل مبلغ {numAmount.toLocaleString()} <RiyalSymbol /> إلى حسابك. ستصلك رسالة تأكيد بنكية خلال دقائق.
               </p>
             </div>
 

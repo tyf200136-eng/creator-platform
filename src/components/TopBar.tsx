@@ -278,7 +278,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
                     <span className="text-[10px] text-white/40">قبل 10 د</span>
                   </div>
                   <p className="text-[11px] text-[#A3A3A3] mt-0.5">
-                    حققت 84,200 مشاهدة في حملة عطر إمبريال البري وتمت إضافة 673.60 ﷼ إلى رصيدك.
+                    حققت 84,200 مشاهدة في حملة عطر إمبريال البري وتمت إضافة 673.60 <RiyalSymbol /> إلى رصيدك.
                   </p>
                 </div>
                 <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors cursor-pointer">
@@ -296,7 +296,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
                     <span className="text-[10px] text-white/40">أمس</span>
                   </div>
                   <p className="text-[11px] text-[#A3A3A3] mt-0.5">
-                    أطلقت ريف العطور حملة ريف 33 بمعدل 7 ﷼ لكل 1000 مشاهدة.
+                    أطلقت ريف العطور حملة ريف 33 بمعدل 7 <RiyalSymbol /> لكل 1000 مشاهدة.
                   </p>
                 </div>
               </div>

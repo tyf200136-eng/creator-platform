@@ -2,6 +2,7 @@ import React from 'react';
 import { Campaign } from '../types';
 import RiyalSymbol from './RiyalSymbol';
 import PlatformIcon from './PlatformIcon';
+import StatusBadge from './common/StatusBadge';
 import { 
   Lock, 
   CheckCircle2, 
@@ -127,8 +128,8 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
             </div>
 
             {campaign.status === 'almost_full' && (
-              <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-amber-500/20 backdrop-blur-md border border-amber-500/40 text-[10px] font-medium text-amber-300">
-                أوشكت على الاكتمال
+              <div className="absolute top-2.5 left-2.5">
+                <StatusBadge tone="warning" className="bg-black/60!">أوشكت على الاكتمال</StatusBadge>
               </div>
             )}
           </>

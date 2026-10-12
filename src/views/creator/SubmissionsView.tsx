@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import PlatformIcon from '../../components/PlatformIcon';
+import StatusBadge from '../../components/common/StatusBadge';
 import { SubmissionStatus, DesignSubmissionStatus, Submission, DesignSubmission, Campaign } from '../../types';
 import {
   ExternalLink,
@@ -83,110 +84,26 @@ export const SubmissionsView: React.FC = () => {
 
   const getVideoStatusBadge = (status: SubmissionStatus) => {
     switch (status) {
-      case 'approved':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[11px] font-semibold text-emerald-400">
-            <CheckCircle2 className="w-3 h-3" />
-            <span>مقبول ومطابق</span>
-          </span>
-        );
-      case 'pending':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-[11px] font-semibold text-amber-400">
-            <Clock className="w-3 h-3" />
-            <span>قيد المراجعة</span>
-          </span>
-        );
-      case 'rejected':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/25 text-[11px] font-semibold text-rose-400">
-            <XCircle className="w-3 h-3" />
-            <span>مرفوض</span>
-          </span>
-        );
-      case 'appealing':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/35 text-[11px] font-semibold text-amber-300">
-            <Clock className="w-3 h-3 text-amber-400 animate-pulse" />
-            <span>قيد الاعتراض</span>
-          </span>
-        );
-      case 'appeal_approved':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-semibold text-emerald-300">
-            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-            <span>تم قبول الاعتراض ✓</span>
-          </span>
-        );
-      case 'appeal_rejected':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-500/15 border border-rose-500/30 text-[11px] font-semibold text-rose-300">
-            <XCircle className="w-3 h-3 text-rose-400" />
-            <span>تم رفض الاعتراض</span>
-          </span>
-        );
-      default:
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] text-white/70">
-            <span>السجل</span>
-          </span>
-        );
+      case 'approved':        return <StatusBadge tone="success">مقبول ومطابق</StatusBadge>;
+      case 'pending':         return <StatusBadge tone="warning">قيد المراجعة</StatusBadge>;
+      case 'rejected':        return <StatusBadge tone="danger">مرفوض</StatusBadge>;
+      case 'appealing':       return <StatusBadge tone="warning">قيد الاعتراض</StatusBadge>;
+      case 'appeal_approved': return <StatusBadge tone="success">تم قبول الاعتراض</StatusBadge>;
+      case 'appeal_rejected': return <StatusBadge tone="danger">تم رفض الاعتراض</StatusBadge>;
+      default:                return <StatusBadge tone="neutral">السجل</StatusBadge>;
     }
   };
 
   const getDesignStatusBadge = (des: DesignSubmission) => {
     switch (des.status) {
-      case 'approved':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[11px] font-semibold text-emerald-400">
-            <CheckCircle2 className="w-3 h-3" />
-            <span>مقبول</span>
-          </span>
-        );
-      case 'needs_revision':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-[11px] font-semibold text-amber-300">
-            <AlertCircle className="w-3 h-3" />
-            <span>يحتاج تعديل</span>
-          </span>
-        );
-      case 'pending':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 text-[11px] font-semibold text-white/80">
-            <Clock className="w-3 h-3 text-white/60" />
-            <span>بانتظار المراجعة</span>
-          </span>
-        );
-      case 'rejected':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/25 text-[11px] font-semibold text-rose-400">
-            <XCircle className="w-3 h-3" />
-            <span>مرفوض</span>
-          </span>
-        );
-      case 'appealing':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/35 text-[11px] font-semibold text-amber-300">
-            <Clock className="w-3 h-3 text-amber-400 animate-pulse" />
-            <span>قيد الاعتراض</span>
-          </span>
-        );
-      case 'appeal_approved':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-semibold text-emerald-300">
-            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-            <span>تم قبول الاعتراض ✓</span>
-          </span>
-        );
-      case 'appeal_rejected':
-        return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-500/15 border border-rose-500/30 text-[11px] font-semibold text-rose-300">
-            <XCircle className="w-3 h-3 text-rose-400" />
-            <span>تم رفض الاعتراض</span>
-          </span>
-        );
-      default:
-        return null;
+      case 'approved':        return <StatusBadge tone="success">مقبول</StatusBadge>;
+      case 'needs_revision':  return <StatusBadge tone="warning" pulse>يحتاج تعديل</StatusBadge>;
+      case 'pending':         return <StatusBadge tone="warning">بانتظار المراجعة</StatusBadge>;
+      case 'rejected':        return <StatusBadge tone="danger">مرفوض</StatusBadge>;
+      case 'appealing':       return <StatusBadge tone="warning">قيد الاعتراض</StatusBadge>;
+      case 'appeal_approved': return <StatusBadge tone="success">تم قبول الاعتراض</StatusBadge>;
+      case 'appeal_rejected': return <StatusBadge tone="danger">تم رفض الاعتراض</StatusBadge>;
+      default:                return null;
     }
   };
 
@@ -364,15 +281,7 @@ export const SubmissionsView: React.FC = () => {
                         <td className="py-3.5 px-4 text-center">
                           <div className="flex flex-col items-center gap-1.5">
                             {getVideoStatusBadge(sub.status)}
-                            {sub.status === 'rejected' && (
-                              <button
-                                onClick={() => openAppealModal({ type: 'video', item: sub })}
-                                className="px-2.5 py-1 rounded-full bg-transparent hover:bg-white/10 border border-white/30 text-white font-medium text-[11px] flex items-center gap-1 transition-all cursor-pointer shadow-sm"
-                              >
-                                <RotateCcw className="w-3 h-3" />
-                                <span>اعتراض على القرار</span>
-                              </button>
-                            )}
+
                             {sub.status === 'appealing' && (
                               <span className="px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/15 text-white/50 text-[10px] font-medium cursor-not-allowed">
                                 قيد المراجعة الإدارية
@@ -383,13 +292,13 @@ export const SubmissionsView: React.FC = () => {
                       </tr>
 
                       {/* If Rejected: Show reason + Working Appeal button */}
-                      {sub.status === 'rejected' && sub.rejectionReason && (
+                      {sub.status === 'rejected' && (
                         <tr className="bg-rose-500/[0.04]">
                           <td colSpan={6} className="py-2.5 px-6">
                             <div className="flex items-center justify-between text-xs text-rose-300">
                               <div className="flex items-center gap-2">
                                 <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-                                <span>سبب الرفض: {sub.rejectionReason}</span>
+                                <span>{sub.rejectionReason ? `سبب الرفض: ${sub.rejectionReason}` : 'تم رفض المقطع'}</span>
                               </div>
                               <button
                                 onClick={() => openAppealModal({ type: 'video', item: sub })}
@@ -577,16 +486,6 @@ export const SubmissionsView: React.FC = () => {
                               </button>
                             )}
 
-                            {/* If Rejected: Action Button "اعتراض على القرار" */}
-                            {des.status === 'rejected' && (
-                              <button
-                                onClick={() => openAppealModal({ type: 'design', item: des })}
-                                className="px-3 py-1 rounded-full bg-transparent hover:bg-white/10 border border-white/30 text-white font-medium text-[11px] flex items-center gap-1 transition-all cursor-pointer shadow-sm"
-                              >
-                                <RotateCcw className="w-3 h-3" />
-                                <span>اعتراض على القرار</span>
-                              </button>
-                            )}
 
                             {/* If Appealing: Chip "قيد المراجعة الإدارية" */}
                             {des.status === 'appealing' && (
@@ -597,9 +496,7 @@ export const SubmissionsView: React.FC = () => {
 
                             {/* If Approved: Badge "تمت إضافة 150 ﷼ لمحفظتك" */}
                             {(des.status === 'approved' || des.status === 'appeal_approved') && (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10px] font-bold shadow-[0_0_10px_rgba(16,185,129,0.15)]">
-                                <span>تمت إضافة {des.earnedAmount || 150} ﷼ لمحفظتك</span>
-                              </span>
+                              <StatusBadge tone="success">تمت إضافة {des.earnedAmount || 150} <RiyalSymbol /> لمحفظتك</StatusBadge>
                             )}
 
                             {des.status === 'pending' && (
@@ -631,13 +528,13 @@ export const SubmissionsView: React.FC = () => {
                       )}
 
                       {/* Rejection reason banner for Rejected rows */}
-                      {des.status === 'rejected' && des.rejectionReason && (
+                      {des.status === 'rejected' && (
                         <tr className="bg-rose-500/[0.04]">
                           <td colSpan={6} className="py-2.5 px-6">
                             <div className="flex items-center justify-between text-xs text-rose-300">
                               <div className="flex items-center gap-2">
                                 <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-                                <span>سبب الرفض: {des.rejectionReason}</span>
+                                <span>{des.rejectionReason ? `سبب الرفض: ${des.rejectionReason}` : 'تم رفض المقطع'}</span><span>{des.rejectionReason ? `سبب الرفض: ${des.rejectionReason}` : 'تم رفض المقطع'}</span>
                               </div>
                               <button
                                 onClick={() => openAppealModal({ type: 'design', item: des })}
@@ -665,7 +562,7 @@ export const SubmissionsView: React.FC = () => {
                                 <button
                                   onClick={() => resolveAppeal('design', des.id, 'approved')}
                                   className="px-2 py-0.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold transition-all cursor-pointer"
-                                  title="قبول الاعتراض وإضافة 150 ﷼"
+                                  title="قبول الاعتراض وإضافة 150 <RiyalSymbol />"
                                 >
                                   تم قبول الاعتراض ✓
                                 </button>
@@ -734,12 +631,12 @@ export const SubmissionsView: React.FC = () => {
                           {isCampDesign ? (
                             <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/15 border border-purple-500/30 text-purple-300 font-semibold flex items-center gap-1">
                               <PenTool className="w-2.5 h-2.5" />
-                              <span>حملة تصميم (150 ﷼)</span>
+                              <span>حملة تصميم (150 <RiyalSymbol />)</span>
                             </span>
                           ) : (
                             <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-semibold flex items-center gap-1">
                               <Eye className="w-2.5 h-2.5" />
-                              <span>حملة فيديو ({camp.ratePer1k} ﷼ / 1K)</span>
+                              <span>حملة فيديو ({camp.ratePer1k} <RiyalSymbol /> / 1K)</span>
                             </span>
                           )}
                         </div>

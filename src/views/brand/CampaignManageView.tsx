@@ -91,7 +91,7 @@ export const CampaignManageView: React.FC = () => {
               )}
             </div>
             <span className="text-xs text-[#A3A3A3] mt-0.5">
-              ميزانية: {selectedCampaign.totalBudget.toLocaleString()} ﷼ · تم صرف: {selectedCampaign.spentBudget.toLocaleString()} ﷼ · معدل: {selectedCampaign.ratePer1k} ﷼ / 1K
+              ميزانية: {selectedCampaign.totalBudget.toLocaleString()} <RiyalSymbol /> · تم صرف: {selectedCampaign.spentBudget.toLocaleString()} <RiyalSymbol /> · معدل: {selectedCampaign.ratePer1k} <RiyalSymbol /> / 1K
             </span>
           </div>
         </div>
@@ -350,11 +350,15 @@ export const CampaignManageView: React.FC = () => {
                       <PlatformIcon platform={sub.platform} size={12} className="text-white/70" />
                     </div>
                     <span className="text-[10px] text-[#A3A3A3] mt-0.5">{sub.views.toLocaleString()} مشاهدة</span>
-                    <span className={`text-[9px] font-bold mt-1 px-1.5 py-0.5 rounded-full w-fit ${
-                      sub.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-300'
-                    }`}>
-                      {sub.status === 'approved' ? 'معتمد' : 'بانتظار قرارك'}
-                    </span>
+                    <div className="mt-1">
+                      {sub.status === 'approved' ? (
+                        <StatusBadge tone="success">معتمد</StatusBadge>
+                      ) : sub.status === 'rejected' ? (
+                        <StatusBadge tone="danger">مرفوض</StatusBadge>
+                      ) : (
+                        <StatusBadge tone="warning" pulse>بانتظار قرارك</StatusBadge>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -486,7 +490,7 @@ export const CampaignManageView: React.FC = () => {
             <div key={d.id} className="p-5 rounded-[24px] bg-white/[0.04] border border-white/[0.12] flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-white">{d.title}</span>
-                <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 text-[10px] font-bold">بانتظار القرار</span>
+                <StatusBadge tone="warning" pulse>بانتظار القرار</StatusBadge>
               </div>
               <p className="text-xs text-[#A3A3A3]">{d.notes}</p>
               <div className="flex items-center gap-2 pt-2 border-t border-white/[0.06]">
@@ -618,13 +622,9 @@ export const CampaignManageView: React.FC = () => {
                         </td>
                         <td className="p-4">
                           {c.pending > 0 ? (
-                            <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 text-[10px] font-bold">
-                              {c.pending} بانتظار التدقيق
-                            </span>
+                            <StatusBadge tone="warning" pulse>{c.pending} بانتظار التدقيق</StatusBadge>
                           ) : (
-                            <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">
-                              نشط
-                            </span>
+                            <StatusBadge tone="success">نشط</StatusBadge>
                           )}
                         </td>
                       </tr>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import PlatformIcon from '../../components/PlatformIcon';
+import StatusBadge from '../../components/common/StatusBadge';
 import { DesignSubmission } from '../../types';
 import {
   ArrowRight,
@@ -237,12 +238,12 @@ export const CampaignDetailView: React.FC = () => {
             {selectedCampaign.requiresApplication ? (
               <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-xs font-semibold text-amber-300">
                 <Lock className="w-3 h-3" />
-                <span>الانضمام بطلب وموافقة</span>
+               <StatusBadge tone="neutral" className="text-xs! py-1!">الانضمام بطلب وموافقة</StatusBadge>
               </div>
             ) : (
               <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-xs font-semibold text-emerald-300">
                 <Check className="w-3 h-3" />
-                <span>حملة مفتوحة للجميع</span>
+                <StatusBadge tone="success" className="text-xs! py-1!">حملة مفتوحة للجميع</StatusBadge>
               </div>
             )}
 
@@ -283,7 +284,7 @@ export const CampaignDetailView: React.FC = () => {
                 {/* Deadline Chip: "باقي 4 أيام" */}
                 <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-300">
                   <Clock className="w-3 h-3 text-amber-400" />
-                  <span>{designDetails?.deadline || 'باقي 4 أيام'}</span>
+                 <StatusBadge tone="warning" className="text-xs! py-1!">{designDetails?.deadline || 'باقي 4 أيام'}</StatusBadge>
                 </div>
               </>
             ) : (
@@ -351,8 +352,8 @@ export const CampaignDetailView: React.FC = () => {
                     </div>
 
                     <div className="text-[11px] text-white/60 pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
-                      <span>أقل سحب: {rule.minPayout} ﷼</span>
-                      <span>الحد الأعلى: {rule.maxPayout} ﷼</span>
+                      <span>أقل سحب: {rule.minPayout} <RiyalSymbol /></span>
+                      <span>الحد الأعلى: {rule.maxPayout} <RiyalSymbol /></span>
                     </div>
                   </div>
                 ))}
@@ -538,7 +539,7 @@ export const CampaignDetailView: React.FC = () => {
                       </div>
 
                       <p className="text-[11px] text-neutral-300 leading-relaxed">
-                        تشاهد العلامة التجارية نسختك بعلامة مائية، وعند القبول يُضاف 150 ﷼ مباشرة إلى محفظتك.
+                        تشاهد العلامة التجارية نسختك بعلامة مائية، وعند القبول يُضاف 150 <RiyalSymbol /> مباشرة إلى محفظتك.
                       </p>
                     </div>
                   )}
@@ -576,7 +577,7 @@ export const CampaignDetailView: React.FC = () => {
                     <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col gap-2">
                       <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
                         <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                        <span>مقبول ومطابق — انصرف {userDesignSubmission.earnedAmount || 150} ﷼</span>
+                        <span>مقبول ومطابق — انصرف {userDesignSubmission.earnedAmount || 150} <RiyalSymbol /></span>
                       </div>
                       <p className="text-[11px] text-neutral-300 leading-relaxed">
                         تم اعتماد التصميم رسميًا ونقل ملكيته للبراند وإضافة الرصيد إلى محفظتك.
@@ -720,7 +721,7 @@ export const CampaignDetailView: React.FC = () => {
                 </div>
 
                 <p className="text-[11px] text-emerald-400 mt-1 font-medium">
-                  متبقٍّ {budgetLeft.toLocaleString()} ﷼ — ما زال بإمكانك الانضمام وتحقيق أرباحك!
+                  متبقٍّ {budgetLeft.toLocaleString()} <RiyalSymbol /> — ما زال بإمكانك الانضمام وتحقيق أرباحك!
                 </p>
               </div>
             )}

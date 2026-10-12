@@ -681,7 +681,7 @@ export const CreateCampaignView: React.FC = () => {
                       value={videoBudget}
                       onChange={setVideoBudget}
                       min={1000}
-                      label="إجمالي ميزانية الحملة (الحد الأدنى 1,000 ﷼)"
+                      label="إجمالي ميزانية الحملة (الحد الأدنى 1,000 <RiyalSymbol />)"
                       campaignType="video"
                     />
 
@@ -785,11 +785,11 @@ export const CreateCampaignView: React.FC = () => {
                       </div>
                       <div className="flex justify-between py-1 border-b border-white/[0.06]">
                         <span className="text-white/60">إجمالي الميزانية:</span>
-                        <span className="font-mono font-bold text-white">{videoBudget.toLocaleString()} ﷼</span>
+                        <span className="font-mono font-bold text-white">{videoBudget.toLocaleString()} <RiyalSymbol /></span>
                       </div>
                       <div className="flex justify-between py-1">
                         <span className="text-white/60">المعدل:</span>
-                        <span className="font-mono font-bold text-white">{ratePer1k} ﷼ / 1K</span>
+                        <span className="font-mono font-bold text-white">{ratePer1k} <RiyalSymbol /> / 1K</span>
                       </div>
                     </div>
 
@@ -1179,7 +1179,7 @@ export const CreateCampaignView: React.FC = () => {
                       value={pricePerDesign}
                       onChange={setPricePerDesign}
                       min={300}
-                      label="سعر التصميم المقبول الواحد (الحد الأدنى 300 ﷼)"
+                      label="سعر التصميم المقبول الواحد (الحد الأدنى 300 <RiyalSymbol />)"
                       campaignType="design"
                     />
 
@@ -1215,7 +1215,7 @@ export const CreateCampaignView: React.FC = () => {
                     <div className="p-4 rounded-2xl bg-white/[0.05] border border-white/[0.14] flex items-center justify-between">
                       <span className="text-xs text-white/70">إجمالي الميزانية المحسوبة تلقائياً:</span>
                       <div className="flex items-baseline gap-1.5 font-mono">
-                        <span className="text-xs text-white/50">{pricePerDesign} ﷼ × {designsNeeded} =</span>
+                        <span className="text-xs text-white/50">{pricePerDesign} <RiyalSymbol /> × {designsNeeded} =</span>
                         <span className="text-xl font-black text-white">{totalDesignBudget.toLocaleString()}</span>
                         <RiyalSymbol className="w-3.5 h-3.5 text-white" />
                       </div>
@@ -1269,7 +1269,7 @@ export const CreateCampaignView: React.FC = () => {
                       </div>
                       <div className="flex justify-between py-1 border-b border-white/[0.06]">
                         <span className="text-white/60">سعر كل تصميم:</span>
-                        <span className="font-mono font-bold text-white">{pricePerDesign} ﷼</span>
+                        <span className="font-mono font-bold text-white">{pricePerDesign} <RiyalSymbol /></span>
                       </div>
                       <div className="flex justify-between py-1 border-b border-white/[0.06]">
                         <span className="text-white/60">العدد المطلوب:</span>
@@ -1277,7 +1277,7 @@ export const CreateCampaignView: React.FC = () => {
                       </div>
                       <div className="flex justify-between py-1 border-b border-white/[0.06]">
                         <span className="text-white/60">إجمالي الميزانية:</span>
-                        <span className="font-mono font-bold text-emerald-400">{totalDesignBudget.toLocaleString()} ﷼</span>
+                        <span className="font-mono font-bold text-emerald-400">{totalDesignBudget.toLocaleString()} <RiyalSymbol /></span>
                       </div>
                       <div className="flex justify-between py-1">
                         <span className="text-white/60">جولات التعديل:</span>
@@ -1360,7 +1360,7 @@ export const CreateCampaignView: React.FC = () => {
                 <>
                   <div className="flex items-center justify-between">
                     <span>قيمة التصميم الواحد:</span>
-                    <span className="font-mono text-white font-bold">{pricePerDesign} ﷼</span>
+                    <span className="font-mono text-white font-bold">{pricePerDesign} <RiyalSymbol /></span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>الحصص المتاحة:</span>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import PlatformIcon from '../../components/PlatformIcon';
+import StatusBadge from '../../components/common/StatusBadge';
 import { Search, Download, CreditCard, CheckCircle2, Clock, ShieldAlert } from 'lucide-react';
 
 export const BrandPayoutsView: React.FC = () => {
@@ -94,17 +95,15 @@ export const BrandPayoutsView: React.FC = () => {
                 <td className="py-3.5 px-4 text-white/80">{p.campaignTitle}</td>
                 <td className="py-3.5 px-4 text-white/60 font-mono text-[11px]">{p.method}</td>
                 <td className="py-3.5 px-4 text-center font-bold text-white font-mono">
-                  {p.amount.toLocaleString()} ﷼
+                  {p.amount.toLocaleString()} <RiyalSymbol />
                 </td>
                 <td className="py-3.5 px-4 text-center text-white/50 font-mono">{p.date}</td>
                 <td className="py-3.5 px-4 text-center">
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                    p.status === 'completed'
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : 'bg-amber-500/10 text-amber-300 border border-amber-500/20'
-                  }`}>
-                    {p.status === 'completed' ? 'انصرفت بنجاح' : 'تنتظر التحويل'}
-                  </span>
+                  {p.status === 'completed' ? (
+                    <StatusBadge tone="success">انصرفت بنجاح</StatusBadge>
+                  ) : (
+                    <StatusBadge tone="warning">تنتظر التحويل</StatusBadge>
+                  )}
                 </td>
               </tr>
             ))}

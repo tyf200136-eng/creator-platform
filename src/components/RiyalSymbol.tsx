@@ -6,37 +6,43 @@ interface RiyalSymbolProps {
 }
 
 /**
- * Official Saudi Riyal Currency Symbol (ر.س / SAMA official symbol)
- * High-fidelity vector rendition matching the attached riyal-symbol.svg
+ * رمز الريال السعودي الرسمي — نفس شكل public/riyal-symbol.svg
+ * الحجم الافتراضي يتبع حجم الخط (em) عشان يتناسق مع النص اللي جنبه
  */
-export const RiyalSymbol: React.FC<RiyalSymbolProps> = ({ 
-  className = "w-3.5 h-3.5 inline-block align-baseline shrink-0", 
-  size 
+export const RiyalSymbol: React.FC<RiyalSymbolProps> = ({
+  className = 'inline-block w-[0.85em] h-[0.95em] align-[-0.12em] shrink-0',
+  size,
 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 1000 1100"
+      viewBox="40 0 1140 1270"
       fill="currentColor"
       aria-label="ريال سعودي"
       role="img"
       className={className}
       style={size ? { width: size, height: size } : undefined}
     >
-      {/* Official SAMA / Unicode 06FD Symbol Geometry */}
-      {/* Left Column Stem */}
-      <path d="M 390 85 L 470 5 L 470 655 L 350 690 L 350 375 L 320 385 L 320 220 L 390 195 Z" />
-      {/* Left Column Lower Tail / Hook */}
-      <path d="M 350 730 L 470 695 L 470 850 L 320 900 L 230 850 L 280 740 L 350 780 Z" />
-      {/* Right Column Stem */}
-      <path d="M 640 85 L 720 5 L 720 780 L 590 820 L 590 220 L 640 200 Z" />
-      {/* Upper Slanted Cross Bar */}
-      <path d="M 170 610 L 250 510 L 920 300 L 900 440 Z" />
-      {/* Lower Slanted Cross Bar */}
-      <path d="M 110 765 L 190 665 L 900 445 L 880 585 Z" />
-      {/* Bottom Sub-Stroke (Standalone Right Dash) */}
-      <path d="M 590 920 L 860 835 L 835 955 L 590 1030 Z" />
+      <path d="M750,1119 C730,1163,716,1211,711,1262 C711,1262,1136,1172,1136,1172 C1156,1127,1169,1079,1174,1028 C1174,1028,750,1119,750,1119Z M1136,901 C1156,857,1169,809,1174,758 L843,828 L843,693 L1136,631 C1156,587,1169,538,1174,488 L843,558 L843,72 C793,100,748,138,711,183 L711,586 L579,614 L579,6 C528,34,483,72,447,117 L447,642 L151,705 C131,750,117,798,112,849 L447,777 L447,948 L88,1024 C68,1068,55,1117,50,1167 L425,1088 C456,1081,482,1063,499,1038 L568,936 C575,926,579,913,579,899 L579,749 L711,721 L711,992 Z" />
     </svg>
+  );
+};
+
+/**
+ * يحوّل أي نص فيه "﷼" إلى نص + أيقونة الريال.
+ * نستخدمه للنصوص اللي تجي كـ string (رسائل التنبيه، التسميات، بيانات الرسوم البيانية)
+ */
+export const RiyalText: React.FC<{ text: string }> = ({ text }) => {
+  const parts = text.split('﷼');
+  return (
+    <>
+      {parts.map((part, i) => (
+        <React.Fragment key={i}>
+          {part}
+          {i < parts.length - 1 && <RiyalSymbol />}
+        </React.Fragment>
+      ))}
+    </>
   );
 };
 

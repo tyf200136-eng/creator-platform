@@ -115,7 +115,7 @@ export const FundCampaignModal: React.FC = () => {
               type="submit"
               className="mt-2 w-full py-3.5 px-6 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_24px_rgba(255,255,255,0.4)] hover:shadow-[0_0_32px_rgba(255,255,255,0.7)] hover:bg-neutral-100 transition-all flex items-center justify-center gap-2"
             >
-              <span>دفع وشحن {amount.toLocaleString()} ﷼</span>
+              <span>دفع وشحن {amount.toLocaleString()} <RiyalSymbol /></span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
@@ -130,7 +130,7 @@ export const FundCampaignModal: React.FC = () => {
                 حملتك نشطة وبدت تستقبل مقاطع!
               </h2>
               <p className="text-xs text-[#A3A3A3] max-w-sm">
-                تم شحن محفظة الحملة بنجاح بمبلغ {amount.toLocaleString()} ﷼. سيصل إشعار فوري لصناع المحتوى المهتمين بمجال براندك.
+                تم شحن محفظة الحملة بنجاح بمبلغ {amount.toLocaleString()} <RiyalSymbol />. سيصل إشعار فوري لصناع المحتوى المهتمين بمجال براندك.
               </p>
             </div>
 

@@ -224,12 +224,12 @@ export const BrandAnalyticsView: React.FC = () => {
       // 25 days ago
       25: {
         title: 'إطلاق حملة عطر إمبريال البري',
-        description: 'بدء استقبال مقاطع UGC بميزانية 65,000 ﷼',
+        description: 'بدء استقبال مقاطع UGC بميزانية 65,000 <RiyalSymbol />',
         type: 'campaign',
       },
       // 14 days ago
       14: {
-        title: 'شحن رصيد المحفظة +25,000 ﷼',
+        title: 'شحن رصيد المحفظة +25,000 <RiyalSymbol />',
         description: 'تعزيز ميزانية حملات التوصيل السريع عبر سداد فوري',
         type: 'fund',
       },
@@ -363,7 +363,7 @@ export const BrandAnalyticsView: React.FC = () => {
                     }`}
                   >
                     <span className="truncate max-w-[170px]">{camp.title}</span>
-                    <span className="font-mono text-[10px] text-white/50">CPM {camp.ratePer1k} ﷼</span>
+                    <span className="font-mono text-[10px] text-white/50">CPM {camp.ratePer1k} <RiyalSymbol /></span>
                   </button>
                 ))}
               </div>

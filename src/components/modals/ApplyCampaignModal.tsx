@@ -7,6 +7,7 @@ import {
   Plus,
   ShieldCheck
 } from 'lucide-react';
+import { RiyalSymbol } from '../RiyalSymbol';
 
 export const ApplyCampaignModal: React.FC = () => {
   const {
@@ -66,7 +67,7 @@ export const ApplyCampaignModal: React.FC = () => {
           />
           <div className="flex flex-col min-w-0">
             <span className="text-xs font-bold text-white truncate">{selectedCampaign.brandName}</span>
-            <span className="text-[11px] text-white/60">معدل العائد: {selectedCampaign.ratePer1k} ﷼ / 1K</span>
+            <span className="text-[11px] text-white/60">معدل العائد: {selectedCampaign.ratePer1k} <RiyalSymbol /> / 1K</span>
           </div>
         </div>
 

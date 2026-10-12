@@ -94,7 +94,7 @@ export const BrandCreatorsView: React.FC = () => {
               </div>
               <div className="flex flex-col text-left">
                 <span className="text-[10px] text-white/50">الأرباح</span>
-                <span className="font-bold text-white">{c.earnings} ﷼</span>
+                <span className="font-bold text-white">{c.earnings} <RiyalSymbol /></span>
               </div>
             </div>
 

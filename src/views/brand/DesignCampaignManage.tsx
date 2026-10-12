@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import StatusBadge from '../../components/common/StatusBadge';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import { DesignSubmission, DesignComment } from '../../types';
 import {
@@ -34,6 +35,14 @@ import {
   MessageCircle,
   Send
 } from 'lucide-react';
+
+// شارة حالة التصميم: مكان واحد يحدد اللون والنص لكل حالة
+const DesignStatusBadge: React.FC<{ status: string; className?: string }> = ({ status, className }) => {
+  if (status === 'approved') return <StatusBadge tone="success" className={className}>معتمد</StatusBadge>;
+  if (status === 'pending') return <StatusBadge tone="warning" pulse className={className}>بانتظار المراجعة</StatusBadge>;
+  if (status === 'needs_revision') return <StatusBadge tone="warning" className={className}>بانتظار التعديل</StatusBadge>;
+  return <StatusBadge tone="danger" className={className}>مرفوض</StatusBadge>;
+}; 
 
 export const DesignCampaignManage: React.FC = () => {
   const { 
@@ -81,6 +90,7 @@ export const DesignCampaignManage: React.FC = () => {
 
   const designDetails = selectedCampaign.designDetails;
   const pricePerDesign = designDetails?.pricePerDesign || 150;
+  const maxRounds = designDetails?.revisionRoundsAllowed ?? 2;
   const totalDesignsNeeded = designDetails?.totalDesignsNeeded || 10;
   
   // Submissions for this campaign
@@ -216,17 +226,15 @@ export const DesignCampaignManage: React.FC = () => {
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-wrap items-center gap-2.5">
               <h1 className="text-xl sm:text-2xl font-bold text-white font-heading">{selectedCampaign.title}</h1>
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs font-bold">
-                حملة تصميم نشطة
-              </span>
+              <StatusBadge tone="success">حملة تصميم نشطة</StatusBadge>
             </div>
             {/* Header financial line */}
             <div className="text-xs sm:text-sm text-[#A3A3A3] font-medium flex flex-wrap items-center gap-2">
-              <span>الميزانية {selectedCampaign.totalBudget.toLocaleString()} ﷼</span>
+              <span>الميزانية {selectedCampaign.totalBudget.toLocaleString()} <RiyalSymbol /></span>
               <span className="text-white/20">·</span>
-              <span>المصروف {selectedCampaign.spentBudget.toLocaleString()} ﷼</span>
+              <span>المصروف {selectedCampaign.spentBudget.toLocaleString()} <RiyalSymbol /></span>
               <span className="text-white/20">·</span>
-              <span className="text-white font-semibold">{pricePerDesign} ﷼ لكل تصميم</span>
+              <span className="text-white font-semibold">{pricePerDesign} <RiyalSymbol /> لكل تصميم</span>
             </div>
           </div>
         </div>
@@ -399,34 +407,11 @@ export const DesignCampaignManage: React.FC = () => {
                       {/* Top Badges overlay: Status + Round */}
                       <div className="absolute top-3 inset-x-3 flex items-center justify-between gap-2">
                         {/* Status pill */}
-                        {isApproved && (
-                          <span className="px-2.5 py-1 rounded-full bg-emerald-500/90 text-white text-[10px] font-bold shadow-lg backdrop-blur-md flex items-center gap-1">
-                            <Check className="w-3 h-3" />
-                            <span>معتمد</span>
-                          </span>
-                        )}
-                        {isPending && (
-                          <span className="px-2.5 py-1 rounded-full bg-amber-500/90 text-black text-[10px] font-bold shadow-lg backdrop-blur-md flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            <span>بانتظار المراجعة</span>
-                          </span>
-                        )}
-                        {isNeedsRevision && (
-                          <span className="px-2.5 py-1 rounded-full bg-orange-500/90 text-white text-[10px] font-bold shadow-lg backdrop-blur-md flex items-center gap-1">
-                            <AlertTriangle className="w-3 h-3" />
-                            <span>بانتظار التعديل</span>
-                          </span>
-                        )}
-                        {isRejected && (
-                          <span className="px-2.5 py-1 rounded-full bg-rose-500/90 text-white text-[10px] font-bold shadow-lg backdrop-blur-md flex items-center gap-1">
-                            <XIcon className="w-3 h-3" />
-                            <span>مرفوض</span>
-                          </span>
-                        )}
+                        <DesignStatusBadge status={design.status} className="bg-black/60!" />
 
                         {/* Revision Round badge: الجولة X من 2 */}
                         <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-mono font-medium">
-                          الجولة {Math.max(1, 3 - (design.revisionsLeft ?? 2))} من 2
+                          الجولة {Math.min(maxRounds, maxRounds - (design.revisionsLeft ?? maxRounds) + 1)} من {maxRounds}
                         </span>
                       </div>
 
@@ -566,7 +551,7 @@ export const DesignCampaignManage: React.FC = () => {
                             </div>
                           </td>
                           <td className="p-4 text-white/70 font-mono">{design.submittedAt}</td>
-                          <td className="p-4 font-mono text-white/80">الجولة {Math.max(1, 3 - (design.revisionsLeft ?? 2))} من 2</td>
+                          <td className="p-4 font-mono text-white/80">الجولة {Math.min(maxRounds, maxRounds - (design.revisionsLeft ?? maxRounds) + 1)} من {maxRounds}</td>
                           <td className="p-4">
                             <div className="flex items-center gap-1.5 flex-wrap">
                               {design.figmaUrl && <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 font-mono">Figma</span>}
@@ -575,17 +560,10 @@ export const DesignCampaignManage: React.FC = () => {
                             </div>
                           </td>
                           <td className="p-4">
-                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                              isApproved ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' :
-                              design.status === 'pending' ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30' :
-                              design.status === 'needs_revision' ? 'bg-orange-500/15 text-orange-300 border border-orange-500/30' :
-                              'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                            }`}>
-                              {isApproved ? 'معتمد' : design.status === 'pending' ? 'بانتظار المراجعة' : design.status === 'needs_revision' ? 'بانتظار التعديل' : 'مرفوض'}
-                            </span>
+                            <DesignStatusBadge status={design.status} />
                           </td>
                           <td className="p-4 font-mono font-bold text-white">
-                            {pricePerDesign} ﷼
+                            {pricePerDesign} <RiyalSymbol />
                           </td>
                           <td className="p-4 text-center">
                             <button
@@ -676,7 +654,7 @@ export const DesignCampaignManage: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-white/50 block text-[11px]">إجمالي المستحقات</span>
-                  <span className="text-white font-bold font-mono text-sm">{designer.totalEarned.toLocaleString()} ﷼</span>
+                  <span className="text-white font-bold font-mono text-sm">{designer.totalEarned.toLocaleString()} <RiyalSymbol /></span>
                 </div>
               </div>
 
@@ -794,18 +772,10 @@ export const DesignCampaignManage: React.FC = () => {
               {/* Status pill & round in header */}
               <div className="flex items-center gap-2.5">
                 <span className="text-xs text-white/50 font-mono hidden sm:inline">
-                  الجولة {Math.max(1, 3 - (selectedDesign.revisionsLeft ?? 2))} من 2
+                 الجولة {Math.min(maxRounds, maxRounds - (selectedDesign.revisionsLeft ?? maxRounds) + 1)} من {maxRounds}
                 </span>
-                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                  selectedDesign.status === 'approved' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
-                  selectedDesign.status === 'pending' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                  selectedDesign.status === 'needs_revision' ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30' :
-                  'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                }`}>
-                  {selectedDesign.status === 'approved' ? 'معتمد ✓' : 
-                   selectedDesign.status === 'pending' ? 'بانتظار المراجعة' : 
-                   selectedDesign.status === 'needs_revision' ? 'بانتظار التعديل' : 'مرفوض'}
-                </span>
+
+               <DesignStatusBadge status={selectedDesign.status} />
               </div>
             </div>
 
@@ -1267,7 +1237,7 @@ export const DesignCampaignManage: React.FC = () => {
                     <div className="flex flex-col gap-2.5">
                       <div className="p-3 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold text-center flex items-center justify-center gap-2">
                         <CheckCircle2 className="w-4 h-4" />
-                        <span>تم اعتماد التصميم وصرف {pricePerDesign} ﷼ للمصمم</span>
+                        <span>تم اعتماد التصميم وصرف {pricePerDesign} <RiyalSymbol /> للمصمم</span>
                       </div>
 
                       {/* Download Source Files Button */}
@@ -1303,7 +1273,7 @@ export const DesignCampaignManage: React.FC = () => {
                         className="w-full py-3.5 px-6 rounded-full bg-white text-black font-bold text-xs shadow-[0_0_24px_rgba(255,255,255,0.45)] hover:bg-neutral-100 transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <Check className="w-4 h-4 text-black" />
-                        <span>اعتمد التصميم وادفع {pricePerDesign} ﷼</span>
+                        <span>اعتمد التصميم وادفع {pricePerDesign} <RiyalSymbol /></span>
                       </button>
 
                       <div className="flex items-center gap-2.5">

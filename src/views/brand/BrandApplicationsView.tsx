@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import PlatformIcon from '../../components/PlatformIcon';
+import StatusBadge from '../../components/common/StatusBadge';
 import { Search, Check, X, ShieldCheck } from 'lucide-react';
 
 export const BrandApplicationsView: React.FC = () => {
@@ -72,15 +73,13 @@ export const BrandApplicationsView: React.FC = () => {
                 </div>
               </div>
 
-              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                app.status === 'approved'
-                  ? 'bg-emerald-500/10 text-emerald-400'
-                  : app.status === 'rejected'
-                  ? 'bg-rose-500/10 text-rose-400'
-                  : 'bg-amber-500/10 text-amber-300'
-              }`}>
-                {app.status === 'approved' ? 'مقبول' : app.status === 'rejected' ? 'مرفوض' : 'قيد المراجعة'}
-              </span>
+              {app.status === 'approved' ? (
+                <StatusBadge tone="success">مقبول</StatusBadge>
+              ) : app.status === 'rejected' ? (
+                <StatusBadge tone="danger">مرفوض</StatusBadge>
+              ) : (
+                <StatusBadge tone="warning" pulse>قيد المراجعة</StatusBadge>
+              )}
             </div>
 
             <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs flex flex-col gap-1.5">

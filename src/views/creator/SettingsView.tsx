@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import PlatformIcon from '../../components/PlatformIcon';
+import StatusBadge from '../../components/common/StatusBadge';
 import { User, Phone, Mail, MapPin, Globe, CheckCircle2, Bell, Shield, Plus } from 'lucide-react';
 
 export const SettingsView: React.FC = () => {
@@ -152,13 +153,11 @@ export const SettingsView: React.FC = () => {
                     </div>
                   </div>
 
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                    acc.connected
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : 'bg-white/5 text-white/40'
-                  }`}>
-                    {acc.connected ? 'مربوط ✓' : 'غير مربوط'}
-                  </span>
+                  {acc.connected ? (
+                    <StatusBadge tone="success">مربوط</StatusBadge>
+                  ) : (
+                    <StatusBadge tone="neutral">غير مربوط</StatusBadge>
+                  )}
                 </div>
               ))}
             </div>

@@ -48,7 +48,7 @@ export const UnifiedBudgetInput: React.FC<UnifiedBudgetInputProps> = ({
         <div className="flex items-center justify-between text-xs">
           <label className="font-semibold text-white/90">{label}</label>
           <span className="text-[11px] text-white/50 font-mono">
-            الحد الأدنى: {effectiveMin.toLocaleString()} ﷼
+            الحد الأدنى: {effectiveMin.toLocaleString()} <RiyalSymbol />
           </span>
         </div>
       )}
@@ -84,8 +84,8 @@ export const UnifiedBudgetInput: React.FC<UnifiedBudgetInputProps> = ({
           className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-white"
         />
         <div className="flex items-center justify-between text-[10px] text-white/40 font-mono mt-1">
-          <span>{effectiveMin.toLocaleString()} ﷼</span>
-          <span>{max.toLocaleString()} ﷼</span>
+          <span>{effectiveMin.toLocaleString()} <RiyalSymbol /></span>
+          <span>{max.toLocaleString()} <RiyalSymbol /></span>
         </div>
       </div>
 
@@ -112,7 +112,7 @@ export const UnifiedBudgetInput: React.FC<UnifiedBudgetInputProps> = ({
           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
           <span>
             {customError ||
-              `الميزانية أقل من الحد الأدنى المطلوب (${effectiveMin.toLocaleString()} ﷼ لحملات ${
+              `الميزانية أقل من الحد الأدنى المطلوب (${effectiveMin.toLocaleString()} <RiyalSymbol /> لحملات ${
                 campaignType === 'design' ? 'التصميم' : 'المقاطع'
               })`}
           </span>

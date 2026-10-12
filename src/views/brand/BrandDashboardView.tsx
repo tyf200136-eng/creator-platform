@@ -13,6 +13,7 @@ import {
   ArrowUpRight,
   ChevronLeft
 } from 'lucide-react';
+import { StatusBadge } from '@/src/components/common/StatusBadge';
 
 /**
  * Animated number count-up component for editorial numbers
@@ -238,7 +239,7 @@ export const BrandDashboardView: React.FC = () => {
             className="py-2.5 px-6 rounded-full bg-white text-black font-bold text-xs shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:shadow-[0_0_30px_rgba(255,255,255,0.7)] hover:bg-neutral-100 transition-all flex items-center gap-2 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>+ حملة جديدة</span>
+            <span> حملة جديدة</span>
           </button>
         </div>
       </div>
@@ -396,9 +397,7 @@ export const BrandDashboardView: React.FC = () => {
                 </div>
 
                 {/* Status Pill: نشطة وبها مقاطع */}
-                <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[10px] font-bold shrink-0">
-                  {camp.status}
-                </span>
+                <StatusBadge tone="success" className="shrink-0">{camp.status}</StatusBadge>
               </div>
 
               {/* Spend, Budget, and Rate Details */}

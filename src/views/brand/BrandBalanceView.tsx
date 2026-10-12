@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import { Wallet, Plus, ArrowDownLeft, RotateCcw, CheckCircle2, Clock } from 'lucide-react';
+import { StatusBadge } from '@/src/components/common/StatusBadge';
 
 export const BrandBalanceView: React.FC = () => {
   const { brandProfile, setIsFundModalOpen, showToast } = useApp();
@@ -11,7 +12,7 @@ export const BrandBalanceView: React.FC = () => {
   const handleRefundSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsRefundModalOpen(false);
-    showToast(`تم تقديم طلب استرجاع بمبلغ ${refundAmount} ﷼. سيتم التحويل إلى حسابك خلال 24 ساعة عمل`);
+    showToast(`تم تقديم طلب استرجاع بمبلغ ${refundAmount} <RiyalSymbol />. سيتم التحويل إلى حسابك خلال 24 ساعة عمل`);
   };
 
   const activity = [
@@ -42,7 +43,7 @@ export const BrandBalanceView: React.FC = () => {
             className="py-3 px-7 rounded-full bg-white text-black font-bold text-xs shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:bg-neutral-100 transition-all flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
-            <span>+ شحن المحفظة</span>
+            <span> شحن المحفظة</span>
           </button>
 
           <button
@@ -81,12 +82,10 @@ export const BrandBalanceView: React.FC = () => {
                   <td className={`py-3.5 px-4 text-center font-mono font-bold ${
                     item.amount.startsWith('+') ? 'text-emerald-400' : 'text-white'
                   }`}>
-                    {item.amount} ﷼
+                    {item.amount} <RiyalSymbol />
                   </td>
                   <td className="py-3.5 px-4 text-center">
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">
-                      {item.status}
-                    </span>
+                 <StatusBadge tone="success">{item.status}</StatusBadge>
                   </td>
                 </tr>
               ))}

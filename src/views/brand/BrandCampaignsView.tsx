@@ -177,8 +177,8 @@ export const BrandCampaignsView: React.FC = () => {
                 {/* Budget Progress */}
                 <div className="flex flex-col gap-1.5 mt-2">
                   <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-white font-bold">{camp.spentBudget.toLocaleString()} ﷼</span>
-                    <span className="text-white/50">{camp.totalBudget.toLocaleString()} ﷼</span>
+                    <span className="text-white font-bold">{camp.spentBudget.toLocaleString()} <RiyalSymbol /></span>
+                    <span className="text-white/50">{camp.totalBudget.toLocaleString()} <RiyalSymbol /></span>
                   </div>
                   <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                     <div className="h-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)]" style={{ width: `${percent}%` }} />

@@ -441,7 +441,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       method,
     };
     setPayouts(prev => [newTx, ...prev]);
-    showToast(`تم سحب ${amount.toLocaleString()} ﷼ بنجاح إلى ${method}`);
+    showToast(`تم سحب ${amount.toLocaleString()} <RiyalSymbol /> بنجاح إلى ${method}`);
   };
 
   const fundBrandBalance = (amount: number, method: string) => {
@@ -449,7 +449,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       ...prev,
       balance: prev.balance + amount,
     }));
-    showToast(`تم إضافة ${amount.toLocaleString()} ﷼ إلى رصيد المنظمة عبر ${method}`);
+    showToast(`تم إضافة ${amount.toLocaleString()} <RiyalSymbol /> إلى رصيد المنظمة عبر ${method}`);
   };
 
   const approveSubmission = (submissionId: string) => {
@@ -506,7 +506,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       });
     }
 
-    showToast('تم اعتماد التصميم وصرف 150 ﷼ للمصمم');
+    showToast('تم اعتماد التصميم وصرف 150 <RiyalSymbol /> للمصمم');
   };
 
   const requestDesignRevision = (submissionId: string, notes: string, pinnedComments?: DesignComment[]) => {

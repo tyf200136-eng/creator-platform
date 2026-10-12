@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { DraftStatus } from '../../types';
 import PlatformIcon from '../../components/PlatformIcon';
+import StatusBadge from '../../components/common/StatusBadge';
 import { 
   FileEdit, 
   MessageSquare, 
@@ -42,38 +43,12 @@ export const DraftsView: React.FC = () => {
 
   const getStatusBadge = (status: DraftStatus) => {
     switch (status) {
-      case 'needs_edit':
-        return (
-          <span className="px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] font-semibold">
-            تحتاج تعديل
-          </span>
-        );
-      case 'pending':
-        return (
-          <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-[11px] font-semibold">
-            تنتظر المراجعة
-          </span>
-        );
-      case 'approved':
-        return (
-          <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold">
-            مقبولة للنشر
-          </span>
-        );
-      case 'published':
-        return (
-          <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-white text-[11px] font-semibold">
-            منشورة
-          </span>
-        );
-      case 'rejected':
-        return (
-          <span className="px-2.5 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-[11px] font-semibold">
-            مرفوضة
-          </span>
-        );
-      default:
-        return null;
+      case 'needs_edit': return <StatusBadge tone="warning" pulse>تحتاج تعديل</StatusBadge>;
+      case 'pending':    return <StatusBadge tone="warning">تنتظر المراجعة</StatusBadge>;
+      case 'approved':   return <StatusBadge tone="success">مقبولة للنشر</StatusBadge>;
+      case 'published':  return <StatusBadge tone="neutral">منشورة</StatusBadge>;
+      case 'rejected':   return <StatusBadge tone="danger">مرفوضة</StatusBadge>;
+      default:           return null;
     }
   };
 
