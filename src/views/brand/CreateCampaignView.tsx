@@ -681,7 +681,7 @@ export const CreateCampaignView: React.FC = () => {
                       value={videoBudget}
                       onChange={setVideoBudget}
                       min={1000}
-                      label="إجمالي ميزانية الحملة (الحد الأدنى 1,000 <RiyalSymbol />)"
+                      label="إجمالي ميزانية الحملة (الحد الأدنى 1,000 ﷼)"
                       campaignType="video"
                     />
 
@@ -1179,7 +1179,7 @@ export const CreateCampaignView: React.FC = () => {
                       value={pricePerDesign}
                       onChange={setPricePerDesign}
                       min={300}
-                      label="سعر التصميم المقبول الواحد (الحد الأدنى 300 <RiyalSymbol />)"
+                      label="سعر التصميم المقبول الواحد (الحد الأدنى 300 ﷼)"
                       campaignType="design"
                     />
 

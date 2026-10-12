@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import CampaignJoinBox from '../../components/CampaignJoinBox';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import PlatformIcon from '../../components/PlatformIcon';
 import StatusBadge from '../../components/common/StatusBadge';
@@ -41,7 +42,8 @@ export const CampaignDetailView: React.FC = () => {
     designSubmissions,
     creatorProfile,
     openAppealModal,
-    showToast 
+    showToast,
+    myParticipations 
   } = useApp();
 
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
@@ -53,6 +55,10 @@ export const CampaignDetailView: React.FC = () => {
   if (!selectedCampaign) return null;
 
   const isDesign = selectedCampaign.campaignType === 'design';
+
+  // هل الصانع منضم لهذي الحملة؟
+  const participation = myParticipations.find((p) => p.campaignId === selectedCampaign.id);
+  const isJoined = participation?.status === 'joined' && selectedCampaign.status !== 'paused';
   const designDetails = selectedCampaign.designDetails;
 
   // Real or simulated design submission based on demoState
@@ -510,6 +516,11 @@ export const CampaignDetailView: React.FC = () => {
             )}
 
             {/* Action Buttons / Designer Current Submission State */}
+                        {!isJoined ? (
+              <CampaignJoinBox campaign={selectedCampaign} participation={participation} />
+            ) : (
+            <>
+            
             {isDesign ? (
               userDesignSubmission ? (
                 /* Show current status of designer submission */
@@ -631,15 +642,7 @@ export const CampaignDetailView: React.FC = () => {
               )
             ) : (
               /* Video Campaign Buttons */
-              selectedCampaign.requiresApplication ? (
-                <button
-                  onClick={() => setIsApplyModalOpen(true)}
-                  className="w-full py-3.5 px-6 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_24px_rgba(255,255,255,0.4)] hover:shadow-[0_0_36px_rgba(255,255,255,0.7)] hover:bg-neutral-100 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <Lock className="w-4 h-4" />
-                  <span>قدّم على الحملة (موافقة مسبقة)</span>
-                </button>
-              ) : (
+              /* Video Campaign Buttons (منضم) */
                 <div className="flex flex-col gap-2">
                   <button
                     onClick={() => setIsSubmitClipModalOpen(true)}
@@ -654,8 +657,10 @@ export const CampaignDetailView: React.FC = () => {
                     رفع مسودة قبل النشر
                   </button>
                 </div>
-              )
             )}
+            </>
+            )}
+            
 
             {/* Capacity / Budget Status Box */}
             {isDesign ? (

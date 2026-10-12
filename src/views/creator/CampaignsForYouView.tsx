@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import CampaignCard from '../../components/CampaignCard';
 import FloatingDock from '../../components/FloatingDock';
@@ -9,9 +9,11 @@ import {
 
 export const CampaignsForYouView: React.FC = () => {
   const { campaigns, setCreatorView, typeFilter, platformFilter, categoryFilter, searchQuery } = useApp();
-
+  const [accessTab, setAccessTab] = useState<'all' | 'open' | 'application'>('all');
   // Filtered campaigns
   const filtered = campaigns.filter((camp) => {
+    if (accessTab === 'open' && camp.requiresApplication) return false;
+    if (accessTab === 'application' && !camp.requiresApplication) return false;
     if (typeFilter === 'clipping' && !camp.allowedTypes.some(t => t.toLowerCase().includes('clip') || t.includes('قص'))) return false;
     if (typeFilter === 'ugc' && !camp.allowedTypes.some(t => t.toLowerCase().includes('ugc'))) return false;
     if (platformFilter !== 'all' && !camp.platforms.includes(platformFilter)) return false;
@@ -29,7 +31,7 @@ export const CampaignsForYouView: React.FC = () => {
   return (
     <div className="relative pb-36 px-6 pt-6 flex flex-col gap-8 max-w-[1440px] mx-auto text-right select-none">
       {/* Top Header: Back Arrow + Title on right, "50 حملة" counter on left */}
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-5">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setCreatorView('discover')}
@@ -44,9 +46,30 @@ export const CampaignsForYouView: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.12] text-xs font-mono font-bold text-white">
-          <LayoutGrid className="w-3.5 h-3.5 text-white/70" />
-          <span>50 حملة متاحة</span>
+        <div className="flex items-center gap-3">
+          {/* فلتر نوع الوصول (منقول من شاشة الحملات) */}
+          <div className="flex items-center gap-1.5 p-1 rounded-full bg-white/[0.06] border border-white/[0.1] w-fit">
+            {[
+              { id: 'all', label: 'الكل' },
+              { id: 'open', label: 'مفتوحة للجميع' },
+              { id: 'application', label: 'بطلب وموافقة' },
+            ].map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setAccessTab(t.id as 'all' | 'open' | 'application')}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  accessTab === t.id ? 'bg-white text-black shadow-sm' : 'text-white/60 hover:text-white'
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.12] text-xs font-mono font-bold text-white">
+            <LayoutGrid className="w-3.5 h-3.5 text-white/70" />
+            <span>50 حملة متاحة</span>
+          </div>
         </div>
       </div>
 

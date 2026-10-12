@@ -41,7 +41,7 @@ export const FloatingNavRail: React.FC = () => {
     // Group 1: اكتشف
     [
       { id: 'home', label: 'الرئيسية', icon: Home },
-      { id: 'campaigns', label: 'الحملات', icon: Layers },
+      { id: 'campaigns', label: 'حملاتي', icon: Layers },
       { id: 'discover', label: 'اكتشف', icon: Compass },
     ],
     // Group 2: شغلي

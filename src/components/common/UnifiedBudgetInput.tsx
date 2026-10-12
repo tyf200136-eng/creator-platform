@@ -112,7 +112,7 @@ export const UnifiedBudgetInput: React.FC<UnifiedBudgetInputProps> = ({
           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
           <span>
             {customError ||
-              `الميزانية أقل من الحد الأدنى المطلوب (${effectiveMin.toLocaleString()} <RiyalSymbol /> لحملات ${
+              `الميزانية أقل من الحد الأدنى المطلوب (${effectiveMin.toLocaleString()} ﷼ لحملات ${
                 campaignType === 'design' ? 'التصميم' : 'المقاطع'
               })`}
           </span>

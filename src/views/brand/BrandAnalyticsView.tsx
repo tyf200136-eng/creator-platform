@@ -224,12 +224,12 @@ export const BrandAnalyticsView: React.FC = () => {
       // 25 days ago
       25: {
         title: 'إطلاق حملة عطر إمبريال البري',
-        description: 'بدء استقبال مقاطع UGC بميزانية 65,000 <RiyalSymbol />',
+        description: 'بدء استقبال مقاطع UGC بميزانية 65,000 ﷼',
         type: 'campaign',
       },
       // 14 days ago
       14: {
-        title: 'شحن رصيد المحفظة +25,000 <RiyalSymbol />',
+        title: 'شحن رصيد المحفظة +25,000 ﷼',
         description: 'تعزيز ميزانية حملات التوصيل السريع عبر سداد فوري',
         type: 'fund',
       },

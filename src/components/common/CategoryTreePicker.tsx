@@ -214,7 +214,7 @@ export const CategoryTreePicker: React.FC<CategoryTreePickerProps> = ({
 
       {/* Dropdown Menu Modal/Panel */}
       {isOpen && (
-        <div className="absolute top-full mt-2 right-0 left-0 z-50 rounded-2xl bg-[#141414]/98 backdrop-blur-3xl border border-white/[0.18] p-3 shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_25px_rgba(255,255,255,0.06)] flex flex-col gap-2 max-h-[380px] overflow-hidden animate-in fade-in duration-150">
+        <div className="absolute top-full mt-2 right-0 left-0 z-50 rounded-2xl bg-[#141414] border border-white/[0.18] p-3 shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_25px_rgba(255,255,255,0.06)] flex flex-col gap-2 max-h-[380px] overflow-hidden animate-in fade-in duration-150">
           {/* Search Input Box */}
           <div className="relative w-full">
             <input
@@ -238,7 +238,7 @@ export const CategoryTreePicker: React.FC<CategoryTreePickerProps> = ({
           </div>
 
           {/* Tree Categories List */}
-          <div className="flex-1 overflow-y-auto flex flex-col gap-1 pr-1 pl-1 scrollbar-thin">
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col gap-1 pr-1 pl-1 scrollbar-thin">
             {filteredCategories.length === 0 ? (
               <div className="py-6 text-center text-xs text-white/40">
                 لا توجد نتائج مطابقة للبحث
@@ -250,7 +250,7 @@ export const CategoryTreePicker: React.FC<CategoryTreePickerProps> = ({
                 const isCategorySelected = value === cat.name;
 
                 return (
-                  <div key={cat.id} className="flex flex-col rounded-xl overflow-hidden bg-white/[0.02]">
+                  <div key={cat.id} className="shrink-0 flex flex-col rounded-xl bg-white/[0.02]">
                     {/* Parent Node */}
                     <div
                       className={`flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer hover:bg-white/[0.07] transition-all ${

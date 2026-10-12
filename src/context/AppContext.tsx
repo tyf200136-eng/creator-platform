@@ -11,7 +11,8 @@ import {
   ApplicationItem, 
   PayoutTransaction,
   SocialPlatform,
-  UserRole
+  UserRole,
+  MyParticipation
 } from '../types';
 import { 
   INITIAL_CREATOR_PROFILE, 
@@ -22,7 +23,8 @@ import {
   MOCK_DESIGN_SUBMISSIONS,
   MOCK_DRAFTS, 
   MOCK_APPLICATIONS, 
-  MOCK_PAYOUTS 
+  MOCK_PAYOUTS,
+  MOCK_MY_PARTICIPATIONS 
 } from '../data/mockData';
 
 export type CreatorScreen = 
@@ -150,7 +152,12 @@ interface AppContextType {
   // Navigation helper
   navigateToCampaignDetail: (campaign: Campaign) => void;
   toggleCampaignPause: (campaignId: string) => void;
+
+  // مشاركات صانع المحتوى في الحملات
+  myParticipations: MyParticipation[];
+joinCampaign: (campaign: Campaign) => void;
 }
+
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -168,6 +175,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [creatorProfile, setCreatorProfile] = useState<CreatorProfile>(INITIAL_CREATOR_PROFILE);
   const [brandProfile, setBrandProfile] = useState<BrandProfile>(INITIAL_BRAND_PROFILE);
   const [topClips] = useState<VideoClip[]>(MOCK_TOP_CLIPS);
+  const [myParticipations, setMyParticipations] = useState<MyParticipation[]>(MOCK_MY_PARTICIPATIONS);
 
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(MOCK_CAMPAIGNS[0]);
   const [selectedClip, setSelectedClip] = useState<VideoClip | null>(null);
@@ -217,6 +225,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } else {
       setBrandView('campaign-manage');
     }
+  };
+  // انضمام مباشر أو تقديم طلب ← تنتقل الحملة لشاشة "حملاتي"
+  const joinCampaign = (camp: Campaign) => {
+    setMyParticipations((prev) =>
+      prev.some((p) => p.campaignId === camp.id)
+        ? prev
+        : [
+            ...prev,
+            {
+              campaignId: camp.id,
+              status: camp.requiresApplication ? 'pending_approval' : 'joined',
+              workStatus: 'none',
+            },
+          ]
+    );
+    showToast(
+      camp.requiresApplication
+        ? 'تم إرسال طلبك، تقدر تتابعه من "حملاتي"'
+        : 'انضممت للحملة! تلقاها الحين في "حملاتي"'
+    );
   };
 
   const toggleCampaignPause = (campaignId: string) => {
@@ -441,7 +469,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       method,
     };
     setPayouts(prev => [newTx, ...prev]);
-    showToast(`تم سحب ${amount.toLocaleString()} <RiyalSymbol /> بنجاح إلى ${method}`);
+    showToast(`تم سحب ${amount.toLocaleString()} ﷼ بنجاح إلى ${method}`);
   };
 
   const fundBrandBalance = (amount: number, method: string) => {
@@ -449,7 +477,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       ...prev,
       balance: prev.balance + amount,
     }));
-    showToast(`تم إضافة ${amount.toLocaleString()} <RiyalSymbol /> إلى رصيد المنظمة عبر ${method}`);
+    showToast(`تم إضافة ${amount.toLocaleString()} ﷼ إلى رصيد المنظمة عبر ${method}`);
   };
 
   const approveSubmission = (submissionId: string) => {
@@ -506,7 +534,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       });
     }
 
-    showToast('تم اعتماد التصميم وصرف 150 <RiyalSymbol /> للمصمم');
+    showToast('تم اعتماد التصميم وصرف 150 ﷼ للمصمم');
   };
 
   const requestDesignRevision = (submissionId: string, notes: string, pinnedComments?: DesignComment[]) => {
@@ -642,6 +670,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast,
     navigateToCampaignDetail,
     toggleCampaignPause,
+    myParticipations,
+    joinCampaign,
   }), [
     role,
     creatorView,
@@ -677,6 +707,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     categoryFilter,
     sortOption,
     toastMessage,
+    myParticipations,
   ]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

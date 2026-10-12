@@ -12,7 +12,7 @@ export const BrandBalanceView: React.FC = () => {
   const handleRefundSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsRefundModalOpen(false);
-    showToast(`تم تقديم طلب استرجاع بمبلغ ${refundAmount} <RiyalSymbol />. سيتم التحويل إلى حسابك خلال 24 ساعة عمل`);
+    showToast(`تم تقديم طلب استرجاع بمبلغ ${refundAmount} ﷼. سيتم التحويل إلى حسابك خلال 24 ساعة عمل`);
   };
 
   const activity = [

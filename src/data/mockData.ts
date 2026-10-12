@@ -1,4 +1,4 @@
-import { Campaign, CreatorProfile, BrandProfile, VideoClip, Submission, DesignSubmission, DraftItem, ApplicationItem, PayoutTransaction } from '../types';
+import { Campaign, CreatorProfile, BrandProfile, VideoClip, Submission, DesignSubmission, DraftItem, ApplicationItem, PayoutTransaction, MyParticipation } from '../types';
 
 export const INITIAL_CREATOR_PROFILE: CreatorProfile = {
   id: 'c_noura',
@@ -909,3 +909,11 @@ export const MOCK_DESIGN_SUBMISSIONS: DesignSubmission[] = [
   },
 ];
 
+export const MOCK_MY_PARTICIPATIONS: MyParticipation[] = [
+  { campaignId: 'camp-1',        status: 'joined',           workStatus: 'none' },          // مقاطع → أرسل مقطع
+  { campaignId: 'camp-design-1', status: 'joined',           workStatus: 'needs_revision' },// تصميم → ارفع النسخة المعدّلة
+  { campaignId: 'camp-2',        status: 'joined',           workStatus: 'submitted' },     // → تم الإرسال
+  { campaignId: 'camp-3',        status: 'pending_approval', workStatus: 'none' },          // → بانتظار قبول طلبك
+  { campaignId: 'camp-5',        status: 'rejected',         workStatus: 'none' },           // ← لم يتم قبول طلبك
+  { campaignId: 'camp-6',        status: 'ended',            workStatus: 'submitted' },     // → عرض النتائج
+];

@@ -267,3 +267,14 @@ export interface PayoutTransaction {
   status: 'completed' | 'pending' | 'blocked';
   method: string;
 }
+
+export type ParticipationStatus = 'joined' | 'pending_approval' | 'rejected' | 'ended';
+
+
+export type WorkStatus = 'none' | 'submitted' | 'needs_revision';
+
+export interface MyParticipation {
+  campaignId: string;
+  status: ParticipationStatus;
+  workStatus: WorkStatus;
+}

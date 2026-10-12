@@ -1,5 +1,6 @@
 import React from 'react';
-import { Campaign } from '../types';
+import { Campaign, MyParticipation } from '../types';
+import MyCampaignAction from './MyCampaignAction';
 import RiyalSymbol from './RiyalSymbol';
 import PlatformIcon from './PlatformIcon';
 import StatusBadge from './common/StatusBadge';
@@ -20,12 +21,14 @@ interface CampaignCardProps {
   campaign: Campaign;
   showNewBadge?: boolean;
   className?: string;
+  participation?: MyParticipation;
 }
 
 export const CampaignCard: React.FC<CampaignCardProps> = ({ 
   campaign, 
   showNewBadge = false,
-  className = "" 
+  className = "",
+  participation 
 }) => {
   const { navigateToCampaignDetail, setSelectedCampaign, setIsSubmitClipModalOpen } = useApp();
 
@@ -94,6 +97,7 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
             </div>
 
             {/* Hover Action Button: ارفع تصميمك */}
+            {!participation && (
             <div className="absolute inset-x-2.5 bottom-2.5 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
               <button
                 onClick={(e) => {
@@ -107,6 +111,7 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
                 <span>ارفع تصميمك</span>
               </button>
             </div>
+            )}
           </>
         ) : (
           /* =========================================================================
@@ -277,6 +282,10 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
             style={{ width: `${progressPercent}%` }}
           />
         </div>
+      )}
+     {/* زر/حالة المشاركة (يظهر في شاشة "الحملات" فقط) */}
+      {participation && (
+      <MyCampaignAction campaign={campaign} participation={participation} />
       )}
     </div>
   );

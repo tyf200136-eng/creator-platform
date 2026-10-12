@@ -17,6 +17,7 @@ export const ApplyCampaignModal: React.FC = () => {
     creatorProfile,
     setIsConnectAccountModalOpen,
     showToast,
+    joinCampaign
   } = useApp();
 
   const [motivation, setMotivation] = useState('أنا صانع محتوى أقدم مراجعات بجودة 4K ومعدل تفاعل عالي بالرياض، وعندي جمهور مهتم بهذا المجال.');
@@ -30,8 +31,8 @@ export const ApplyCampaignModal: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsApplyModalOpen(false);
-    showToast('تم إرسال طلب الانضمام إلى صاحب الحملة بنجاح! سيتم إشعارك فور المراجعة');
-  };
+    joinCampaign(selectedCampaign);
+    };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
