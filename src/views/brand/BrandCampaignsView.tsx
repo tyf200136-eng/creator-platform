@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import PlatformIcon from '../../components/PlatformIcon';
+import StatusBadge from '../../components/common/StatusBadge';
 import { CampaignStatus, Campaign } from '../../types';
 import { Plus, MoreVertical, Layers, CheckCircle2, Pause, RotateCcw, AlertTriangle, Play } from 'lucide-react';
 
@@ -101,15 +102,15 @@ export const BrandCampaignsView: React.FC = () => {
                   alt={camp.title}
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                 />
-                {camp.status === 'paused' ? (
-                  <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-red-950/80 backdrop-blur-md border border-red-500/40 text-[10px] font-bold text-red-400">
-                    موقوفة مؤقتاً
-                  </div>
-                ) : (
-                  <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white">
-                    {camp.status === 'draft' ? 'مسودة' : 'نشطة'}
-                  </div>
-                )}
+                <div className="absolute top-2.5 right-2.5">
+                  {camp.status === 'paused' ? (
+                    <StatusBadge tone="danger" className="bg-black/60!">موقوفة مؤقتاً</StatusBadge>
+                  ) : camp.status === 'draft' ? (
+                    <StatusBadge tone="neutral" className="bg-black/60!">مسودة</StatusBadge>
+                  ) : (
+                    <StatusBadge tone="success" className="bg-black/60!">نشطة</StatusBadge>
+                  )}
+                </div>
 
                 {/* ⋯ Menu Trigger */}
                 <div className="absolute top-2.5 left-2.5">

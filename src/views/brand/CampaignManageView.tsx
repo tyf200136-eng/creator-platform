@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import PlatformIcon from '../../components/PlatformIcon';
+import StatusBadge from '../../components/common/StatusBadge';
 import { Submission, DraftItem, ApplicationItem } from '../../types';
 import {
   ArrowRight,
@@ -84,9 +85,9 @@ export const CampaignManageView: React.FC = () => {
             <div className="flex items-center gap-2">
               <h1 className="text-xl sm:text-2xl font-bold text-white font-heading">{selectedCampaign.title}</h1>
               {isPaused ? (
-                <span className="px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 text-[10px] font-bold">موقوفة</span>
+                <StatusBadge tone="danger">موقوفة</StatusBadge>
               ) : (
-                <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">نشطة</span>
+                <StatusBadge tone="success">نشطة</StatusBadge>
               )}
             </div>
             <span className="text-xs text-[#A3A3A3] mt-0.5">
