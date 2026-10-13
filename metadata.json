@@ -1,6 +1,0 @@
-{
-  "name": "منصة مكافآت المحتوى | Creator Rewards",
-  "description": "منصة صناع المحتوى وحملات المشاهدات في المملكة العربية السعودية - اربح لكل 1000 مشاهدة",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
