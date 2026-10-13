@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import MessagingSettingsCard from '../../components/chat/MessagingSettingsCard';
 import { Building2, Users2, Link2, Plus, Shield, Check, X } from 'lucide-react';
 
 export const BrandSettingsView: React.FC = () => {
@@ -123,7 +124,12 @@ export const BrandSettingsView: React.FC = () => {
           </button>
         </form>
       )}
-
+      {/* الرسائل */}
+      {tab === 'org' && (
+        <div className="max-w-2xl">
+          <MessagingSettingsCard />
+        </div>
+      )}
       {/* Tab 2: الفريق */}
       {tab === 'team' && (
         <div className="max-w-3xl rounded-[26px] bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] p-6 flex flex-col gap-5">

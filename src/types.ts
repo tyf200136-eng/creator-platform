@@ -287,4 +287,66 @@ export interface BrandPage {
   bio: string;
   industry: string;
   website?: string;
+  socials?: { platform: SocialPlatform; url: string }[]; // روابط حسابات البراند
+}
+
+
+// ===== المجتمع (داخل بروفايل البراند) =====
+export interface CommunityPost {
+  id: string;
+  brandName: string;
+  text: string;
+  images?: string[];
+  campaignId?: string;
+  isPinned: boolean;
+  createdAt: string;
+  likes: number;
+}
+
+export interface CommunityQuestion {
+  id: string;
+  brandName: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar: string;
+  question: string;
+  answer?: string;
+  isFaq: boolean;
+  createdAt: string;
+}
+
+
+// ===== الشات =====
+export type ChatSide = 'creator' | 'brand';
+
+export interface ChatAttachment {
+  kind: 'image' | 'file' | 'work';
+  name: string;
+  url?: string;
+  size?: string;
+  thumbnail?: string;
+  workType?: 'video' | 'design';
+}
+
+export interface ChatMessage {
+  id: string;
+  from: ChatSide;
+  text?: string;
+  attachments?: ChatAttachment[];
+  createdAt: string;
+  masked?: boolean;
+}
+
+export interface Conversation {
+  id: string;
+  creatorId: string;
+  creatorName: string;
+  creatorAvatar: string;
+  brandName: string;
+  brandAvatar: string;
+  campaignId?: string;
+  messages: ChatMessage[];
+  unread: { creator: number; brand: number };
+  blockedBy?: ChatSide;
+  updatedAt: number;
 }

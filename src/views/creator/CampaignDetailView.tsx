@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import CampaignJoinBox from '../../components/CampaignJoinBox';
+import MessageBrandButton from '../../components/chat/MessageBrandButton';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import PlatformIcon from '../../components/PlatformIcon';
 import StatusBadge from '../../components/common/StatusBadge';
@@ -666,6 +667,8 @@ export const CampaignDetailView: React.FC = () => {
             </>
             )}
             
+            {/* مراسلة البراند (للمشاركين فقط) */}
+            <MessageBrandButton brandName={selectedCampaign.brandName} campaignId={selectedCampaign.id} className="w-full py-2.5" />
 
             {/* Capacity / Budget Status Box */}
             {isDesign ? (

@@ -134,7 +134,7 @@ export const BrandCampaignsView: React.FC = () => {
                         onClick={() => handleAction(camp, 'تعديل الشروط')}
                         className="w-full text-right px-2.5 py-2 text-xs text-white/80 hover:bg-white/[0.08] hover:text-white rounded-xl"
                       >
-                        تعديل الحملة
+                        إدارة الحملة
                       </button>
                       <button
                         onClick={() => handleAction(camp, 'زيادة الميزانية')}

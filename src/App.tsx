@@ -1,5 +1,8 @@
 import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
+import { CommunityProvider } from './context/CommunityContext';
+import { ChatProvider } from './context/ChatContext';
+import MessagesView from './components/chat/MessagesView';
 import FloatingNavRail from './components/FloatingNavRail';
 import TopBar from './components/TopBar';
 
@@ -42,6 +45,7 @@ import BrandCreatorsView from './views/brand/BrandCreatorsView';
 import BrandBalanceView from './views/brand/BrandBalanceView';
 import BrandSettingsView from './views/brand/BrandSettingsView';
 import BrandOnboardingView from './views/brand/BrandOnboardingView';
+import BrandPageView from './views/brand/BrandPageView';
 
 const MainLayout: React.FC = () => {
   const { role, creatorView, brandView, toastMessage } = useApp();
@@ -57,6 +61,8 @@ const MainLayout: React.FC = () => {
           return <CampaignDetailView />;
                   case 'brand-profile':
           return <BrandProfileView />;
+                  case 'messages':
+          return <MessagesView />;
         case 'home':
           return <HomeView />;
         case 'campaigns':
@@ -94,6 +100,10 @@ const MainLayout: React.FC = () => {
           return <BrandCreatorsView />;
         case 'balance':
           return <BrandBalanceView />;
+                  case 'brand-page':
+          return <BrandPageView />;
+                  case 'messages':
+          return <MessagesView />;
         case 'settings':
           return <BrandSettingsView />;
         default:
@@ -153,7 +163,11 @@ const MainLayout: React.FC = () => {
 export default function App() {
   return (
     <AppProvider>
-      <MainLayout />
-    </AppProvider>
+    <CommunityProvider>
+    <ChatProvider>
+     <MainLayout />
+     </ChatProvider>
+     </CommunityProvider>
+     </AppProvider>
   );
 }

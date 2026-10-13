@@ -34,6 +34,7 @@ export type CreatorScreen =
   | 'campaigns-for-you' 
   | 'campaign-detail' 
   | 'brand-profile'
+  | 'messages'
   | 'submissions' 
   | 'drafts' 
   | 'analytics' 
@@ -50,6 +51,8 @@ export type BrandScreen =
   | 'applications' 
   | 'creators' 
   | 'balance' 
+  | 'brand-page'
+  | 'messages'
   | 'settings';
 
 interface AppContextType {

@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import CampaignCard from '../../components/CampaignCard';
-import { MOCK_BRAND_PAGES } from '../../data/mockData';
-import { ArrowRight, CheckCircle2, Globe, Layers, Users, MessagesSquare } from 'lucide-react';
+import BrandCommunity from '../../components/community/BrandCommunity';
+import PlatformIcon from '../../components/PlatformIcon';
+import { useCommunity } from '../../context/CommunityContext';
+import MessageBrandButton from '../../components/chat/MessageBrandButton';
+import { ArrowRight, CheckCircle2, Globe, Layers, Users } from 'lucide-react';
 
 type ProfileTab = 'community' | 'campaigns';
 type CampaignFilter = 'active' | 'ended';
 
+interface BrandProfileViewProps {
+  brandName?: string; // للمعاينة من جهة البراند
+  preview?: boolean;  // وضع المعاينة: بدون زر رجوع ولا أزرار انضمام
+}
+
 // بروفايل البراند كما يشوفه صانع المحتوى
-export const BrandProfileView: React.FC = () => {
-  const { campaigns, selectedBrandName, setCreatorView, myParticipations } = useApp();
+export const BrandProfileView: React.FC<BrandProfileViewProps> = ({ brandName, preview = false }) => {
+  const { campaigns, selectedBrandName: selectedFromApp, setCreatorView, myParticipations } = useApp();
+  const { getBrandPage } = useCommunity();
+  const selectedBrandName = brandName ?? selectedFromApp;
   const [tab, setTab] = useState<ProfileTab>('campaigns');
   const [filter, setFilter] = useState<CampaignFilter>('active');
 
@@ -24,11 +34,11 @@ export const BrandProfileView: React.FC = () => {
     );
   }
 
-  // بيانات الصفحة: من MOCK_BRAND_PAGES، وإذا ما فيه ناخذ من أول حملة
-  const page = MOCK_BRAND_PAGES.find((b) => b.brandName === selectedBrandName);
-  const cover = page?.cover ?? first.coverImage;
-  const bio = page?.bio ?? `${selectedBrandName} على المنصة. تصفح حملاتهم وانضم للي تناسبك.`;
-  const industry = page?.industry ?? first.category;
+  // بيانات الصفحة (يعدّلها البراند من "ملف العلامة التجارية")، وإذا ما فيه ناخذ من أول حملة
+  const page = getBrandPage(selectedBrandName);
+  const cover = page?.cover || first.coverImage;
+  const bio = page?.bio || `${selectedBrandName} على المنصة. تصفح حملاتهم وانضم للي تناسبك.`;
+  const industry = page?.industry || first.category;
 
   const activeCampaigns = brandCampaigns.filter((c) => c.status !== 'ended' && c.status !== 'draft');
   const endedCampaigns = brandCampaigns.filter((c) => c.status === 'ended');
@@ -43,14 +53,16 @@ export const BrandProfileView: React.FC = () => {
   return (
     <div className="relative pb-36 px-6 pt-6 flex flex-col gap-8 max-w-[1440px] mx-auto text-right">
       {/* رجوع */}
-      <button
-        type="button"
-        onClick={() => setCreatorView('discover')}
-        className="flex items-center gap-2 text-xs text-white/60 hover:text-white transition-colors w-fit"
-      >
-        <ArrowRight className="w-4 h-4" />
-        <span>الرجوع إلى اكتشف</span>
-      </button>
+      {!preview && (
+        <button
+          type="button"
+          onClick={() => setCreatorView('discover')}
+          className="flex items-center gap-2 text-xs text-white/60 hover:text-white transition-colors w-fit"
+        >
+          <ArrowRight className="w-4 h-4" />
+          <span>الرجوع إلى اكتشف</span>
+        </button>
+      )}
 
       {/* الغلاف + الهوية */}
       <section className="relative rounded-[28px] overflow-hidden border border-white/[0.12] bg-neutral-900">
@@ -85,6 +97,7 @@ export const BrandProfileView: React.FC = () => {
 
           {/* أرقام سريعة */}
           <div className="flex flex-wrap items-center gap-2">
+            {!preview && <MessageBrandButton brandName={selectedBrandName} />}
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.12] text-xs text-white">
               <Layers className="w-3.5 h-3.5 text-white/60" />
               <span className="font-mono font-bold">{activeCampaigns.length}</span>
@@ -106,6 +119,18 @@ export const BrandProfileView: React.FC = () => {
                 <span>الموقع</span>
               </a>
             )}
+            {page?.socials?.map((s) => (
+              <a
+                key={s.platform}
+                href={s.url}
+                target="_blank"
+                rel="noreferrer"
+                title={s.platform}
+                className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] text-white/80 flex items-center justify-center transition-colors"
+              >
+                <PlatformIcon platform={s.platform} size={13} />
+              </a>
+            ))}
           </div>
         </div>
 
@@ -137,11 +162,7 @@ export const BrandProfileView: React.FC = () => {
 
       {/* المحتوى */}
       {tab === 'community' ? (
-        /* المجتمع: نبنيه في المرحلة ٣ */
-        <div className="glass-panel rounded-[24px] py-16 flex flex-col items-center gap-3 text-center">
-          <MessagesSquare className="w-8 h-8 text-white/40" />
-          <p className="text-sm text-white/70">إعلانات {selectedBrandName} وأسئلة المشاركين بتظهر هنا</p>
-        </div>
+        <BrandCommunity brandName={selectedBrandName} brandAvatar={first.brandAvatar} />
       ) : shown.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {shown.map((camp) => (
@@ -149,7 +170,7 @@ export const BrandProfileView: React.FC = () => {
               key={camp.id}
               campaign={camp}
               participation={myParticipations.find((p) => p.campaignId === camp.id)}
-              showJoinAction
+              showJoinAction={!preview}
             />
           ))}
         </div>

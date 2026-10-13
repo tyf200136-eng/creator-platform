@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import RiyalSymbol from './RiyalSymbol';
+import MessagesButton from './chat/MessagesButton';
 import {
   Search,
   Bell,
@@ -75,6 +76,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
         case 'campaigns': return 'حملاتي';
         case 'campaign-detail': return 'تفاصيل الحملة';
         case 'brand-profile': return 'صفحة العلامة التجارية';
+        case 'messages': return 'الرسائل';
         case 'submissions': return 'المقاطع المرسلة';
         case 'drafts': return 'مسودات المقاطع';
         case 'analytics': return 'تحليلات الأداء';
@@ -93,6 +95,8 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
         case 'applications': return 'طلبات الانضمام';
         case 'creators': return 'صناع المحتوى';
         case 'balance': return 'الرصيد والمعاملات';
+        case 'brand-page': return 'ملف العلامة التجارية';
+        case 'messages': return 'الرسائل';
         case 'settings': return 'إعدادات المنظمة';
         default: return 'لوحة المنظمة';
       }
@@ -253,6 +257,9 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
             </div>
           )}
         </div>
+
+        {/* Messages */}
+        <MessagesButton />
 
         {/* Notification Bell */}
         <div className="relative" ref={notifMenuRef}>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useChat } from '../../context/ChatContext';
 import RiyalSymbol from '../../components/RiyalSymbol';
 import PlatformIcon from '../../components/PlatformIcon';
 import StatusBadge from '../../components/common/StatusBadge';
@@ -23,7 +24,8 @@ import {
   PauseCircle,
   PlayCircle,
   PlusCircle,
-  ChevronLeft
+  ChevronLeft,
+  MessageCircle
 } from 'lucide-react';
 import DesignCampaignManage from './DesignCampaignManage';
 
@@ -43,7 +45,7 @@ export const CampaignManageView: React.FC = () => {
     setIsFundModalOpen,
     toggleCampaignPause
   } = useApp();
-
+  const { openChatAsBrand } = useChat();
   const [activeTab, setActiveTab] = useState<'overview' | 'submissions' | 'drafts' | 'applications' | 'creators'>('overview');
   const [selectedSubIndex, setSelectedSubIndex] = useState(0);
   const isPaused = selectedCampaign?.status === 'paused';
@@ -601,6 +603,21 @@ export const CampaignManageView: React.FC = () => {
                           <div className="flex items-center gap-3">
                             <img src={c.thumbnail} alt="" className="w-9 h-9 rounded-full object-cover ring-1 ring-white/20" />
                             <span className="font-bold text-white">{c.handle}</span>
+                                                        <button
+                              type="button"
+                              title="مراسلة"
+                              onClick={() =>
+                                openChatAsBrand({
+                                  creatorId: c.handle,
+                                  creatorName: c.handle,
+                                  creatorAvatar: c.thumbnail,
+                                  campaignId: selectedCampaign?.id,
+                                })
+                              }
+                              className="w-7 h-7 rounded-full bg-white/[0.06] border border-white/[0.12] text-white/70 hover:text-white hover:bg-white/[0.12] flex items-center justify-center"
+                            >
+                              <MessageCircle className="w-3.5 h-3.5" />
+                            </button>
                           </div>
                         </td>
                         <td className="p-4">

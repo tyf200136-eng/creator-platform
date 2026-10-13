@@ -13,7 +13,8 @@ import {
   Users2,
   FileCheck2,
   CreditCard,
-  Building2
+  Building2,
+  Store
 } from 'lucide-react';
 
 interface NavItemDef {
@@ -72,7 +73,8 @@ export const FloatingNavRail: React.FC = () => {
       { id: 'creators', label: 'صناع المحتوى', icon: Users2 },
     ],
     // Group 3: البراند
-    [
+    [ 
+      { id: 'brand-page', label: 'ملف العلامة التجارية', icon: Store },
       { id: 'balance', label: 'الرصيد', icon: Wallet },
       { id: 'settings', label: 'الإعدادات', icon: Building2 },
     ],
