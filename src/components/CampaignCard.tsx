@@ -22,16 +22,17 @@ interface CampaignCardProps {
   showNewBadge?: boolean;
   className?: string;
   participation?: MyParticipation;
+  showJoinAction?: boolean; // زر "انضم/قدّم" تحت الكرت (في بروفايل البراند)
 }
 
 export const CampaignCard: React.FC<CampaignCardProps> = ({ 
   campaign, 
   showNewBadge = false,
   className = "",
-  participation 
+  participation,
+  showJoinAction = false 
 }) => {
-  const { navigateToCampaignDetail, setSelectedCampaign, setIsSubmitClipModalOpen } = useApp();
-
+  const { navigateToCampaignDetail, openBrandProfile } = useApp();
   const isDesign = campaign.campaignType === 'design';
   const designDetails = campaign.designDetails;
 
@@ -96,22 +97,7 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
               ))}
             </div>
 
-            {/* Hover Action Button: ارفع تصميمك */}
-            {!participation && (
-            <div className="absolute inset-x-2.5 bottom-2.5 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedCampaign(campaign);
-                  setIsSubmitClipModalOpen(true);
-                }}
-                className="w-full py-2 px-3 rounded-xl bg-white text-black font-bold text-xs shadow-[0_4px_20px_rgba(255,255,255,0.6)] hover:bg-neutral-100 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <Upload className="w-3.5 h-3.5 text-black" />
-                <span>ارفع تصميمك</span>
-              </button>
-            </div>
-            )}
+
           </>
         ) : (
           /* =========================================================================
@@ -143,8 +129,14 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
 
       {/* Meta Row: Brand on Right, Brand Colors (if Design) or Platforms on Left */}
       <div className="mt-3 flex items-center justify-between gap-2 px-1">
-        {/* Brand info */}
-        <div className="flex items-center gap-2 min-w-0">
+        {/* Brand info (يفتح بروفايل البراند) */}
+        <div
+          className="flex items-center gap-2 min-w-0 hover:opacity-80 transition-opacity"
+          onClick={(e) => {
+            e.stopPropagation();
+            openBrandProfile(campaign.brandName);
+          }}
+        >
           <img
             src={campaign.brandAvatar}
             alt={campaign.brandName}
@@ -284,7 +276,7 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
         </div>
       )}
      {/* زر/حالة المشاركة (يظهر في شاشة "الحملات" فقط) */}
-      {participation && (
+       {(participation || showJoinAction) && (
       <MyCampaignAction campaign={campaign} participation={participation} />
       )}
     </div>

@@ -1,4 +1,4 @@
-import { Campaign, CreatorProfile, BrandProfile, VideoClip, Submission, DesignSubmission, DraftItem, ApplicationItem, PayoutTransaction, MyParticipation } from '../types';
+import { Campaign, CreatorProfile, BrandProfile, VideoClip, Submission, DesignSubmission, DraftItem, ApplicationItem, PayoutTransaction, MyParticipation, BrandPage } from '../types';
 
 export const INITIAL_CREATOR_PROFILE: CreatorProfile = {
   id: 'c_noura',
@@ -916,4 +916,29 @@ export const MOCK_MY_PARTICIPATIONS: MyParticipation[] = [
   { campaignId: 'camp-3',        status: 'pending_approval', workStatus: 'none' },          // → بانتظار قبول طلبك
   { campaignId: 'camp-5',        status: 'rejected',         workStatus: 'none' },           // ← لم يتم قبول طلبك
   { campaignId: 'camp-6',        status: 'ended',            workStatus: 'submitted' },     // → عرض النتائج
+];
+
+
+// بيانات صفحات البراند العامة (البراند اللي ما له صفحة هنا ياخذ غلاف أول حملة ونبذة افتراضية)
+export const MOCK_BRAND_PAGES: BrandPage[] = [
+  {
+    brandName: 'ريف العطور',
+    cover: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=1600&auto=format&fit=crop&q=80',
+    bio: 'عطور سعودية بلمسة عصرية. نحب التعاون مع صناع المحتوى اللي يعرفون يوصلون الإحساس قبل الرائحة.',
+    industry: 'عطور ومستحضرات',
+    website: 'https://reef.sa',
+  },
+  {
+    brandName: 'دخون العشب',
+    cover: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1600&auto=format&fit=crop&q=80',
+    bio: 'علامة سعودية في العطور الفاخرة والعود ودهن العود، مصممة للذائقة الخليجية الحديثة.',
+    industry: 'عطور وعود',
+    website: 'https://dkhoon.sa',
+  },
+  {
+    brandName: 'عنوان القهوة',
+    cover: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&auto=format&fit=crop&q=80',
+    bio: 'محمصة قهوة مختصة. نبحث عن محتوى صادق يعكس تجربة القهوة اليومية.',
+    industry: 'مقاهي وقهوة مختصة',
+  },
 ];

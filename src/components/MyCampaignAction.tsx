@@ -2,11 +2,11 @@ import React from 'react';
 import { Campaign, MyParticipation } from '../types';
 import { useApp } from '../context/AppContext';
 import StatusBadge from './common/StatusBadge';
-import { Upload, Video, CheckCircle2, BarChart3 } from 'lucide-react';
+import { Upload, Video, CheckCircle2, BarChart3, Lock, UserPlus } from 'lucide-react';
 
 interface MyCampaignActionProps {
   campaign: Campaign;
-  participation: MyParticipation;
+  participation?: MyParticipation; // بدونها ← زر انضم/قدّم
 }
 
 // حاوية الشريط أسفل الكرت
@@ -16,9 +16,9 @@ const Row: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </div>
 );
 
-// شريط الزر/الحالة أسفل كرت الحملة في شاشة "الحملات" عند صانع المحتوى
+// شريط الزر/الحالة أسفل كرت الحملة (شاشة "حملاتي" وبروفايل البراند)
 export const MyCampaignAction: React.FC<MyCampaignActionProps> = ({ campaign, participation }) => {
-  const { navigateToCampaignDetail, setSelectedCampaign, setIsSubmitClipModalOpen } = useApp();
+  const { navigateToCampaignDetail, setSelectedCampaign, setIsSubmitClipModalOpen, setIsApplyModalOpen, joinCampaign } = useApp();
   const isDesign = campaign.campaignType === 'design';
 
   // فتح نافذة الإرسال بدون ما يفتح تفاصيل الحملة
@@ -43,7 +43,44 @@ export const MyCampaignAction: React.FC<MyCampaignActionProps> = ({ campaign, pa
     return <Row><StatusBadge tone="neutral">الحملة متوقفة مؤقتاً</StatusBadge></Row>;
   }
 
-  // ٢) حسب حالة المشاركة
+  // ٢) ما انضم بعد ← انضم / قدّم
+  if (!participation) {
+    if (campaign.status === 'ended') {
+      return <Row><StatusBadge tone="neutral">الحملة منتهية</StatusBadge></Row>;
+    }
+    return (
+      <Row>
+        {campaign.requiresApplication ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedCampaign(campaign);
+              setIsApplyModalOpen(true);
+            }}
+            className={primaryBtn}
+          >
+            <Lock className="w-3.5 h-3.5" />
+            <span>قدّم على الحملة</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              joinCampaign(campaign);
+            }}
+            className={primaryBtn}
+          >
+            <UserPlus className="w-3.5 h-3.5" />
+            <span>انضم للحملة</span>
+          </button>
+        )}
+      </Row>
+    );
+  }
+
+  // ٣) حسب حالة المشاركة
   if (participation.status === 'rejected') {
     return <Row><StatusBadge tone="danger">لم يتم قبول طلبك</StatusBadge></Row>;
   }
@@ -63,7 +100,7 @@ export const MyCampaignAction: React.FC<MyCampaignActionProps> = ({ campaign, pa
     );
   }
 
-  // ٣) منضم: حملة مقاطع
+  // ٤) منضم: حملة مقاطع
   if (!isDesign) {
     return (
       <Row>
@@ -75,7 +112,7 @@ export const MyCampaignAction: React.FC<MyCampaignActionProps> = ({ campaign, pa
     );
   }
 
-  // ٤) منضم: حملة تصميم
+  // ٥) منضم: حملة تصميم
   if (participation.workStatus === 'needs_revision') {
     return (
       <Row>

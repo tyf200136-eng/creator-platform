@@ -28,6 +28,7 @@ import AnalyticsView from './views/creator/AnalyticsView';
 import EarningsView from './views/creator/EarningsView';
 import SettingsView from './views/creator/SettingsView';
 import CreatorOnboardingView from './views/creator/CreatorOnboardingView';
+import BrandProfileView from './views/creator/BrandProfileView';
 
 // Brand Views
 import BrandDashboardView from './views/brand/BrandDashboardView';
@@ -54,6 +55,8 @@ const MainLayout: React.FC = () => {
           return <CampaignsForYouView />;
         case 'campaign-detail':
           return <CampaignDetailView />;
+                  case 'brand-profile':
+          return <BrandProfileView />;
         case 'home':
           return <HomeView />;
         case 'campaigns':

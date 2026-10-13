@@ -33,6 +33,7 @@ export type CreatorScreen =
   | 'campaigns' 
   | 'campaigns-for-you' 
   | 'campaign-detail' 
+  | 'brand-profile'
   | 'submissions' 
   | 'drafts' 
   | 'analytics' 
@@ -156,6 +157,10 @@ interface AppContextType {
   // مشاركات صانع المحتوى في الحملات
   myParticipations: MyParticipation[];
 joinCampaign: (campaign: Campaign) => void;
+
+  // بروفايل البراند العام
+  selectedBrandName: string | null;
+  openBrandProfile: (brandName: string) => void;
 }
 
 
@@ -176,6 +181,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [brandProfile, setBrandProfile] = useState<BrandProfile>(INITIAL_BRAND_PROFILE);
   const [topClips] = useState<VideoClip[]>(MOCK_TOP_CLIPS);
   const [myParticipations, setMyParticipations] = useState<MyParticipation[]>(MOCK_MY_PARTICIPATIONS);
+  const [selectedBrandName, setSelectedBrandName] = useState<string | null>(null);
 
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(MOCK_CAMPAIGNS[0]);
   const [selectedClip, setSelectedClip] = useState<VideoClip | null>(null);
@@ -225,6 +231,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } else {
       setBrandView('campaign-manage');
     }
+  };
+    // فتح بروفايل البراند من أي مكان (كرت، صفحة حملة، أفضل المقاطع...)
+  const openBrandProfile = (brandName: string) => {
+    setSelectedBrandName(brandName);
+    setCreatorView('brand-profile');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   // انضمام مباشر أو تقديم طلب ← تنتقل الحملة لشاشة "حملاتي"
   const joinCampaign = (camp: Campaign) => {
@@ -672,6 +684,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     toggleCampaignPause,
     myParticipations,
     joinCampaign,
+    selectedBrandName,
+    openBrandProfile,
   }), [
     role,
     creatorView,
@@ -708,6 +722,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     sortOption,
     toastMessage,
     myParticipations,
+    selectedBrandName,
   ]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

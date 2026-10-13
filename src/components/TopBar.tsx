@@ -74,6 +74,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
         case 'home': return 'الرئيسية';
         case 'campaigns': return 'حملاتي';
         case 'campaign-detail': return 'تفاصيل الحملة';
+        case 'brand-profile': return 'صفحة العلامة التجارية';
         case 'submissions': return 'المقاطع المرسلة';
         case 'drafts': return 'مسودات المقاطع';
         case 'analytics': return 'تحليلات الأداء';

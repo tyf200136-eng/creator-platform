@@ -80,7 +80,7 @@ export const FloatingNavRail: React.FC = () => {
 
   const currentGroups = role === 'creator' ? creatorGroups : brandGroups;
   const activeId = role === 'creator' 
-    ? (creatorView === 'campaigns-for-you' || creatorView === 'campaign-detail' ? 'discover' : creatorView)
+    ? (creatorView === 'campaigns-for-you' || creatorView === 'campaign-detail' || creatorView === 'brand-profile' ? 'discover' : creatorView)
     : (brandView === 'campaign-manage' || brandView === 'create-campaign' ? 'campaigns' : brandView);
 
   const handleNavClick = (id: string) => {

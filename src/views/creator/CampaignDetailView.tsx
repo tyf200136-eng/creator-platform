@@ -43,7 +43,8 @@ export const CampaignDetailView: React.FC = () => {
     creatorProfile,
     openAppealModal,
     showToast,
-    myParticipations 
+    myParticipations,
+    openBrandProfile 
   } = useApp();
 
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
@@ -215,8 +216,12 @@ export const CampaignDetailView: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
 
         <div className="absolute inset-0 p-8 flex flex-col justify-end gap-3">
-          {/* Brand Row */}
-          <div className="flex items-center gap-3">
+                   {/* Brand Row (يفتح بروفايل البراند) */}
+          <button
+            type="button"
+            onClick={() => openBrandProfile(selectedCampaign.brandName)}
+            className="flex items-center gap-3 w-fit text-right cursor-pointer group/brand"
+          >
             <img
               src={selectedCampaign.brandAvatar}
               alt={selectedCampaign.brandName}
@@ -225,15 +230,15 @@ export const CampaignDetailView: React.FC = () => {
             />
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
-                <span className="text-sm font-bold text-white">{selectedCampaign.brandName}</span>
+                <span className="text-sm font-bold text-white group-hover/brand:underline underline-offset-4">{selectedCampaign.brandName}</span>
                 {selectedCampaign.isVerified && (
                   <CheckCircle2 className="w-4 h-4 text-white fill-white/20" />
                 )}
               </div>
               <span className="text-xs text-white/60">{selectedCampaign.category} · {selectedCampaign.timeAgo}</span>
             </div>
-          </div>
-
+          </button>
+          
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white font-heading leading-tight">
             {selectedCampaign.title}
           </h1>

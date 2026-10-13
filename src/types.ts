@@ -278,3 +278,13 @@ export interface MyParticipation {
   status: ParticipationStatus;
   workStatus: WorkStatus;
 }
+
+
+// صفحة البراند العامة (يشوفها صانع المحتوى)
+export interface BrandPage {
+  brandName: string;   // نفس brandName في الحملات
+  cover: string;
+  bio: string;
+  industry: string;
+  website?: string;
+}
