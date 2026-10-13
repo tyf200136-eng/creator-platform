@@ -302,8 +302,8 @@ export const BrandPageView: React.FC = () => {
 
       {/* المعاينة: تنعرض على مستوى الصفحة كاملة (Portal) عشان تغطي القائمة الجانبية */}
       {previewOpen && createPortal(
-        <div dir="rtl" className="fixed inset-0 z-[45] bg-base text-white overflow-y-auto">
-          <div className="sticky top-0 z-10 flex items-center justify-between gap-3 px-6 py-3 bg-base/90 backdrop-blur-xl border-b border-white/[0.08]">
+        <div dir="rtl" className="fixed inset-0 z-[45] bg-page text-white overflow-y-auto">
+          <div className="sticky top-0 z-10 flex items-center justify-between gap-3 px-6 py-3 bg-page/90 backdrop-blur-xl border-b border-white/[0.08]">
             <div className="flex items-center gap-2 text-xs text-white/80">
               <Eye className="w-4 h-4" />
               معاينة: هكذا يشوف صناع المحتوى صفحتك

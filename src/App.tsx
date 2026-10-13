@@ -114,7 +114,7 @@ const MainLayout: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-base text-white flex flex-col overflow-x-hidden" dir="rtl">
+    <div className="relative min-h-screen w-full bg-page text-white flex flex-col overflow-x-hidden" dir="rtl">
       {/* Subtle Film Grain Overlay */}
       <div className="fixed inset-0 film-grain z-50 pointer-events-none" />
 
@@ -126,7 +126,7 @@ const MainLayout: React.FC = () => {
       <FloatingNavRail />
 
       {/* MAIN VIEWPORT (Expansive full-width content area with right margin for floating rail) */}
-      <main className="flex-1 flex flex-col min-w-0 min-h-screen bg-base relative z-10 md:pr-[88px] pb-24 md:pb-8 transition-all duration-300">
+      <main className="flex-1 flex flex-col min-w-0 min-h-screen bg-page relative z-10 md:pr-[88px] pb-24 md:pb-8 transition-all duration-300">
         <TopBar />
         <div className="flex-1 w-full max-w-[1600px] mx-auto">
           {renderActiveScreen()}

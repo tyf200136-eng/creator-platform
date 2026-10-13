@@ -115,7 +115,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
   const balanceNumber = role === 'creator' ? creatorProfile.balance : brandProfile.balance;
 
   return (
-    <header className="sticky top-0 z-20 h-16 w-full border-b border-white/[0.08] bg-base/85 backdrop-blur-2xl px-4 md:px-6 gap-2 flex items-center justify-between">
+    <header className="sticky top-0 z-20 h-16 w-full border-b border-white/[0.08] bg-page/85 backdrop-blur-2xl px-4 md:px-6 gap-2 flex items-center justify-between">
       {/* Right: Page Title */}
       <div className="flex items-center gap-3 min-w-0">
         	<h1 className="text-base md:text-lg truncate font-bold tracking-tight text-white font-heading">

@@ -33,7 +33,7 @@ export const Sidebar: React.FC = () => {
   } = useApp();
 
   return (
-    <aside className="w-[240px] shrink-0 h-screen sticky top-0 flex flex-col justify-between p-4 border-l border-white/[0.12] bg-base/90 backdrop-blur-2xl z-30 select-none">
+    <aside className="w-[240px] shrink-0 h-screen sticky top-0 flex flex-col justify-between p-4 border-l border-white/[0.12] bg-page/90 backdrop-blur-2xl z-30 select-none">
       {/* Top: Logo & Nav sections */}
       <div className="flex flex-col gap-5 overflow-y-auto pr-1 pl-1">
         {/* Placeholder Logo Box */}

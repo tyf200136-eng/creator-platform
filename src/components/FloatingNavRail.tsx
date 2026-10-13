@@ -242,7 +242,7 @@ export const FloatingNavRail: React.FC = () => {
           ========================================================================= */}
       <nav
         aria-label="شريط التنقل السفلي للهواتف"
-        className="md:hidden fixed bottom-4 inset-x-4 z-40 h-16 rounded-full bg-base/90 backdrop-blur-2xl border border-white/[0.16] shadow-[0_16px_40px_rgba(0,0,0,0.9)] flex items-center justify-around px-3 select-none"
+        className="md:hidden fixed bottom-4 inset-x-4 z-40 h-16 rounded-full bg-page/90 backdrop-blur-2xl border border-white/[0.16] shadow-[0_16px_40px_rgba(0,0,0,0.9)] flex items-center justify-around px-3 select-none"
       >
         {currentGroups.flat().slice(0, 4).map((item) => {
           const Icon = item.icon;

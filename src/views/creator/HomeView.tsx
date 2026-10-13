@@ -173,7 +173,7 @@ export const HomeView: React.FC = () => {
           <div className="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Step 1: Done */}
             <div className="flex flex-col items-center text-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-base">
+              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-page">
                 <CheckCircle2 className="w-4 h-4 text-black stroke-[2.5]" />
               </div>
               <span className="text-xs text-white font-semibold">
@@ -186,7 +186,7 @@ export const HomeView: React.FC = () => {
               onClick={() => setIsConnectAccountModalOpen(true)}
               className="flex flex-col items-center text-center gap-2 cursor-pointer group/step"
             >
-              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-base group-hover/step:scale-110 transition-transform">
+              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-page group-hover/step:scale-110 transition-transform">
                 <CheckCircle2 className="w-4 h-4 text-black stroke-[2.5]" />
               </div>
               <span className="text-xs text-white font-semibold group-hover/step:underline">
@@ -199,7 +199,7 @@ export const HomeView: React.FC = () => {
               onClick={() => setCreatorView('discover')}
               className="flex flex-col items-center text-center gap-2 cursor-pointer group/step"
             >
-              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-base group-hover/step:scale-110 transition-transform">
+              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-page group-hover/step:scale-110 transition-transform">
                 <CheckCircle2 className="w-4 h-4 text-black stroke-[2.5]" />
               </div>
               <span className="text-xs text-white font-semibold group-hover/step:underline">
@@ -212,7 +212,7 @@ export const HomeView: React.FC = () => {
               onClick={() => setIsSubmitClipModalOpen(true)}
               className="flex flex-col items-center text-center gap-2 cursor-pointer group/step"
             >
-              <div className="relative w-9 h-9 rounded-full bg-white/[0.1] border-2 border-white flex items-center justify-center ring-4 ring-base shadow-[0_0_18px_rgba(255,255,255,0.4)] group-hover/step:scale-110 transition-transform">
+              <div className="relative w-9 h-9 rounded-full bg-white/[0.1] border-2 border-white flex items-center justify-center ring-4 ring-page shadow-[0_0_18px_rgba(255,255,255,0.4)] group-hover/step:scale-110 transition-transform">
                 <span className="w-2.5 h-2.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,1)]" />
                 <span className="absolute -inset-1 rounded-full border border-white/50 animate-ping opacity-40 pointer-events-none" />
               </div>

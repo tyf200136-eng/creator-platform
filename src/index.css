@@ -2,7 +2,7 @@
 
 /* ألوان الموقع — غيّرها هنا بس */
 @theme {
-  --color-base: #0A0A0A;      /* خلفية الصفحة */
+  --color-page: #0A0A0A;      /* خلفية الصفحة */
   --color-surface: #121212;   /* القوائم والنوافذ */
   --color-surface-2: #1A1A1A;
   --color-muted: #A3A3A3;     /* النص الثانوي */
@@ -12,7 +12,7 @@
 [data-theme="light"] {
   --color-white: #0A0A0A;
   --color-black: #FFFFFF;
-  --color-base: #F5F5F4;
+  --color-page: #F5F5F4;
   --color-surface: #FFFFFF;
   --color-surface-2: #EDEDEC;
   --color-muted: #5C5C5C;
@@ -40,14 +40,15 @@
 
   body {
     font-family: var(--font-body);
-background-color: var(--color-base); color: var(--color-white);
+    background-color: var(--color-page);
+    color: var(--color-white);
     direction: rtl;
     min-height: 100vh;
   }
   /* النص الإرشادي داخل الخانات: رمادي، ويختفي أول ما يبدأ المستخدم يكتب */
   input::placeholder,
   textarea::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: color-mix(in oklab, var(--color-white) 30%, transparent);
   }
 
   h1, h2, h3, h4, h5, h6, .font-heading {
@@ -61,33 +62,33 @@ background-color: var(--color-base); color: var(--color-white);
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
+    background: color-mix(in oklab, var(--color-white) 2%, transparent);
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
+    background: color-mix(in oklab, var(--color-white) 15%, transparent);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: color-mix(in oklab, var(--color-white) 30%, transparent);
   }
 }
 
 /* Glassmorphism primitives */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.04);
+  background: color-mix(in oklab, var(--color-white) 4%, transparent);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid color-mix(in oklab, var(--color-white) 11%, transparent);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-white) 15%, transparent);
 }
 
 .glass-panel-hover {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-panel-hover:hover {
-  background: rgba(255, 255, 255, 0.065);
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  background: color-mix(in oklab, var(--color-white) 6.5%, transparent);
+  border-color: color-mix(in oklab, var(--color-white) 22%, transparent);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px color-mix(in oklab, var(--color-white) 6%, transparent), inset 0 1px 0 color-mix(in oklab, var(--color-white) 25%, transparent);
   transform: translateY(-2px);
 }
 
@@ -99,13 +100,13 @@ background-color: var(--color-base); color: var(--color-white);
 
 /* White Stage Light / Glow */
 .spotlight-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%);
+  background: radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--color-white) 12%, transparent) 0%, color-mix(in oklab, var(--color-white) 2%, transparent) 40%, transparent 70%);
 }
 
 .white-glow-button {
-  background-color:var(--color-white);
+  background-color: var(--color-white);
   color: var(--color-black);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 20px color-mix(in oklab, var(--color-white) 35%, transparent);
   transition: all 0.25s ease;
 }
 .white-glow-button:hover {
@@ -119,14 +120,14 @@ background-color: var(--color-base); color: var(--color-white);
   font-family: 'Alexandria', sans-serif;
   font-weight: 900;
   line-height: 0.8;
-  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.6);
+  -webkit-text-stroke: 2px color-mix(in oklab, var(--color-white) 60%, transparent);
   color: transparent;
   user-select: none;
 }
 
 .rank-numeral-glow {
-  -webkit-text-stroke: 2.5px rgba(255, 255, 255, 0.95);
-  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.65));
+  -webkit-text-stroke: 2.5px color-mix(in oklab, var(--color-white) 95%, transparent);
+  filter: drop-shadow(0 0 16px color-mix(in oklab, var(--color-white) 65%, transparent));
 }
 
 /* Status badge: soft pulse for items awaiting a decision */
