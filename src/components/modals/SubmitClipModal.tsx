@@ -1,7 +1,22 @@
-import React, { useState, useId, useEffect } from 'react';
+import React, { useState, useId, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import PlatformIcon from '../PlatformIcon';
 import { SocialPlatform } from '../../types';
+import FieldError, { fieldBorder } from '../common/FieldError';
+import { platformUrlError, designSourceUrlError } from '../../utils/validators';
+
+const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_IMAGE_MB = 10;
+const MAX_SOURCE_FILE_MB = 200;
+const SOURCE_FILE_EXT = ['psd', 'ai', 'pdf', 'png', 'jpg', 'jpeg', 'svg', 'zip', 'fig'];
+const MAX_IMAGES = 10;
+const VIDEO_PLACEHOLDER: Record<string, string> = {
+  tiktok: 'https://www.tiktok.com/@account/video/...',
+  instagram: 'https://www.instagram.com/reel/...',
+  youtube: 'https://youtube.com/shorts/...',
+  snapchat: 'https://www.snapchat.com/spotlight/...',
+  x: 'https://x.com/account/status/...',
+};
 import {
   X,
   CheckCircle2,
@@ -35,6 +50,7 @@ export const SubmitClipModal: React.FC = () => {
   const [videoUrl, setVideoUrl] = useState('');
   const [platform, setPlatform] = useState<SocialPlatform>('tiktok');
   const [videoAgreed, setVideoAgreed] = useState(false);
+
   // أول ما تنفتح النافذة، نختار أول منصة من منصات الحملة (بدل تيك توك الثابتة)
   useEffect(() => {
     const allowed = selectedCampaign?.platforms ?? [];
@@ -42,18 +58,18 @@ export const SubmitClipModal: React.FC = () => {
       setPlatform(allowed[0]);
     }
   }, [isSubmitClipModalOpen, selectedCampaign]);
-  
   const [isVerifying, setIsVerifying] = useState(false);
 
   // Design State
   const [designIdea, setDesignIdea] = useState('');
-  const [uploadedImages, setUploadedImages] = useState<string[]>([
-    'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&auto=format&fit=crop&q=80'
-  ]);
-  const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: string; format: string }[]>([
-    { name: 'lazurde-eid-presentation.psd', size: '48.2 MB', format: 'PSD' }
-  ]);
-  const [figmaUrl, setFigmaUrl] = useState('https://www.figma.com/file/lazurde-eid-campaign-art');
+  // كل شي يبدأ فاضي، والمصمم يرفع شغله بنفسه
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: string; format: string }[]>([]);
+  const [figmaUrl, setFigmaUrl] = useState(''); // رابط الملف المصدري: فيقما أو كانفا أو قوقل درايف
+  const [uploadError, setUploadError] = useState('');
+  const [showErrors, setShowErrors] = useState(false);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [canvaUrl, setCanvaUrl] = useState('');
   const [designAgreed, setDesignAgreed] = useState(false);
   const [isSubmittingDesign, setIsSubmittingDesign] = useState(false);
@@ -77,14 +93,18 @@ export const SubmitClipModal: React.FC = () => {
     }
   };
 
-  const hasEnteredVideoUrl = videoUrl.trim().length > 10;
+  const videoUrlError = platformUrlError(videoUrl, platform);
+  const hasEnteredVideoUrl = !videoUrlError;
   const isAccountConnected = creatorProfile.linkedAccounts.some(
     a => a.platform === platform && a.connected
   );
 
   const handleVideoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!hasEnteredVideoUrl || !videoAgreed) return;
+    if (!hasEnteredVideoUrl || !videoAgreed) {
+      setShowErrors(true);
+      return;
+    }
 
     addSubmission(selectedCampaign.id, videoUrl, platform);
     setIsSubmitClipModalOpen(false);
@@ -99,14 +119,58 @@ export const SubmitClipModal: React.FC = () => {
   const hasFigmaField = designDetails?.formats?.some(f => f.includes('Figma')) ?? true;
   const hasCanvaField = designDetails?.formats?.some(f => f.includes('Canva')) ?? false;
 
-  const isFigmaValid = figmaUrl.trim().length > 0 && figmaUrl.toLowerCase().includes('figma.com');
-  const isCanvaValid = !hasCanvaField || (canvaUrl.trim().length > 0 && canvaUrl.toLowerCase().includes('canva.com'));
+  const sourceLinkError = designSourceUrlError(figmaUrl);
+  const isFigmaValid = !sourceLinkError;
+  const isCanvaValid = isFigmaValid;
 
   // Live checks
   const checkSizeMatched = uploadedImages.length > 0;
   const checkHighRes = uploadedImages.length > 0;
   const checkFormatsPresent = uploadedImages.length > 0 && (uploadedFiles.length > 0 || isFigmaValid);
-  const checkLinkValid = hasFigmaField ? isFigmaValid : (hasCanvaField ? isCanvaValid : true);
+  const checkLinkValid = isFigmaValid;
+  const maxImages = isBundle ? Math.max(designDetails?.carouselSlidesCount ?? MAX_IMAGES, 2) : 1;
+
+  // ===================== حالات الخطأ (التصميم) =====================
+  const designErrors = {
+    images: uploadedImages.length === 0 ? 'ارفع صورة التصميم (معاينة)' : undefined,
+    link: sourceLinkError,
+    agreed: !designAgreed ? 'لازم تقر بأن التصميم من عملك' : undefined,
+  };
+  const dErr = (k: keyof typeof designErrors) => (showErrors ? designErrors[k] : undefined);
+
+  const onPickImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = '';
+    const bad = files.find((f) => !IMAGE_TYPES.includes(f.type) || f.size > MAX_IMAGE_MB * 1024 * 1024);
+    if (bad) {
+      setUploadError(!IMAGE_TYPES.includes(bad.type) ? 'صور المعاينة لازم تكون JPG أو PNG أو WEBP' : `حجم الصورة أكبر من ${MAX_IMAGE_MB} ميقابايت`);
+      return;
+    }
+    const room = maxImages - uploadedImages.length;
+    if (files.length > room) setUploadError(`الحد الأقصى ${maxImages} ${maxImages === 1 ? 'صورة' : 'صور'}`);
+    else setUploadError('');
+    setUploadedImages((prev) => [...prev, ...files.slice(0, room).map((f) => URL.createObjectURL(f))]);
+  };
+
+  const onPickSourceFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = '';
+    const ok: { name: string; size: string; format: string }[] = [];
+    for (const f of files) {
+      const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+      if (!SOURCE_FILE_EXT.includes(ext)) {
+        setUploadError(`الملف ${f.name} صيغته غير مقبولة`);
+        return;
+      }
+      if (f.size > MAX_SOURCE_FILE_MB * 1024 * 1024) {
+        setUploadError(`الملف ${f.name} أكبر من ${MAX_SOURCE_FILE_MB} ميقابايت، ارفعه على قوقل درايف وحط الرابط`);
+        return;
+      }
+      ok.push({ name: f.name, size: `${(f.size / 1024 / 1024).toFixed(1)} MB`, format: ext.toUpperCase() });
+    }
+    setUploadError('');
+    setUploadedFiles((prev) => [...prev, ...ok]);
+  };
 
   const allDesignChecksPassed = 
     checkSizeMatched && 
@@ -125,15 +189,16 @@ export const SubmitClipModal: React.FC = () => {
     setUploadedImages(newArr);
   };
 
-  const handleAddSampleImage = () => {
-    const sample = 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&auto=format&fit=crop&q=80';
-    setUploadedImages(prev => [...prev, sample]);
-    showToast('تمت إضافة صورة ثانية للتصميم!');
-  };
 
   const handleDesignSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!allDesignChecksPassed) return;
+    if (Object.values(designErrors).some(Boolean)) {
+      setShowErrors(true);
+      requestAnimationFrame(() =>
+        document.querySelector('[data-field-error]')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      );
+      return;
+    }
 
     setIsSubmittingDesign(true);
     setTimeout(() => {
@@ -141,13 +206,18 @@ export const SubmitClipModal: React.FC = () => {
         campaignId: selectedCampaign.id,
         note: designIdea || 'تصميم بوست وهويات الحملة',
         previewImages: uploadedImages,
-        figmaUrl: hasFigmaField ? figmaUrl : undefined,
-        canvaUrl: hasCanvaField ? canvaUrl : undefined,
+        figmaUrl: figmaUrl.includes('figma.com') ? figmaUrl.trim() : undefined,
+        canvaUrl: figmaUrl.includes('canva.com') ? figmaUrl.trim() : undefined,
         files: uploadedFiles.map(f => ({ name: f.name, url: '#', format: f.format, size: f.size })),
       });
       setIsSubmittingDesign(false);
       setIsSubmitClipModalOpen(false);
       setDesignAgreed(false);
+      setUploadedImages([]);
+      setUploadedFiles([]);
+      setFigmaUrl('');
+      setDesignIdea('');
+      setShowErrors(false);
     }, 450);
   };
 
@@ -156,7 +226,12 @@ export const SubmitClipModal: React.FC = () => {
       <div className={`relative w-full ${isDesignCampaign ? 'max-w-2xl' : 'max-w-lg'} rounded-[28px] bg-[#121212] border border-white/[0.18] p-6 sm:p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)] max-h-[92vh] overflow-y-auto`}>
         {/* Close Button */}
         <button
-          onClick={() => setIsSubmitClipModalOpen(false)}
+          onClick={() => {
+            setIsSubmitClipModalOpen(false);
+            setShowErrors(false);
+            setUploadError('');
+          }}
+          aria-label="إغلاق"
           className="absolute top-6 left-6 w-9 h-9 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] text-white flex items-center justify-center transition-all cursor-pointer z-10"
         >
           <X className="w-4 h-4" />
@@ -235,7 +310,7 @@ export const SubmitClipModal: React.FC = () => {
                         </div>
                       )}
 
-                      {uploadedImages.length > 1 && (
+                      {uploadedImages.length > 0 && (
                         <button
                           type="button"
                           onClick={() => setUploadedImages(prev => prev.filter((_, i) => i !== idx))}
@@ -248,18 +323,22 @@ export const SubmitClipModal: React.FC = () => {
                     </div>
                   ))}
 
-                  {/* Add more image button (if bundle or preview) */}
-                  {isBundle && (
+                  {/* رفع صور المعاينة */}
+                  <input ref={imageInputRef} type="file" accept={IMAGE_TYPES.join(',')} multiple={isBundle} hidden onChange={onPickImages} />
+                  {uploadedImages.length < maxImages && (
                     <button
                       type="button"
-                      onClick={handleAddSampleImage}
-                      className="w-36 aspect-[4/5] rounded-2xl border-2 border-dashed border-white/20 hover:border-white/50 bg-white/[0.02] hover:bg-white/[0.06] flex flex-col items-center justify-center gap-1.5 text-xs text-white/60 hover:text-white transition-all cursor-pointer"
+                      onClick={() => imageInputRef.current?.click()}
+                      className={`w-36 aspect-[4/5] rounded-2xl border-2 border-dashed ${
+                        dErr('images') ? 'border-red-500/60 bg-red-500/[0.04]' : 'border-white/20 hover:border-white/50 bg-white/[0.02] hover:bg-white/[0.06]'
+                      } flex flex-col items-center justify-center gap-1.5 text-xs text-white/60 hover:text-white transition-all cursor-pointer`}
                     >
                       <UploadCloud className="w-6 h-6 text-white/50" />
-                      <span>+ إضافة سلايد</span>
+                      <span>{uploadedImages.length === 0 ? 'ارفع التصميم' : '+ إضافة سلايد'}</span>
                     </button>
                   )}
                 </div>
+                <FieldError message={dErr('images') || uploadError || undefined} />
               </div>
 
               {/* Source Files Dropzone (PSD / PDF / AI) */}
@@ -268,14 +347,9 @@ export const SubmitClipModal: React.FC = () => {
                   <span>الملفات المفتوحة والمصدرية (PSD / PDF / AI)</span>
                   <span className="text-[10px] text-white/40">حسب طلب البراند</span>
                 </label>
+                <input ref={fileInputRef} type="file" multiple hidden onChange={onPickSourceFiles} accept={SOURCE_FILE_EXT.map((e) => '.' + e).join(',')} />
                 <div 
-                  onClick={() => {
-                    setUploadedFiles(prev => [
-                      ...prev,
-                      { name: `design-source-${Date.now().toString().slice(-4)}.pdf`, size: '22.4 MB', format: 'PDF' }
-                    ]);
-                    showToast('تم إرفاق ملف PDF إضافي للمراجعة!');
-                  }}
+                  onClick={() => fileInputRef.current?.click()}
                   className="p-3.5 rounded-2xl border border-dashed border-white/20 hover:border-white/40 bg-white/[0.02] flex items-center justify-between cursor-pointer transition-all"
                 >
                   <div className="flex items-center gap-2.5">
@@ -283,7 +357,7 @@ export const SubmitClipModal: React.FC = () => {
                     <div className="flex flex-col text-xs text-white/80">
                       <span className="font-semibold">ملفات العمل المرفقة ({uploadedFiles.length})</span>
                       <span className="text-[10px] text-white/40">
-                        {uploadedFiles.map(f => f.name).join(' · ')}
+                        {uploadedFiles.length ? uploadedFiles.map(f => f.name).join(' · ') : 'PSD أو AI أو PDF · حتى 200 ميقابايت للملف'}
                       </span>
                     </div>
                   </div>
@@ -306,22 +380,26 @@ export const SubmitClipModal: React.FC = () => {
                     type="url"
                     value={figmaUrl}
                     onChange={(e) => setFigmaUrl(e.target.value)}
-                    placeholder="https://www.figma.com/file/... أو رابط Drive / Canva"
+                    placeholder="https://www.figma.com/... أو canva.com أو drive.google.com"
                     dir="ltr"
                     className={`w-full h-11 pl-4 pr-10 rounded-xl bg-white/[0.05] border text-xs text-white font-mono placeholder-white/30 focus:outline-none transition-all ${
-                      figmaUrl.trim().length > 8 
-                        ? 'border-emerald-500/60 focus:border-emerald-400' 
+                      dErr('link')
+                        ? 'border-red-500/60'
+                        : isFigmaValid
+                        ? 'border-emerald-500/60 focus:border-emerald-400'
                         : 'border-white/[0.14] focus:border-white'
                     }`}
                   />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                    {figmaUrl.trim().length > 8 ? (
+                    {isFigmaValid ? (
                       <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                     ) : (
                       <LinkIcon className="w-4 h-4 text-white/40" />
                     )}
                   </div>
                 </div>
+                <span className="text-[10px] text-white/45">تأكد إن الرابط مفتوح للمشاهدة لأي أحد عنده الرابط</span>
+                <FieldError message={dErr('link')} />
               </div>
 
               {/* Live Checklist */}
@@ -361,7 +439,7 @@ export const SubmitClipModal: React.FC = () => {
 
                   {/* Check 4 */}
                   <div className="flex items-center gap-2 text-white/90">
-                    {figmaUrl.trim().length > 8 ? (
+                    {isFigmaValid ? (
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                     ) : (
                       <div className="w-4 h-4 rounded-full border border-white/20 shrink-0" />
@@ -406,11 +484,12 @@ export const SubmitClipModal: React.FC = () => {
                   أقرّ بأن التصميم من عملي الأصلي، وبعد القبول تنتقل ملكيته للعلامة التجارية.
                 </span>
               </label>
+              <FieldError message={dErr('agreed')} />
 
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={!allDesignChecksPassed || isSubmittingDesign}
+                disabled={isSubmittingDesign}
                 className="w-full py-3.5 px-6 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_24px_rgba(255,255,255,0.4)] hover:shadow-[0_0_32px_rgba(255,255,255,0.7)] hover:bg-neutral-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isSubmittingDesign ? (
@@ -471,13 +550,13 @@ export const SubmitClipModal: React.FC = () => {
                     type="url"
                     value={videoUrl}
                     onChange={handleVideoUrlChange}
-                    placeholder="https://www.tiktok.com/@youraccount/video/..."
-                    className="w-full h-11 pr-10 pl-4 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/40 focus:bg-white/[0.08] transition-all font-mono"
+                    placeholder={VIDEO_PLACEHOLDER[platform]}
+                    className={`w-full h-11 pr-10 pl-4 rounded-xl bg-white/[0.05] border ${fieldBorder(showErrors || videoUrl.trim().length > 10 ? videoUrlError : undefined)} text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/40 focus:bg-white/[0.08] transition-all font-mono`}
                     dir="ltr"
-                    required
                   />
                   <LinkIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                 </div>
+                <FieldError message={showErrors || videoUrl.trim().length > 10 ? videoUrlError : undefined} />
               </div>
 
               {/* 3 Live Checks with check/cross */}
@@ -546,11 +625,11 @@ export const SubmitClipModal: React.FC = () => {
                   أقر بأنني التزمت بجميع شروط الحملة وعدم حذف المقطع لمدة 30 يوماً من تاريخ النشر.
                 </span>
               </label>
+              <FieldError message={showErrors && !videoAgreed ? 'لازم توافق على التعهد' : undefined} />
 
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={!hasEnteredVideoUrl || !videoAgreed}
                 className="mt-2 w-full py-3 px-6 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_20px_rgba(255,255,255,0.35)] hover:shadow-[0_0_28px_rgba(255,255,255,0.65)] hover:bg-neutral-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
               >
                 {isVerifying ? (

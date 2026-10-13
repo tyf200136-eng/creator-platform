@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import FieldError from '../../components/common/FieldError';
 import { useApp } from '../../context/AppContext';
 import StatusBadge from '../../components/common/StatusBadge';
 import RiyalSymbol from '../../components/RiyalSymbol';
@@ -79,6 +80,7 @@ export const DesignCampaignManage: React.FC = () => {
   const [isRejectModalOpen, setIsRejectModalOpen] = useState<boolean>(false);
   const [rejectReason, setRejectReason] = useState<string>('لا يطابق المواصفات');
   const [rejectNote, setRejectNote] = useState<string>('');
+  const [showRejectError, setShowRejectError] = useState(false);
 
   // Revision Request Drawer / Mode
   const [isRevisionMode, setIsRevisionMode] = useState<boolean>(false);
@@ -157,8 +159,19 @@ export const DesignCampaignManage: React.FC = () => {
     }
   };
 
+  // لو اختار "أخرى" لازم يوضّح السبب في الملاحظة
+  const rejectNoteError =
+    rejectReason.startsWith('أخرى') && rejectNote.trim().length < 10
+      ? 'بما إنك اخترت "أخرى"، وضّح السبب للمصمم (10 أحرف على الأقل)'
+      : undefined;
+
   const handleConfirmReject = () => {
     if (!selectedDesign) return;
+    if (rejectNoteError) {
+      setShowRejectError(true);
+      return;
+    }
+    setShowRejectError(false);
     const finalReason = rejectNote.trim() ? `${rejectReason} - ${rejectNote.trim()}` : rejectReason;
     rejectDesignSubmission(selectedDesign.id, finalReason);
     setSelectedDesign(prev => prev ? { ...prev, status: 'rejected', rejectionReason: finalReason } : null);
@@ -1366,8 +1379,11 @@ export const DesignCampaignManage: React.FC = () => {
                 value={rejectNote}
                 onChange={(e) => setRejectNote(e.target.value)}
                 placeholder="أضف تفاصيل لمساعدة المصمم على فهم سبب الرفض..."
-                className="w-full p-2.5 rounded-xl bg-black/40 border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-rose-400 resize-none"
+                className={`w-full p-2.5 rounded-xl bg-black/40 border ${
+                  showRejectError && rejectNoteError ? 'border-red-500/60' : 'border-white/10'
+                } text-white placeholder-white/40 text-xs focus:outline-none focus:border-rose-400 resize-none`}
               />
+              <FieldError message={showRejectError ? rejectNoteError : undefined} />
             </div>
 
             <div className="flex items-center gap-2 pt-2">

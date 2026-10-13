@@ -207,3 +207,60 @@ export const urlError = (
   }
   return undefined;
 };
+
+// ---------------------------------------------------------------------------
+// روابط المنصات وروابط ملفات التصميم
+// ---------------------------------------------------------------------------
+
+/** المواقع المقبولة لكل منصة (روابط المقاطع وروابط الحسابات) */
+export const PLATFORM_HOSTS: Record<string, { hosts: string[]; label: string }> = {
+  tiktok: { hosts: ['tiktok.com'], label: 'تيك توك' },
+  instagram: { hosts: ['instagram.com'], label: 'إنستقرام' },
+  youtube: { hosts: ['youtube.com', 'youtu.be'], label: 'يوتيوب' },
+  snapchat: { hosts: ['snapchat.com'], label: 'سناب شات' },
+  x: { hosts: ['x.com', 'twitter.com'], label: 'إكس' },
+};
+
+/** رابط لازم يكون من منصة معيّنة (مثل: رابط مقطع تيك توك) */
+export const platformUrlError = (value: string, platform: string, required = true) => {
+  const p = PLATFORM_HOSTS[platform];
+  return urlError(value, { required, hosts: p?.hosts, label: p?.label });
+};
+
+/** روابط ملفات التصميم المقبولة */
+export const DESIGN_SOURCE_HOSTS = ['figma.com', 'canva.com', 'drive.google.com', 'docs.google.com'];
+
+export const designSourceUrlError = (value: string, required = true) =>
+  urlError(value, { required, hosts: DESIGN_SOURCE_HOSTS, label: 'فيقما أو كانفا أو قوقل درايف' });
+
+// ---------------------------------------------------------------------------
+// بيانات المنشآت السعودية
+// ---------------------------------------------------------------------------
+
+/** جوال أو هاتف ثابت سعودي (للمنشآت): 05XXXXXXXX أو 01XXXXXXXX (مثل 011 488 9900) */
+export const saudiContactPhoneError = (value: string, required = true): string | undefined => {
+  if (!value.trim()) return required ? 'اكتب رقم التواصل' : undefined;
+  let d = onlyDigits(value);
+  if (d.startsWith('00966')) d = d.slice(5);
+  else if (d.startsWith('966')) d = d.slice(3);
+  if (d.startsWith('0')) d = d.slice(1);
+  if (/^5\d{8}$/.test(d) || /^1[1-7]\d{7}$/.test(d)) return undefined;
+  return 'رقم غير صحيح. اكتب جوال (05XXXXXXXX) أو هاتف ثابت (011XXXXXXX)';
+};
+
+/** السجل التجاري أو الرقم الموحد: 10 أرقام */
+export const crNumberError = (value: string, required = false): string | undefined => {
+  const d = onlyDigits(value);
+  if (!d) return required ? 'اكتب رقم السجل التجاري' : undefined;
+  if (d.length !== 10) return 'رقم السجل التجاري 10 أرقام';
+  return undefined;
+};
+
+/** الرقم الضريبي (VAT): 15 رقم يبدأ بـ 3 وينتهي بـ 3 */
+export const vatNumberError = (value: string, required = false): string | undefined => {
+  const d = onlyDigits(value);
+  if (!d) return required ? 'اكتب الرقم الضريبي' : undefined;
+  if (d.length !== 15) return 'الرقم الضريبي 15 رقم';
+  if (!d.startsWith('3') || !d.endsWith('3')) return 'الرقم الضريبي يبدأ بـ 3 وينتهي بـ 3';
+  return undefined;
+};

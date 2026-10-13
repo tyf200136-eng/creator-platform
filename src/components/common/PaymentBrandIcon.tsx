@@ -29,14 +29,12 @@ export const PaymentBrandIcon: React.FC<{ brand: PaymentBrand; size?: number; cl
   className = '',
 }) =>
   brand === 'mada' ? (
-    <span
-      aria-label={LABELS.mada}
-      className={`font-heading font-bold lowercase leading-none tracking-tight ${className}`}
-      style={{ fontSize: size * 0.62 }}
-      dir="ltr"
-    >
-      mada
-    </span>
+    <img
+      src="/mada.svg"
+      alt={LABELS.mada}
+      style={{ height: size * 0.8 }}
+      className={`w-auto object-contain brightness-0 invert opacity-70 ${className}`}
+    />
   ) : (
     <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" role="img" aria-label={LABELS[brand]} className={className}>
       <path d={PATHS[brand]} />

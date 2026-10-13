@@ -130,6 +130,8 @@ export interface Campaign {
     verified: boolean;
   }[];
   requirePreApproval?: boolean;
+  /** سؤال يكتبه صاحب الحملة للمتقدمين (للحملات اللي بطلب وموافقة) */
+  screeningQuestion?: string;
 }
 
 export interface VideoClip {
@@ -228,6 +230,10 @@ export interface BrandProfile {
   description: string;
   phone: string;
   industry: string;
+  /** السجل التجاري أو الرقم الموحد (10 أرقام) */
+  crNumber?: string;
+  /** الرقم الضريبي (15 رقم) */
+  vatNumber?: string;
   balance: number;
   totalSpend: number;
   totalViews: string;

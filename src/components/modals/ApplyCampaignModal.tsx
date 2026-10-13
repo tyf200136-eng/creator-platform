@@ -8,6 +8,13 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { RiyalSymbol } from '../RiyalSymbol';
+import FieldError, { fieldBorder } from '../common/FieldError';
+
+const MIN_MOTIVATION = 30;
+const MIN_ANSWER = 10;
+const MAX_TEXT = 500;
+/** لو البراند ما كتب سؤال (حملات قديمة) نستخدم هذا */
+const DEFAULT_QUESTION = 'وش اللي يميّز محتواك عن غيرك؟';
 
 export const ApplyCampaignModal: React.FC = () => {
   const {
@@ -20,26 +27,65 @@ export const ApplyCampaignModal: React.FC = () => {
     joinCampaign
   } = useApp();
 
-  const [motivation, setMotivation] = useState('أنا صانع محتوى أقدم مراجعات بجودة 4K ومعدل تفاعل عالي بالرياض، وعندي جمهور مهتم بهذا المجال.');
-  const [screeningAnswer, setScreeningAnswer] = useState('نعم، أستطيع تجهيز 3 مقاطع أسبوعياً والالتزام بكامل تعليمات الصوت والشعار.');
-  const [selectedAccountHandle, setSelectedAccountHandle] = useState(
-    creatorProfile.linkedAccounts[0]?.handle || '@noura_shortss'
-  );
+  // كل شي يبدأ فاضي، وصانع المحتوى يعبّيه بنفسه
+  const [motivation, setMotivation] = useState('');
+  const [screeningAnswer, setScreeningAnswer] = useState('');
+  const [selectedAccountHandle, setSelectedAccountHandle] = useState('');
+  const [showErrors, setShowErrors] = useState(false);
 
   if (!isApplyModalOpen || !selectedCampaign) return null;
 
+  // الحسابات المربوطة اللي على منصات الحملة بس
+  const eligibleAccounts = creatorProfile.linkedAccounts.filter(
+    (a) => a.connected && selectedCampaign.platforms.includes(a.platform)
+  );
+  const question = selectedCampaign.screeningQuestion?.trim() || DEFAULT_QUESTION;
+
+  // ===================== حالات الخطأ =====================
+  const errors = {
+    account: !eligibleAccounts.length
+      ? 'ما عندك حساب مربوط على منصات هذي الحملة. اربط حساب أول'
+      : !eligibleAccounts.some((a) => a.handle === selectedAccountHandle)
+      ? 'اختر الحساب اللي بتنشر منه'
+      : undefined,
+    motivation: !motivation.trim()
+      ? 'اكتب ليش أنت مناسب للحملة'
+      : motivation.trim().length < MIN_MOTIVATION
+      ? `وضّح أكثر، ${MIN_MOTIVATION} حرف على الأقل`
+      : undefined,
+    answer: !screeningAnswer.trim()
+      ? 'جاوب على سؤال البراند'
+      : screeningAnswer.trim().length < MIN_ANSWER
+      ? 'الإجابة قصيرة'
+      : undefined,
+  };
+  const err = (k: keyof typeof errors) => (showErrors ? errors[k] : undefined);
+
+  const close = () => {
+    setIsApplyModalOpen(false);
+    setMotivation('');
+    setScreeningAnswer('');
+    setSelectedAccountHandle('');
+    setShowErrors(false);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsApplyModalOpen(false);
+    if (Object.values(errors).some(Boolean)) {
+      setShowErrors(true);
+      return;
+    }
     joinCampaign(selectedCampaign);
-    };
+    close();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
       <div className="relative w-full max-w-lg rounded-[28px] bg-[#121212] border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)] max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
-          onClick={() => setIsApplyModalOpen(false)}
+          onClick={close}
+          aria-label="إغلاق"
           className="absolute top-6 left-6 w-9 h-9 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] text-white flex items-center justify-center transition-all cursor-pointer"
         >
           <X className="w-4 h-4" />
@@ -72,7 +118,7 @@ export const ApplyCampaignModal: React.FC = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
           {/* Choose Linked Account */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
@@ -91,7 +137,7 @@ export const ApplyCampaignModal: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {creatorProfile.linkedAccounts.filter(a => a.connected).map((acc) => (
+              {eligibleAccounts.map((acc) => (
                 <div
                   key={acc.handle}
                   onClick={() => setSelectedAccountHandle(acc.handle)}
@@ -114,6 +160,7 @@ export const ApplyCampaignModal: React.FC = () => {
                 </div>
               ))}
             </div>
+            <FieldError message={err('account')} />
           </div>
 
           {/* Why are you a good fit */}
@@ -121,25 +168,29 @@ export const ApplyCampaignModal: React.FC = () => {
             <label className="text-xs font-medium text-white/80">ليش أنت مناسب لهذه الحملة؟</label>
             <textarea
               rows={3}
+              maxLength={MAX_TEXT}
               value={motivation}
               onChange={(e) => setMotivation(e.target.value)}
-              className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/40 focus:bg-white/[0.08] transition-all resize-none leading-relaxed"
-              required
+              placeholder="مثال: أصوّر مراجعات عطور من سنتين، وجمهوري أغلبه من الرياض..."
+              className={`w-full p-3 rounded-xl bg-white/[0.05] border ${fieldBorder(err('motivation'))} text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/40 focus:bg-white/[0.08] transition-all resize-none leading-relaxed`}
             />
+            <FieldError message={err('motivation')} />
           </div>
 
           {/* Screening Question */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-white/80">
-              سؤال البراند: هل يمكنك توفير محتوى بدقة عالية ومعدل نشر منتظم؟
+              سؤال البراند: {question}
             </label>
             <textarea
               rows={2}
+              maxLength={MAX_TEXT}
               value={screeningAnswer}
               onChange={(e) => setScreeningAnswer(e.target.value)}
-              className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/40 focus:bg-white/[0.08] transition-all resize-none leading-relaxed"
-              required
+              placeholder="اكتب إجابتك..."
+              className={`w-full p-3 rounded-xl bg-white/[0.05] border ${fieldBorder(err('answer'))} text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/40 focus:bg-white/[0.08] transition-all resize-none leading-relaxed`}
             />
+            <FieldError message={err('answer')} />
           </div>
 
           {/* Submit */}

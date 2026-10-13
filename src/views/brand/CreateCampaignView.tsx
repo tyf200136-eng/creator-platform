@@ -9,6 +9,8 @@ import CampaignCoverUpload from '../../components/common/CampaignCoverUpload';
 import ReferenceLinksEditor, { ReferenceLink } from '../../components/common/ReferenceLinksEditor';
 import DosDontsEditor from '../../components/common/DosDontsEditor';
 import PlatformPicker from '../../components/common/PlatformPicker';
+import FieldError, { fieldBorder } from '../../components/common/FieldError';
+import { validateStep, firstInvalidStep, CampaignFormValues } from './campaignValidation';
 import { SocialPlatform, PaymentModel, Campaign, CampaignType, DesignDetails } from '../../types';
 import {
   ArrowRight,
@@ -42,6 +44,7 @@ import {
   Info,
   Megaphone
 } from 'lucide-react';
+
 // تاريخ اليوم (أو بعد عدد أيام) بصيغة YYYY-MM-DD حسب توقيت جهاز المستخدم
 const localDate = (offsetDays = 0) => {
   const d = new Date();
@@ -50,6 +53,7 @@ const localDate = (offsetDays = 0) => {
   const dd = String(d.getDate()).padStart(2, '0');
   return `${d.getFullYear()}-${mm}-${dd}`;
 };
+
 export const CreateCampaignView: React.FC = () => {
   const { 
     setBrandView, 
@@ -61,8 +65,7 @@ export const CreateCampaignView: React.FC = () => {
 
   // Step 0: Model Selection (Video vs Design)
   const [modelStep, setModelStep] = useState<boolean>(true);
-  const [chosenType, setChosenType] = useState<CampaignType>('video'); 
-  
+  const [chosenType, setChosenType] = useState<CampaignType>('video');
 
   // Multi-step form step (1-5 for video, 1-4 for design)
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -75,8 +78,9 @@ export const CreateCampaignView: React.FC = () => {
   const [category, setCategory] = useState('');
   const [coverUrl, setCoverUrl] = useState('');
   const [referenceLinks, setReferenceLinks] = useState<ReferenceLink[]>([]);
+
   // DURATION (Shared): Start date + End date with quick chips
-  const [startDate, setStartDate] = useState(localDate(0))
+  const [startDate, setStartDate] = useState(localDate(0));
   const [endDate, setEndDate] = useState(localDate(14));
   const [durationPreset, setDurationPreset] = useState<'week' | 'two_weeks' | 'month'>('two_weeks');
 
@@ -100,9 +104,9 @@ export const CreateCampaignView: React.FC = () => {
   const [videoTypes, setVideoTypes] = useState<string[]>([]);
   const [selectedPlatforms, setSelectedPlatforms] = useState<SocialPlatform[]>([]);
   const [access, setAccess] = useState<'open' | 'application'>('open');
+  const [screeningQuestion, setScreeningQuestion] = useState('');
   const [rules, setRules] = useState<string[]>([]);
   const [videoDonts, setVideoDonts] = useState<string[]>([]);
-  const [ruleInput, setRuleInput] = useState('');
   const [requireBioLink, setRequireBioLink] = useState(true);
   const [requireSound, setRequireSound] = useState(true);
   const [requirePreApproval, setRequirePreApproval] = useState(false);
@@ -129,7 +133,7 @@ export const CreateCampaignView: React.FC = () => {
   // DESIGN CAMPAIGN SPECIFIC FIELDS
   // a) الطلب, b) المواصفات, c) الميزانية والتسليم, d) الملخص
   // =========================================================================
-  const [exactCopy, setExactCopy] = useState('خصم حصري 50% على تشكيلة عطور الشتاء | استخدم كود ORIENT50 مع شحن مجاني لكافة مدن المملكة');
+  const [exactCopy, setExactCopy] = useState('');
   const [designDos, setDesignDos] = useState<string[]>([]);
   const [designDonts, setDesignDonts] = useState<string[]>([]);
 
@@ -143,13 +147,13 @@ export const CreateCampaignView: React.FC = () => {
 
   const [brandColors, setBrandColors] = useState<string[]>([]);
   const [newColorInput, setNewColorInput] = useState('#D97706');
-  const [brandFonts, setBrandFonts] = useState('Alexandria / Readex Pro');
+  const [brandFonts, setBrandFonts] = useState('');
   const [isBundle, setIsBundle] = useState<boolean>(false);
 
   // c) الميزانية والتسليم:
   // Price per design (min 300 SAR), designs needed stepper, revision rounds (0, 1, 2)
   const [pricePerDesign, setPricePerDesign] = useState<number>(300);
-  const [designsNeeded, setDesignsNeeded] = useState<number>(5);
+  const [designsNeeded, setDesignsNeeded] = useState<number>(1);
   const [revisionRounds, setRevisionRounds] = useState<number>(1);
 
   // Total calculated budget for design: pricePerDesign * designsNeeded
@@ -200,12 +204,49 @@ export const CreateCampaignView: React.FC = () => {
   const isVideoBudgetValid = videoBudget >= 1000;
   const isDesignPriceValid = pricePerDesign >= 300;
 
+  // ===================== حالات الخطأ =====================
+  // الأخطاء ما تطلع إلا بعد ما يضغط "متابعة" أو "أطلق"، وبعدها تختفي أول ما يصلّح الخانة
+  const [showErrors, setShowErrors] = useState(false);
+  const lastStep = chosenType === 'design' ? 4 : 5;
+
+  const formValues: CampaignFormValues = {
+    name, description, coverUrl, category, startDate, endDate,
+    videoTypes, rules, selectedPlatforms, videoBudget, ratePer1k, access, screeningQuestion,
+    exactCopy, designDos, selectedSizes, selectedFormats,
+    customWidth, customHeight, carouselSlides, pricePerDesign, designsNeeded,
+  };
+  const stepErrors = validateStep(chosenType, currentStep, formValues);
+  const err = (key: string) => (showErrors ? stepErrors[key] : undefined);
+
+  const scrollToFirstError = () =>
+    requestAnimationFrame(() =>
+      document.querySelector('[data-field-error]')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    );
+
+  /** التنقل بين الخطوات: الرجوع مسموح دايماً، والتقدّم ما يصير إلا لو الخطوات اللي قبل سليمة */
+  const goToStep = (target: number) => {
+    if (target <= currentStep) {
+      setShowErrors(false);
+      setCurrentStep(target);
+      return;
+    }
+    const bad = firstInvalidStep(chosenType, target - 1, formValues);
+    if (bad !== null) {
+      setCurrentStep(bad);
+      setShowErrors(true);
+      scrollToFirstError();
+      return;
+    }
+    setShowErrors(false);
+    setCurrentStep(target);
+  };
+
   // Live Campaign Preview Object
   const liveCampaignPreview: Campaign = useMemo(() => {
     if (chosenType === 'design') {
       return {
         id: 'preview-camp-design',
-        title: name || '  عنوان حملة التصميم ',
+        title: name || 'عنوان حملة التصميم',
         brandName: brandProfile.name,
         brandAvatar: brandProfile.logo,
         isVerified: true,
@@ -260,6 +301,7 @@ export const CreateCampaignView: React.FC = () => {
       coverImage: coverUrl,
       platforms: selectedPlatforms,
       requiresApplication: access === 'application',
+      screeningQuestion: access === 'application' ? screeningQuestion.trim() : undefined,
       campaignType: 'video',
       paymentModel: 'cpm',
       ratePer1k,
@@ -293,6 +335,7 @@ export const CreateCampaignView: React.FC = () => {
     endDate,
     selectedPlatforms,
     access,
+    screeningQuestion,
     ratePer1k,
     videoBudget,
     videoTypes,
@@ -316,6 +359,14 @@ export const CreateCampaignView: React.FC = () => {
   ]);
 
   const handleLaunch = () => {
+    const bad = firstInvalidStep(chosenType, lastStep - 1, formValues);
+    if (bad !== null) {
+      setCurrentStep(bad);
+      setShowErrors(true);
+      scrollToFirstError();
+      showToast('فيه خانات ناقصة، كمّلها قبل الإطلاق');
+      return;
+    }
     addCampaign(liveCampaignPreview);
     setIsFundModalOpen(true);
     setBrandView('campaigns');
@@ -370,7 +421,7 @@ export const CreateCampaignView: React.FC = () => {
               <button
                 key={s.num}
                 type="button"
-                onClick={() => setCurrentStep(s.num)}
+                onClick={() => goToStep(s.num)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border cursor-pointer transition-all ${
                   currentStep === s.num
                     ? 'bg-white text-black border-white font-bold shadow-[0_0_12px_rgba(255,255,255,0.4)]'
@@ -413,6 +464,7 @@ export const CreateCampaignView: React.FC = () => {
                 setChosenType('video');
                 setModelStep(false);
                 setCurrentStep(1);
+                setShowErrors(false);
               }}
               className="p-7 rounded-[28px] bg-white/[0.045] backdrop-blur-2xl border border-white/[0.14] hover:border-white/50 hover:bg-white/[0.08] hover:shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_30px_rgba(255,255,255,0.12)] transition-all duration-300 cursor-pointer flex flex-col justify-between group shadow-lg"
             >
@@ -442,6 +494,7 @@ export const CreateCampaignView: React.FC = () => {
                 setChosenType('design');
                 setModelStep(false);
                 setCurrentStep(1);
+                setShowErrors(false);
               }}
               className="p-7 rounded-[28px] bg-white/[0.045] backdrop-blur-2xl border border-white/[0.14] hover:border-white/50 hover:bg-white/[0.08] hover:shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_30px_rgba(255,255,255,0.12)] transition-all duration-300 cursor-pointer flex flex-col justify-between group shadow-lg"
             >
@@ -492,9 +545,10 @@ export const CreateCampaignView: React.FC = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="مثال: حملة إطلاق عطر ليالي الشرق"
-                        className="w-full h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white"
+                        className={`w-full h-11 px-4 rounded-xl bg-white/[0.05] border ${fieldBorder(err('name'))} text-xs text-white`}
                         required
                       />
+                      <FieldError message={err('name')} />
                     </div>
 
                     <div className="flex flex-col gap-1.5">
@@ -505,17 +559,21 @@ export const CreateCampaignView: React.FC = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="مثال: نبي مقاطع تبيّن ثبات العطر ولقطات فتح العبوة..."
-                        className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white resize-none leading-relaxed"
+                        className={`w-full p-3 rounded-xl bg-white/[0.05] border ${fieldBorder(err('description'))} text-xs text-white resize-none leading-relaxed`}
                         required
                       />
+                      <FieldError message={err('description')} />
                     </div>
-                    <CampaignCoverUpload value={coverUrl} onChange={setCoverUrl} />
+
+                    <CampaignCoverUpload value={coverUrl} onChange={setCoverUrl} error={err('cover')} />
+
                     {/* Shared: Category Tree Dropdown */}
                     <CategoryTreePicker
                       value={category}
                       onChange={setCategory}
                       label="تصنيف الحملة (شجرة تصنيفات متفرعة)"
                     />
+                    <FieldError message={err('category')} />
 
                     {/* Shared: Campaign Duration with Quick Chips */}
                     <div className="flex flex-col gap-2 pt-2 border-t border-white/[0.08]">
@@ -562,6 +620,7 @@ export const CreateCampaignView: React.FC = () => {
                           />
                         </div>
                       </div>
+                      <FieldError message={err('dates')} />
                     </div>
 
                     {/* Restyled "أنواع المحتوى المقبول" WITH ICONS & Proper Unselected/Selected State */}
@@ -592,6 +651,7 @@ export const CreateCampaignView: React.FC = () => {
                           );
                         })}
                       </div>
+                      <FieldError message={err('videoTypes')} />
                     </div>
                   </div>
                 )}
@@ -601,13 +661,15 @@ export const CreateCampaignView: React.FC = () => {
                   <div className="p-6 rounded-[26px] bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] flex flex-col gap-5">
                     <h2 className="text-lg font-bold text-white font-heading">2. شروط وتعليمات مقاطع الفيديو</h2>
                     
-                  <DosDontsEditor
-                    dos={rules}
-                    donts={videoDonts}
-                    onDosChange={setRules}
-                    onDontsChange={setVideoDonts}
-                    divider={false}
-                  />
+                    <DosDontsEditor
+                      dos={rules}
+                      donts={videoDonts}
+                      onDosChange={setRules}
+                      onDontsChange={setVideoDonts}
+                      divider={false}
+                    />
+                    
+                    <FieldError message={err('dos')} />
 
                     <div className="flex flex-col gap-3 pt-3 border-t border-white/[0.08]">
                       <label className="flex items-center justify-between cursor-pointer">
@@ -629,6 +691,7 @@ export const CreateCampaignView: React.FC = () => {
                         />
                       </label>
                     </div>
+
                     <ReferenceLinksEditor value={referenceLinks} onChange={setReferenceLinks} />
                   </div>
                 )}
@@ -637,7 +700,8 @@ export const CreateCampaignView: React.FC = () => {
                 {currentStep === 3 && (
                   <div className="p-6 rounded-[26px] bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] flex flex-col gap-5">
                     <h2 className="text-lg font-bold text-white font-heading">3. ميزانية الحملة والمنصات</h2>
-                    <PlatformPicker value={selectedPlatforms} onChange={setSelectedPlatforms} />
+
+                    <PlatformPicker value={selectedPlatforms} onChange={setSelectedPlatforms} error={err('platforms')} />
 
                     {/* Unified Budget Component (Min 1,000 SAR) */}
                     <UnifiedBudgetInput
@@ -647,6 +711,7 @@ export const CreateCampaignView: React.FC = () => {
                       label="إجمالي ميزانية الحملة (الحد الأدنى 1,000 ﷼)"
                       campaignType="video"
                     />
+                    <FieldError message={err('budget')} />
 
                     {/* Rate per 1K Views */}
                     <div className="flex flex-col gap-1.5 pt-2 border-t border-white/[0.08]">
@@ -657,10 +722,11 @@ export const CreateCampaignView: React.FC = () => {
                           step="0.5"
                           value={ratePer1k}
                           onChange={(e) => setRatePer1k(Number(e.target.value))}
-                          className="w-full h-11 pr-4 pl-12 rounded-xl bg-white/[0.05] border border-white/[0.14] text-sm text-white font-mono font-bold"
+                          className={`w-full h-11 pr-4 pl-12 rounded-xl bg-white/[0.05] border ${fieldBorder(err('rate'))} text-sm text-white font-mono font-bold`}
                         />
                         <RiyalSymbol className="absolute left-3.5 w-3.5 h-3.5 text-white/80" />
                       </div>
+                      <FieldError message={err('rate')} />
                     </div>
 
                     {/* Access: مفتوحة / بطلب */}
@@ -694,6 +760,23 @@ export const CreateCampaignView: React.FC = () => {
                         </div>
                       </div>
                     </div>
+
+                    {/* سؤال للمتقدمين: يظهر بس لما تكون الحملة بطلب وموافقة */}
+                    {access === 'application' && (
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-medium text-white/80">سؤال للمتقدمين</label>
+                        <input
+                          type="text"
+                          maxLength={150}
+                          value={screeningQuestion}
+                          onChange={(e) => setScreeningQuestion(e.target.value)}
+                          placeholder="مثال: عندك تجربة سابقة في مراجعة العطور؟"
+                          className={`w-full h-11 px-4 rounded-xl bg-white/[0.05] border ${fieldBorder(err('screeningQuestion'))} text-xs text-white`}
+                        />
+                        <span className="text-[10px] text-white/45">يجاوب عليه صانع المحتوى لما يقدّم على الحملة</span>
+                        <FieldError message={err('screeningQuestion')} />
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -758,7 +841,6 @@ export const CreateCampaignView: React.FC = () => {
 
                     <button
                       type="button"
-                      disabled={!isVideoBudgetValid}
                       onClick={handleLaunch}
                       className="mt-2 w-full py-3.5 px-6 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_24px_rgba(255,255,255,0.45)] hover:bg-neutral-100 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40"
                     >
@@ -788,9 +870,10 @@ export const CreateCampaignView: React.FC = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="مثال: بوستات عرض الجمعة البيضاء"
-                        className="w-full h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white"
+                        className={`w-full h-11 px-4 rounded-xl bg-white/[0.05] border ${fieldBorder(err('name'))} text-xs text-white`}
                         required
                       />
+                      <FieldError message={err('name')} />
                     </div>
 
                     <div className="flex flex-col gap-1.5">
@@ -800,11 +883,14 @@ export const CreateCampaignView: React.FC = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="اشرح الفكرة والجو العام المطلوب للتصاميم..."
-                        className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white resize-none leading-relaxed"
+                        className={`w-full p-3 rounded-xl bg-white/[0.05] border ${fieldBorder(err('description'))} text-xs text-white resize-none leading-relaxed`}
                         required
                       />
+                      <FieldError message={err('description')} />
                     </div>
-                    <CampaignCoverUpload value={coverUrl} onChange={setCoverUrl} />   
+
+                    <CampaignCoverUpload value={coverUrl} onChange={setCoverUrl} error={err('cover')} />
+
                     {/* Exact text/copy to appear on the design */}
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-semibold text-white/90">النص والعبارات المطلوبة في التصميم (Exact Copy)</label>
@@ -813,9 +899,10 @@ export const CreateCampaignView: React.FC = () => {
                         value={exactCopy}
                         onChange={(e) => setExactCopy(e.target.value)}
                         placeholder="اكتب الجمل والكلمات ونسبة الخصم التي يجب أن تظهر بدقة داخل التصميم..."
-                        className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white resize-none font-sans"
+                        className={`w-full p-3 rounded-xl bg-white/[0.05] border ${fieldBorder(err('exactCopy'))} text-xs text-white resize-none font-sans`}
                         required
                       />
+                      <FieldError message={err('exactCopy')} />
                     </div>
 
                     {/* Category Tree Picker */}
@@ -824,6 +911,7 @@ export const CreateCampaignView: React.FC = () => {
                       onChange={setCategory}
                       label="تصنيف الحملة (شجرة تصنيفات متفرعة)"
                     />
+                    <FieldError message={err('category')} />
 
                     {/* Duration with "آخر موعد للتسليم" Label */}
                     <div className="flex flex-col gap-2 pt-2 border-t border-white/[0.08]">
@@ -873,15 +961,17 @@ export const CreateCampaignView: React.FC = () => {
                           />
                         </div>
                       </div>
+                      <FieldError message={err('dates')} />
                     </div>
 
                     {/* Do's and Don'ts */}
-<DosDontsEditor
-  dos={designDos}
-  donts={designDonts}
-  onDosChange={setDesignDos}
-  onDontsChange={setDesignDonts}
-/>
+                    <DosDontsEditor
+                      dos={designDos}
+                      donts={designDonts}
+                      onDosChange={setDesignDos}
+                      onDontsChange={setDesignDonts}
+                    />
+                    <FieldError message={err('dos')} />
                   </div>
                 )}
 
@@ -962,6 +1052,7 @@ export const CreateCampaignView: React.FC = () => {
                           </div>
                         </div>
                       )}
+                      <FieldError message={err('sizes')} />
                     </div>
 
                     {/* Required Delivery Formats (Multi-select) */}
@@ -986,6 +1077,7 @@ export const CreateCampaignView: React.FC = () => {
                           );
                         })}
                       </div>
+                      <FieldError message={err('formats')} />
                     </div>
 
                     {/* Brand Kit: Colors + Swatches + Fonts */}
@@ -1055,6 +1147,7 @@ export const CreateCampaignView: React.FC = () => {
                         className="rounded border-white/20 bg-white/10 text-white"
                       />
                     </div>
+
                     <ReferenceLinksEditor value={referenceLinks} onChange={setReferenceLinks} />
                   </div>
                 )}
@@ -1072,6 +1165,7 @@ export const CreateCampaignView: React.FC = () => {
                       label="سعر التصميم المقبول الواحد (الحد الأدنى 300 ﷼)"
                       campaignType="design"
                     />
+                    <FieldError message={err('price')} />
 
                     {/* Number of designs needed (Stepper) */}
                     <div className="flex flex-col gap-2 pt-2 border-t border-white/[0.08]">
@@ -1177,7 +1271,6 @@ export const CreateCampaignView: React.FC = () => {
 
                     <button
                       type="button"
-                      disabled={!isDesignPriceValid}
                       onClick={handleLaunch}
                       className="mt-2 w-full py-3.5 px-6 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_24px_rgba(255,255,255,0.45)] hover:bg-neutral-100 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40"
                     >
@@ -1194,7 +1287,7 @@ export const CreateCampaignView: React.FC = () => {
               {currentStep > 1 ? (
                 <button
                   type="button"
-                  onClick={() => setCurrentStep(c => c - 1)}
+                  onClick={() => goToStep(currentStep - 1)}
                   className="px-5 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-xs font-semibold text-white transition-colors cursor-pointer"
                 >
                   رجوع
@@ -1213,11 +1306,7 @@ export const CreateCampaignView: React.FC = () => {
                 {currentStep < (chosenType === 'design' ? 4 : 5) && (
                   <button
                     type="button"
-                    disabled={
-                      (chosenType === 'video' && currentStep === 3 && !isVideoBudgetValid) ||
-                      (chosenType === 'design' && currentStep === 3 && !isDesignPriceValid)
-                    }
-                    onClick={() => setCurrentStep(c => c + 1)}
+                    onClick={() => goToStep(currentStep + 1)}
                     className="px-6 py-2.5 rounded-full bg-white text-black font-bold text-xs shadow-[0_0_16px_rgba(255,255,255,0.35)] hover:bg-neutral-100 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-40"
                   >
                     <span>متابعة</span>

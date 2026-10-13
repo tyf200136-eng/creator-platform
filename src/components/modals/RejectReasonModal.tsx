@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import FieldError, { fieldBorder } from '../common/FieldError';
 import { X, AlertTriangle, Clock } from 'lucide-react';
 
 export const RejectReasonModal: React.FC = () => {
@@ -12,6 +13,7 @@ export const RejectReasonModal: React.FC = () => {
 
   const [reason, setReason] = useState('ما التزم بالشروط المحددة');
   const [note, setNote] = useState('');
+  const [showErrors, setShowErrors] = useState(false);
 
   if (!isRejectModalOpen || !selectedSubmission) return null;
 
@@ -23,8 +25,18 @@ export const RejectReasonModal: React.FC = () => {
     'أخرى (توضيح في الملاحظة أدناه)',
   ];
 
+  // لو اختار "أخرى" لازم يوضّح السبب في الملاحظة
+  const isOther = reason.startsWith('أخرى');
+  const noteError = isOther && note.trim().length < 10 ? 'بما إنك اخترت "أخرى"، وضّح السبب لصانع المحتوى (10 أحرف على الأقل)' : undefined;
+
   const handleConfirmReject = (e: React.FormEvent) => {
     e.preventDefault();
+    if (noteError) {
+      setShowErrors(true);
+      return;
+    }
+    setShowErrors(false);
+    setNote('');
     const finalReason = note ? `${reason} (${note})` : reason;
     rejectSubmission(selectedSubmission.id, finalReason);
     setIsRejectModalOpen(false);
@@ -60,7 +72,7 @@ export const RejectReasonModal: React.FC = () => {
           <span>متبقي 4 أيام في مهلة المراجعة (7 أيام). في حال عدم الرد سيُقبل آلياً.</span>
         </div>
 
-        <form onSubmit={handleConfirmReject} className="flex flex-col gap-4">
+        <form onSubmit={handleConfirmReject} noValidate className="flex flex-col gap-4">
           {/* Reasons Radio list */}
           <div className="flex flex-col gap-2">
             {reasonsList.map((r) => (
@@ -86,14 +98,17 @@ export const RejectReasonModal: React.FC = () => {
 
           {/* Additional note */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-white/80">ملاحظات توضيحية لصانع المحتوى</label>
+            <label className="text-xs font-medium text-white/80">
+              ملاحظات توضيحية لصانع المحتوى {isOther ? '(مطلوبة)' : '(اختياري)'}
+            </label>
             <textarea
               rows={2}
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="مثال: لم يتم ذكر كود الخصم في الكابشن..."
-              className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/40 resize-none"
+              className={`w-full p-3 rounded-xl bg-white/[0.05] border ${fieldBorder(showErrors ? noteError : undefined)} text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/40 resize-none`}
             />
+            <FieldError message={showErrors ? noteError : undefined} />
           </div>
 
           {/* Action Button */}

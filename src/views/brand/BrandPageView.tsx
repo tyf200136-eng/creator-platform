@@ -8,6 +8,8 @@ import { MY_BRAND_NAME } from '../../data/communityData';
 import { SocialPlatform } from '../../types';
 import PlatformIcon from '../../components/PlatformIcon';
 import StatusBadge from '../../components/common/StatusBadge';
+import FieldError from '../../components/common/FieldError';
+import { urlError, platformUrlError } from '../../utils/validators';
 import AnnouncementsManager from '../../components/brand-page/AnnouncementsManager';
 import QuestionsManager from '../../components/brand-page/QuestionsManager';
 import BrandProfileView from '../creator/BrandProfileView';
@@ -50,8 +52,23 @@ const PageEditor: React.FC<{ brandName: string }> = ({ brandName }) => {
     e.target.value = '';
   };
 
+  const [showErrors, setShowErrors] = useState(false);
+
+  // ===================== حالات الخطأ =====================
+  // كل رابط لازم يكون https، ورابط كل منصة لازم يكون من نفس المنصة
+  const linkErrors: Record<string, string | undefined> = {
+    website: urlError(website),
+    ...Object.fromEntries(PLATFORMS.map((p) => [p.id, platformUrlError(socials[p.id] ?? '', p.id, false)])),
+  };
+  const lErr = (k: string) => (showErrors ? linkErrors[k] : undefined);
+
   const save = (e: React.FormEvent) => {
     e.preventDefault();
+    if (Object.values(linkErrors).some(Boolean)) {
+      setShowErrors(true);
+      return;
+    }
+    setShowErrors(false);
     updateBrandPage(brandName, {
       cover,
       bio: bio.trim(),
@@ -66,7 +83,7 @@ const PageEditor: React.FC<{ brandName: string }> = ({ brandName }) => {
   };
 
   return (
-    <form onSubmit={save} className="flex flex-col gap-6">
+    <form onSubmit={save} noValidate className="flex flex-col gap-6">
       {/* الغلاف */}
       <section className="flex flex-col gap-2">
         <span className="text-xs font-semibold text-white/80">صورة الغلاف</span>
@@ -108,21 +125,25 @@ const PageEditor: React.FC<{ brandName: string }> = ({ brandName }) => {
       {/* الروابط */}
       <section className="flex flex-col gap-3">
         <span className="text-xs font-semibold text-white/80">الروابط</span>
-        <label className="flex items-center gap-2">
-          <span className="w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.12] flex items-center justify-center text-white/70 shrink-0">
-            <Globe className="w-4 h-4" />
-          </span>
-          <input
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-            placeholder="https://"
-            dir="ltr"
-            className={inputClass}
-          />
-        </label>
+        <div className="flex flex-col gap-1">
+          <label className="flex items-center gap-2">
+            <span className="w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.12] flex items-center justify-center text-white/70 shrink-0">
+              <Globe className="w-4 h-4" />
+            </span>
+            <input
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              placeholder="https://"
+              dir="ltr"
+              className={`${inputClass} ${lErr('website') ? 'border-red-500/60!' : ''}`}
+            />
+          </label>
+          <div className="pr-11"><FieldError message={lErr('website')} /></div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {PLATFORMS.map((p) => (
-            <label key={p.id} className="flex items-center gap-2">
+            <div key={p.id} className="flex flex-col gap-1">
+            <label className="flex items-center gap-2">
               <span
                 title={p.label}
                 className="w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.12] flex items-center justify-center text-white/80 shrink-0"
@@ -132,11 +153,13 @@ const PageEditor: React.FC<{ brandName: string }> = ({ brandName }) => {
               <input
                 value={socials[p.id] ?? ''}
                 onChange={(e) => setSocials((prev) => ({ ...prev, [p.id]: e.target.value }))}
-                placeholder={`رابط ${p.label}`}
+                placeholder={`رابط حسابك في ${p.label}`}
                 dir="ltr"
-                className={inputClass}
+                className={`${inputClass} ${lErr(p.id) ? 'border-red-500/60!' : ''}`}
               />
             </label>
+            <div className="pr-11"><FieldError message={lErr(p.id)} /></div>
+            </div>
           ))}
         </div>
       </section>
