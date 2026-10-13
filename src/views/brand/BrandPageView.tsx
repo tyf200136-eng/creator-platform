@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useApp } from '../../context/AppContext';
 import { useCommunity } from '../../context/CommunityContext';
 import { useChat } from '../../context/ChatContext';
+import { useNotifications } from '../../context/NotificationsContext';
 import { MY_BRAND_NAME } from '../../data/communityData';
 import { SocialPlatform } from '../../types';
 import PlatformIcon from '../../components/PlatformIcon';
@@ -212,6 +213,15 @@ export const BrandPageView: React.FC = () => {
   const { questions } = useCommunity();
   const [tab, setTab] = useState<Tab>('page');
   const [previewOpen, setPreviewOpen] = useState(false);
+  const { pendingTab, setPendingTab } = useNotifications();
+
+  // فتح التبويب المطلوب لما يجي المستخدم من إشعار
+  useEffect(() => {
+    if (pendingTab === 'questions' || pendingTab === 'members' || pendingTab === 'announcements') {
+      setTab(pendingTab);
+      setPendingTab(null);
+    }
+  }, [pendingTab]);
   const brandName = MY_BRAND_NAME;
 
   const pendingCount = questions.filter((q) => q.brandName === brandName && !q.answer).length;

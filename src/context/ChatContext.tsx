@@ -4,6 +4,7 @@ import { MOCK_CONVERSATIONS } from '../data/chatData';
 import { MY_BRAND_NAME } from '../data/communityData';
 import { maskContacts, MASK_WARNING } from '../utils/maskContacts';
 import { useApp } from './AppContext';
+import { useNotifications } from './NotificationsContext';
 
 interface ChatContextType {
   side: ChatSide;                          // من أي جهة أنا الحين
@@ -35,6 +36,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [conversations, setConversations] = useState<Conversation[]>(MOCK_CONVERSATIONS);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [acceptNewMessages, setAcceptNewMessages] = useState(true);
+  const { notify } = useNotifications();
 
   const side: ChatSide = role === 'brand' ? 'brand' : 'creator';
 
@@ -140,6 +142,19 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updatedAt: Date.now(),
     }));
     if (masked) showToast(MASK_WARNING);
+
+    // إشعار للطرف الثاني
+    const conv = conversations.find((c) => c.id === conversationId);
+    if (conv) {
+      const sender = side === 'brand' ? conv.brandName : conv.creatorName;
+      notify({
+        side: other,
+        kind: 'message',
+        title: `رسالة جديدة من ${sender}`,
+        body: text || `مرفق: ${attachments?.[0]?.name ?? ''}`,
+        target: { type: 'chat', conversationId },
+      });
+    }
   };
 
   const reportConversation = (_conversationId: string) => {

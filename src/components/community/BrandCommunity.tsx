@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { useCommunity } from '../../context/CommunityContext';
+import { useNotifications } from '../../context/NotificationsContext';
 import { CommunityPost, CommunityQuestion } from '../../types';
 import StatusBadge from '../common/StatusBadge';
 import { Megaphone, Pin, Heart, Users, Check, UserPlus, Send, Lock, Link2 } from 'lucide-react';
@@ -139,6 +140,15 @@ export const BrandCommunity: React.FC<BrandCommunityProps> = ({ brandName, brand
   const { posts, isMember, toggleMembership, memberCount, canAsk, askQuestion, visibleQuestions } = useCommunity();
   const [section, setSection] = useState<Section>('announcements');
   const [draft, setDraft] = useState('');
+  const { pendingTab, setPendingTab } = useNotifications();
+
+  // جاي من إشعار "رد على سؤالك" ← افتح الأسئلة
+  useEffect(() => {
+    if (pendingTab === 'community-qa') {
+      setSection('qa');
+      setPendingTab(null);
+    }
+  }, [pendingTab]);
 
   const brandPosts = posts
     .filter((p) => p.brandName === brandName)

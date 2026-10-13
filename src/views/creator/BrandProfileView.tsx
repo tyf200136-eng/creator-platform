@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import CampaignCard from '../../components/CampaignCard';
 import BrandCommunity from '../../components/community/BrandCommunity';
 import PlatformIcon from '../../components/PlatformIcon';
 import { useCommunity } from '../../context/CommunityContext';
+import { useNotifications } from '../../context/NotificationsContext';
 import MessageBrandButton from '../../components/chat/MessageBrandButton';
 import { ArrowRight, CheckCircle2, Globe, Layers, Users } from 'lucide-react';
 
@@ -22,6 +23,15 @@ export const BrandProfileView: React.FC<BrandProfileViewProps> = ({ brandName, p
   const selectedBrandName = brandName ?? selectedFromApp;
   const [tab, setTab] = useState<ProfileTab>('campaigns');
   const [filter, setFilter] = useState<CampaignFilter>('active');
+  const { pendingTab, setPendingTab } = useNotifications();
+
+  // جاي من إشعار إعلان أو رد ← افتح المجتمع
+  useEffect(() => {
+    if (pendingTab?.startsWith('community') && !preview) {
+      setTab('community');
+      if (pendingTab === 'community') setPendingTab(null); // 'community-qa' يكمّله المجتمع
+    }
+  }, [pendingTab]);
 
   const brandCampaigns = campaigns.filter((c) => c.brandName === selectedBrandName);
   const first = brandCampaigns[0];

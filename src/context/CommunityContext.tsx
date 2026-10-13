@@ -6,9 +6,11 @@ import {
   MOCK_COMMUNITY_MEMBERS,
   MOCK_COMMUNITY_MEMBER_LIST,
   CommunityMember,
+  MY_BRAND_NAME,
 } from '../data/communityData';
 import { MOCK_BRAND_PAGES } from '../data/mockData';
 import { useApp } from './AppContext';
+import { useNotifications } from './NotificationsContext';
 
 // كل منطق المجتمع في ملف مستقل عشان ما نكبّر AppContext
 interface CommunityContextType {
@@ -46,6 +48,7 @@ const CommunityContext = createContext<CommunityContextType | undefined>(undefin
 
 export const CommunityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { campaigns, myParticipations, creatorProfile, showToast } = useApp();
+  const { notify } = useNotifications();
 
   const [posts, setPosts] = useState<CommunityPost[]>(MOCK_COMMUNITY_POSTS);
   const [questions, setQuestions] = useState<CommunityQuestion[]>(MOCK_COMMUNITY_QUESTIONS);
@@ -65,6 +68,15 @@ export const CommunityProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const toggleMembership = (brandName: string) => {
     const joining = !memberOf.includes(brandName);
     setMemberOf((prev) => toggleIn(prev, brandName));
+    if (joining && brandName === MY_BRAND_NAME) {
+      notify({
+        side: 'brand',
+        kind: 'member',
+        title: 'عضو جديد انضم لمجتمعك',
+        body: `${creatorProfile.name} انضم لمجتمع ${brandName}`,
+        target: { type: 'brand-page', tab: 'members' },
+      });
+    }
     showToast(joining ? `انضممت لمجتمع ${brandName}، بيوصلك كل إعلان جديد` : `غادرت مجتمع ${brandName}`);
   };
   const memberCount = (brandName: string) =>
@@ -96,6 +108,15 @@ export const CommunityProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       ...prev,
     ]);
     showToast('وصل سؤالك! بيظهر للجميع أول ما يرد البراند');
+    if (brandName === MY_BRAND_NAME) {
+      notify({
+        side: 'brand',
+        kind: 'question',
+        title: 'سؤال جديد في المجتمع',
+        body: `${creatorProfile.name}: ${text}`,
+        target: { type: 'brand-page', tab: 'questions' },
+      });
+    }
   };
 
   // المجاب عليها للكل + أسئلتي اللي ما انرد عليها (أشوفها أنا بس)
@@ -116,12 +137,34 @@ export const CommunityProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   // ---------- جهة البراند ----------
   const addPost = (post: Omit<CommunityPost, 'id' | 'likes' | 'createdAt'>) => {
     setPosts((prev) => [{ ...post, id: `post-${Date.now()}`, likes: 0, createdAt: 'الآن' }, ...prev]);
+    // يوصل لأعضاء المجتمع
+    if (memberOf.includes(post.brandName)) {
+      notify({
+        side: 'creator',
+        kind: 'announcement',
+        title: `إعلان جديد من ${post.brandName}`,
+        body: post.text,
+        target: { type: 'brand-profile', brandName: post.brandName },
+      });
+    }
   };
   const deletePost = (postId: string) => setPosts((prev) => prev.filter((p) => p.id !== postId));
   const togglePin = (postId: string) =>
     setPosts((prev) => prev.map((p) => (p.id === postId ? { ...p, isPinned: !p.isPinned } : p)));
-  const answerQuestion = (questionId: string, answer: string) =>
+  const answerQuestion = (questionId: string, answer: string) => {
     setQuestions((prev) => prev.map((q) => (q.id === questionId ? { ...q, answer } : q)));
+    // إذا السؤال لصانع المحتوى الحالي يوصله إشعار
+    const q = questions.find((x) => x.id === questionId);
+    if (q && q.authorId === creatorProfile.id) {
+      notify({
+        side: 'creator',
+        kind: 'answer',
+        title: `${q.brandName} رد على سؤالك`,
+        body: answer,
+        target: { type: 'brand-profile', brandName: q.brandName },
+      });
+    }
+  };
   const toggleFaq = (questionId: string) =>
     setQuestions((prev) => prev.map((q) => (q.id === questionId ? { ...q, isFaq: !q.isFaq } : q)));
 

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import RiyalSymbol from './RiyalSymbol';
 import MessagesButton from './chat/MessagesButton';
+import NotificationsMenu from './NotificationsMenu';
 import {
   Search,
   Bell,
@@ -262,55 +263,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
         <MessagesButton />
 
         {/* Notification Bell */}
-        <div className="relative" ref={notifMenuRef}>
-          <button
-            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-            className="w-9 h-9 rounded-full bg-white/[0.05] border border-white/[0.12] flex items-center justify-center text-white/80 hover:text-white hover:bg-white/[0.1] hover:border-white/20 transition-all relative"
-            title="الإشعارات"
-          >
-            <Bell className="w-4 h-4" />
-            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-          </button>
-
-          {/* Notifications Dropdown */}
-          {isNotificationsOpen && (
-            <div className="absolute left-0 top-11 w-80 rounded-[20px] bg-[#121212] border border-white/[0.14] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-50 text-right backdrop-blur-3xl animate-in fade-in duration-150">
-              <div className="flex items-center justify-between pb-2 border-b border-white/[0.08] px-1">
-                <span className="text-xs font-bold text-white">الإشعارات</span>
-                <span className="text-[10px] text-white/50 cursor-pointer hover:text-white">تحديد الكل كمقروء</span>
-              </div>
-              <div className="flex flex-col gap-2 mt-2 max-h-72 overflow-y-auto">
-                <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors cursor-pointer">
-                  <div className="flex items-start justify-between gap-1">
-                    <span className="text-xs font-semibold text-white">تم اعتماد مقطعك!</span>
-                    <span className="text-[10px] text-white/40">قبل 10 د</span>
-                  </div>
-                  <p className="text-[11px] text-[#A3A3A3] mt-0.5">
-                    حققت 84,200 مشاهدة في حملة عطر إمبريال البري وتمت إضافة 673.60 <RiyalSymbol /> إلى رصيدك.
-                  </p>
-                </div>
-                <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors cursor-pointer">
-                  <div className="flex items-start justify-between gap-1">
-                    <span className="text-xs font-semibold text-white">ملاحظة على المسودة</span>
-                    <span className="text-[10px] text-white/40">قبل ساعتين</span>
-                  </div>
-                  <p className="text-[11px] text-[#A3A3A3] mt-0.5">
-                    براند جاهز طلب تعديل بسيط على شاشة الختام قبل نشر المقطع.
-                  </p>
-                </div>
-                <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors cursor-pointer">
-                  <div className="flex items-start justify-between gap-1">
-                    <span className="text-xs font-semibold text-white">حملة جديدة تطابق اهتمامك</span>
-                    <span className="text-[10px] text-white/40">أمس</span>
-                  </div>
-                  <p className="text-[11px] text-[#A3A3A3] mt-0.5">
-                    أطلقت ريف العطور حملة ريف 33 بمعدل 7 <RiyalSymbol /> لكل 1000 مشاهدة.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+        <NotificationsMenu />
 
         {/* Avatar Pill with Role Switcher */}
         <div className="relative" ref={avatarMenuRef}>

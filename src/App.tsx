@@ -2,6 +2,7 @@ import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { CommunityProvider } from './context/CommunityContext';
 import { ChatProvider } from './context/ChatContext';
+import { NotificationsProvider } from './context/NotificationsContext';
 import MessagesView from './components/chat/MessagesView';
 import FloatingNavRail from './components/FloatingNavRail';
 import TopBar from './components/TopBar';
@@ -163,11 +164,13 @@ const MainLayout: React.FC = () => {
 export default function App() {
   return (
     <AppProvider>
-    <CommunityProvider>
-    <ChatProvider>
-     <MainLayout />
-     </ChatProvider>
-     </CommunityProvider>
+      <NotificationsProvider>
+        <CommunityProvider>
+          <ChatProvider>
+            <MainLayout />
+          </ChatProvider>
+        </CommunityProvider>
+      </NotificationsProvider>
      </AppProvider>
   );
 }
