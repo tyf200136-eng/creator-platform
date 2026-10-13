@@ -218,7 +218,7 @@ export const FundCampaignModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-[28px] bg-[#121212] border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)]">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-[28px] bg-surface border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)]">
         {step !== 'processing' && (
           <button
             onClick={handleClose}
@@ -235,7 +235,7 @@ export const FundCampaignModal: React.FC = () => {
             <div>
               <span className="text-xs font-semibold text-white/50">شحن الرصيد</span>
               <h2 className="text-xl font-bold text-white font-heading mt-0.5">شحن محفظة الحملات</h2>
-              <p className="text-xs text-[#A3A3A3]">يتم الصرف فقط عند تحقيق مشاهدات حقيقية مؤكدة من صناع المحتوى</p>
+              <p className="text-xs text-muted">يتم الصرف فقط عند تحقيق مشاهدات حقيقية مؤكدة من صناع المحتوى</p>
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -252,7 +252,7 @@ export const FundCampaignModal: React.FC = () => {
               <FieldError message={showErrors ? amountError : undefined} />
             </div>
 
-            <div className="flex items-center justify-between text-xs px-1 text-[#A3A3A3]">
+            <div className="flex items-center justify-between text-xs px-1 text-muted">
               <span>رسوم المعالجة</span>
               <span className="text-emerald-400 font-medium">مجاناً</span>
             </div>
@@ -405,7 +405,7 @@ export const FundCampaignModal: React.FC = () => {
             </div>
             <div className="flex flex-col gap-1">
               <h2 className="text-xl font-bold text-white font-heading">تحقق من البنك</h2>
-              <p className="text-xs text-[#A3A3A3] max-w-xs">
+              <p className="text-xs text-muted max-w-xs">
                 أرسل البنك رمز تحقق إلى الجوال المسجل على البطاقة {paidWith}
               </p>
             </div>
@@ -451,7 +451,7 @@ export const FundCampaignModal: React.FC = () => {
             <Loader2 className="w-10 h-10 text-white animate-spin" />
             <div className="flex flex-col gap-1">
               <h2 className="text-lg font-bold text-white font-heading">جاري تأكيد الدفع...</h2>
-              <p className="text-xs text-[#A3A3A3]">لا تقفل الصفحة</p>
+              <p className="text-xs text-muted">لا تقفل الصفحة</p>
             </div>
           </div>
         )}
@@ -464,7 +464,7 @@ export const FundCampaignModal: React.FC = () => {
             </div>
             <div className="flex flex-col gap-1.5">
               <h2 className="text-xl font-bold text-white font-heading">تم الدفع بنجاح</h2>
-              <p className="text-xs text-[#A3A3A3] max-w-sm">انضاف المبلغ لرصيدك، وتقدر تستخدمه في حملاتك.</p>
+              <p className="text-xs text-muted max-w-sm">انضاف المبلغ لرصيدك، وتقدر تستخدمه في حملاتك.</p>
             </div>
 
             <div className="w-full flex flex-col gap-2 p-4 rounded-2xl bg-white/[0.04] border border-white/[0.1] text-xs">
@@ -498,7 +498,7 @@ export const FundCampaignModal: React.FC = () => {
             </div>
             <div className="flex flex-col gap-1.5">
               <h2 className="text-xl font-bold text-white font-heading">ما تمت عملية الدفع</h2>
-              <p className="text-xs text-[#A3A3A3] max-w-sm">{failReason}</p>
+              <p className="text-xs text-muted max-w-sm">{failReason}</p>
             </div>
             <button
               onClick={() => {

@@ -84,7 +84,7 @@ export const BrandSettingsView: React.FC = () => {
     <div className="relative pb-32 px-6 pt-6 flex flex-col gap-6 max-w-[1440px] mx-auto text-right select-none">
       <div className="border-b border-white/[0.08] pb-5">
         <h1 className="text-2xl font-bold text-white font-heading">إعدادات المنظمة والحساب</h1>
-        <p className="text-xs text-[#A3A3A3] mt-1">إدارة معلومات البراند، صلاحيات الفريق، والربط مع المتاجر الإلكترونية</p>
+        <p className="text-xs text-muted mt-1">إدارة معلومات البراند، صلاحيات الفريق، والربط مع المتاجر الإلكترونية</p>
       </div>
 
       {/* Tabs Row: المنظمة / الفريق / الربط */}
@@ -226,7 +226,7 @@ export const BrandSettingsView: React.FC = () => {
           <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
             <div>
               <h2 className="text-base font-bold text-white font-heading">أعضاء الفريق والصلاحيات</h2>
-              <p className="text-xs text-[#A3A3A3]">يمكن للمدراء مراجعة المقاطع واعتماد الأرباح</p>
+              <p className="text-xs text-muted">يمكن للمدراء مراجعة المقاطع واعتماد الأرباح</p>
             </div>
 
             <button
@@ -278,7 +278,7 @@ export const BrandSettingsView: React.FC = () => {
                     قريباً
                   </span>
                 </div>
-                <p className="text-xs text-[#A3A3A3] leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-muted leading-relaxed">{item.desc}</p>
               </div>
               <button
                 type="button"
@@ -295,7 +295,7 @@ export const BrandSettingsView: React.FC = () => {
       {/* Invite Member Modal */}
       {isInviteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl">
-          <div className="relative w-full max-w-md rounded-[28px] bg-[#121212] border border-white/[0.18] p-7 text-right shadow-2xl">
+          <div className="relative w-full max-w-md rounded-[28px] bg-surface border border-white/[0.18] p-7 text-right shadow-2xl">
             <h2 className="text-lg font-bold text-white font-heading">دعوة عضو جديد لفريق الحملات</h2>
             <form onSubmit={handleSendInvite} noValidate className="flex flex-col gap-4 mt-4">
               <div className="flex flex-col gap-1.5">
@@ -316,7 +316,7 @@ export const BrandSettingsView: React.FC = () => {
                 <select
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value as any)}
-                  className="w-full h-11 px-4 rounded-xl bg-[#141414] border border-white/[0.14] text-xs text-white"
+                  className="w-full h-11 px-4 rounded-xl bg-surface border border-white/[0.14] text-xs text-white"
                 >
                   <option value="manager">مدير حملات (إطلاق وتعديل الميزانية)</option>
                   <option value="supervisor">مشرف تدقيق (قبول ورفض المقاطع فقط)</option>

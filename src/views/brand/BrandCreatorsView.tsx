@@ -23,7 +23,7 @@ export const BrandCreatorsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
         <div>
           <h1 className="text-2xl font-bold text-white font-heading">صناع المحتوى المتعاونين</h1>
-          <p className="text-xs text-[#A3A3A3] mt-1">قاعدة بيانات صناع المحتوى الأكثر فاعلية لحملات علامتك التجارية</p>
+          <p className="text-xs text-muted mt-1">قاعدة بيانات صناع المحتوى الأكثر فاعلية لحملات علامتك التجارية</p>
         </div>
 
         <button
@@ -75,7 +75,7 @@ export const BrandCreatorsView: React.FC = () => {
               <img src={c.avatar} alt="" className="w-12 h-12 rounded-full object-cover ring-2 ring-white/20" />
               <div className="flex flex-col min-w-0">
                 <span className="font-bold text-white text-sm truncate">{c.name}</span>
-                <span className="text-xs text-[#A3A3A3] font-mono">{c.handle}</span>
+                <span className="text-xs text-muted font-mono">{c.handle}</span>
                 <div className="flex items-center gap-1 text-[11px] text-amber-300 mt-0.5">
                   <Star className="w-3 h-3 fill-amber-300" />
                   <span>{c.rating} تقييم التفاعل</span>

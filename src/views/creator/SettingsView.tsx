@@ -64,7 +64,7 @@ export const SettingsView: React.FC = () => {
     <div className="relative pb-32 px-6 pt-6 flex flex-col gap-6 max-w-[1440px] mx-auto text-right select-none">
       <div className="border-b border-white/[0.08] pb-5">
         <h1 className="text-2xl font-bold text-white font-heading">إعدادات الحساب والملف الشخصي</h1>
-        <p className="text-xs text-[#A3A3A3] mt-1">تعديل بياناتك، إدارة الحسابات الاجتماعية المربوطة، وتفضيلات الإشعارات</p>
+        <p className="text-xs text-muted mt-1">تعديل بياناتك، إدارة الحسابات الاجتماعية المربوطة، وتفضيلات الإشعارات</p>
       </div>
 
       {completion < 100 && (

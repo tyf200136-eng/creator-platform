@@ -20,7 +20,7 @@ export const BrandApplicationsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
         <div>
           <h1 className="text-2xl font-bold text-white font-heading">طلبات الانضمام للحملات</h1>
-          <p className="text-xs text-[#A3A3A3] mt-1">
+          <p className="text-xs text-muted mt-1">
             مراجعة طلبات صناع المحتوى المتقدمين للحملات المشروطة بموافقة مسبقة
           </p>
         </div>
@@ -68,7 +68,7 @@ export const BrandApplicationsView: React.FC = () => {
                 <img src={app.creatorAvatar} alt="" className="w-12 h-12 rounded-full object-cover ring-2 ring-white/20" />
                 <div className="flex flex-col">
                   <span className="font-bold text-white text-sm">{app.creatorName}</span>
-                  <span className="text-xs text-[#A3A3A3] font-mono">{app.creatorHandle}</span>
+                  <span className="text-xs text-muted font-mono">{app.creatorHandle}</span>
                   <span className="text-[10px] text-white/50">{app.pastViews} سابقة</span>
                 </div>
               </div>

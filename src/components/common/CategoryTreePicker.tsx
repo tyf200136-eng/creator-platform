@@ -214,7 +214,7 @@ export const CategoryTreePicker: React.FC<CategoryTreePickerProps> = ({
 
       {/* Dropdown Menu Modal/Panel */}
       {isOpen && (
-        <div className="absolute top-full mt-2 right-0 left-0 z-50 rounded-2xl bg-[#141414] border border-white/[0.18] p-3 shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_25px_rgba(255,255,255,0.06)] flex flex-col gap-2 max-h-[380px] overflow-hidden animate-in fade-in duration-150">
+        <div className="absolute top-full mt-2 right-0 left-0 z-50 rounded-2xl bg-surface border border-white/[0.18] p-3 shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_25px_rgba(255,255,255,0.06)] flex flex-col gap-2 max-h-[380px] overflow-hidden animate-in fade-in duration-150">
           {/* Search Input Box */}
           <div className="relative w-full">
             <input

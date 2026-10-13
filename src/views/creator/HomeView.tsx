@@ -118,7 +118,7 @@ export const HomeView: React.FC = () => {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white font-heading">
             أهلاً نورة
           </h1>
-          <p className="text-xs sm:text-sm text-[#A3A3A3] mt-1">
+          <p className="text-xs sm:text-sm text-muted mt-1">
             تابع أداء مقاطعك وأرباح مشاهدات اليوم بكل شفافية
           </p>
         </div>
@@ -173,7 +173,7 @@ export const HomeView: React.FC = () => {
           <div className="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Step 1: Done */}
             <div className="flex flex-col items-center text-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-[#0A0A0A]">
+              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-base">
                 <CheckCircle2 className="w-4 h-4 text-black stroke-[2.5]" />
               </div>
               <span className="text-xs text-white font-semibold">
@@ -186,7 +186,7 @@ export const HomeView: React.FC = () => {
               onClick={() => setIsConnectAccountModalOpen(true)}
               className="flex flex-col items-center text-center gap-2 cursor-pointer group/step"
             >
-              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-[#0A0A0A] group-hover/step:scale-110 transition-transform">
+              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-base group-hover/step:scale-110 transition-transform">
                 <CheckCircle2 className="w-4 h-4 text-black stroke-[2.5]" />
               </div>
               <span className="text-xs text-white font-semibold group-hover/step:underline">
@@ -199,7 +199,7 @@ export const HomeView: React.FC = () => {
               onClick={() => setCreatorView('discover')}
               className="flex flex-col items-center text-center gap-2 cursor-pointer group/step"
             >
-              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-[#0A0A0A] group-hover/step:scale-110 transition-transform">
+              <div className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.7)] ring-4 ring-base group-hover/step:scale-110 transition-transform">
                 <CheckCircle2 className="w-4 h-4 text-black stroke-[2.5]" />
               </div>
               <span className="text-xs text-white font-semibold group-hover/step:underline">
@@ -212,7 +212,7 @@ export const HomeView: React.FC = () => {
               onClick={() => setIsSubmitClipModalOpen(true)}
               className="flex flex-col items-center text-center gap-2 cursor-pointer group/step"
             >
-              <div className="relative w-9 h-9 rounded-full bg-white/[0.1] border-2 border-white flex items-center justify-center ring-4 ring-[#0A0A0A] shadow-[0_0_18px_rgba(255,255,255,0.4)] group-hover/step:scale-110 transition-transform">
+              <div className="relative w-9 h-9 rounded-full bg-white/[0.1] border-2 border-white flex items-center justify-center ring-4 ring-base shadow-[0_0_18px_rgba(255,255,255,0.4)] group-hover/step:scale-110 transition-transform">
                 <span className="w-2.5 h-2.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,1)]" />
                 <span className="absolute -inset-1 rounded-full border border-white/50 animate-ping opacity-40 pointer-events-none" />
               </div>
@@ -244,7 +244,7 @@ export const HomeView: React.FC = () => {
 
           {/* Top Label */}
           <div className="relative z-10 flex items-center justify-between">
-            <span className="text-xs sm:text-sm font-semibold text-[#A3A3A3] tracking-wide">
+            <span className="text-xs sm:text-sm font-semibold text-muted tracking-wide">
               إجمالي الأرباح المكتسبة
             </span>
             <div className="w-10 h-10 rounded-full bg-white/[0.08] border border-white/[0.14] flex items-center justify-center text-white shadow-sm">
@@ -276,7 +276,7 @@ export const HomeView: React.FC = () => {
           {/* Stat 2: إجمالي المشاهدات */}
           <div className="rounded-[24px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] p-5 sm:p-6 flex flex-col justify-between group hover:border-white/[0.25] hover:shadow-[0_16px_40px_rgba(0,0,0,0.85),0_0_20px_rgba(255,255,255,0.08)] hover:-translate-y-1 transition-all">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-[#A3A3A3]">إجمالي المشاهدات</span>
+              <span className="text-xs font-medium text-muted">إجمالي المشاهدات</span>
               <div className="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center text-white/70">
                 <Eye className="w-4 h-4" />
               </div>
@@ -292,7 +292,7 @@ export const HomeView: React.FC = () => {
           {/* Stat 3: الحملات النشطة */}
           <div className="rounded-[24px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] p-5 sm:p-6 flex flex-col justify-between group hover:border-white/[0.25] hover:shadow-[0_16px_40px_rgba(0,0,0,0.85),0_0_20px_rgba(255,255,255,0.08)] hover:-translate-y-1 transition-all">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-[#A3A3A3]">الحملات النشطة</span>
+              <span className="text-xs font-medium text-muted">الحملات النشطة</span>
               <div className="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center text-white/70">
                 <Layers className="w-4 h-4" />
               </div>
@@ -308,7 +308,7 @@ export const HomeView: React.FC = () => {
           {/* Stat 4: المقاطع المرسلة */}
           <div className="rounded-[24px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] p-5 sm:p-6 flex flex-col justify-between group hover:border-white/[0.25] hover:shadow-[0_16px_40px_rgba(0,0,0,0.85),0_0_20px_rgba(255,255,255,0.08)] hover:-translate-y-1 transition-all sm:col-span-2 md:col-span-1">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-[#A3A3A3]">المقاطع المرسلة</span>
+              <span className="text-xs font-medium text-muted">المقاطع المرسلة</span>
               <div className="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center text-white/70">
                 <Video className="w-4 h-4" />
               </div>
@@ -393,7 +393,7 @@ export const HomeView: React.FC = () => {
               {/* Title + Brand + Rate below */}
               <div className="p-5 flex flex-col gap-3 flex-1 justify-between text-right">
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-xs font-semibold text-[#A3A3A3]">
+                  <span className="text-xs font-semibold text-muted">
                     {item.brand}
                   </span>
                   <h3 className="text-sm sm:text-base font-bold text-white font-heading leading-snug line-clamp-2 group-hover:text-white">

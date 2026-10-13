@@ -27,7 +27,7 @@ export const BrandBalanceView: React.FC = () => {
       {/* Top Banner with Balance and Refund Action */}
       <div className="p-8 rounded-[28px] bg-white/[0.05] backdrop-blur-2xl border border-white/[0.14] shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex flex-col gap-1.5">
-          <span className="text-xs text-[#A3A3A3]">رصيد محفظة المنظمة المتاح</span>
+          <span className="text-xs text-muted">رصيد محفظة المنظمة المتاح</span>
           <div className="flex items-baseline gap-2">
             <span className="text-4xl sm:text-5xl font-black text-white font-mono tabular-nums font-heading">
               {brandProfile.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -97,9 +97,9 @@ export const BrandBalanceView: React.FC = () => {
       {/* Refund Modal */}
       {isRefundModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl">
-          <div className="relative w-full max-w-md rounded-[28px] bg-[#121212] border border-white/[0.18] p-7 text-right shadow-2xl">
+          <div className="relative w-full max-w-md rounded-[28px] bg-surface border border-white/[0.18] p-7 text-right shadow-2xl">
             <h2 className="text-lg font-bold text-white font-heading">طلب استرجاع الرصيد المتبقي</h2>
-            <p className="text-xs text-[#A3A3A3] mt-1 mb-5">
+            <p className="text-xs text-muted mt-1 mb-5">
               سيتم إعادة المبلغ إلى الحساب البنكي المسجل للمنظمة خلال 24 ساعة عمل
             </p>
 

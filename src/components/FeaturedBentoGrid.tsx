@@ -61,7 +61,7 @@ const BentoTile: React.FC<LivingTileProps> = ({
       onClick={() => navigateToCampaignDetail(campaign)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`group relative rounded-[20px] overflow-hidden bg-neutral-950 border border-white/[0.14] cursor-pointer select-none transition-all duration-300 hover:border-white/[0.38] hover:shadow-[0_16px_40px_rgba(0,0,0,0.85),0_0_28px_rgba(255,255,255,0.12)] hover:-translate-y-[3px] flex flex-col justify-between p-4 ${className}`}
+      className={`on-media group relative rounded-[20px] overflow-hidden bg-neutral-950 border border-white/[0.14] cursor-pointer select-none transition-all duration-300 hover:border-white/[0.38] hover:shadow-[0_16px_40px_rgba(0,0,0,0.85),0_0_28px_rgba(255,255,255,0.12)] hover:-translate-y-[3px] flex flex-col justify-between p-4 ${className}`}
     >
       {/* Living Crossfade Background Cover */}
       <AnimatePresence mode="popLayout">

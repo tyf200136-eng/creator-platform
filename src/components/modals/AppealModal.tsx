@@ -71,7 +71,7 @@ export const AppealModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-[28px] bg-[#121212] border border-white/[0.18] p-6 sm:p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)] max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg rounded-[28px] bg-surface border border-white/[0.18] p-6 sm:p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)] max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={() => setIsAppealModalOpen(false)}
@@ -89,7 +89,7 @@ export const AppealModal: React.FC = () => {
           <h2 className="text-xl font-bold text-white font-heading">
             تقديم اعتراض على رفض العمل
           </h2>
-          <p className="text-xs text-[#A3A3A3]">
+          <p className="text-xs text-muted">
             سيتم تدقيق العمل يدوياً من فريق إشراف المنصة المستقل لضمان حقوقك.
           </p>
         </div>
@@ -104,7 +104,7 @@ export const AppealModal: React.FC = () => {
             />
             <div className="flex flex-col min-w-0">
               <span className="text-xs font-bold text-white truncate">{campaignTitle}</span>
-              <span className="text-[11px] text-[#A3A3A3] mt-0.5">{brandName} · {item.submittedAt}</span>
+              <span className="text-[11px] text-muted mt-0.5">{brandName} · {item.submittedAt}</span>
               <span className="text-[10px] text-white/50 mt-0.5">
                 نوع العمل: {isVideo ? 'مقطع فيديو مشاهدات' : 'تصميم جرافيك'}
               </span>
@@ -134,11 +134,11 @@ export const AppealModal: React.FC = () => {
               onChange={(e) => setReason(e.target.value)}
               className="w-full py-2.5 px-3.5 rounded-xl bg-white/[0.05] border border-white/[0.15] text-white text-xs focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all appearance-none cursor-pointer"
             >
-              <option value="" className="bg-[#1a1a1a] text-white/50">-- اختر سبب الاعتراض --</option>
-              <option value="العمل يطابق شروط الدليل الإرشادي بالكامل" className="bg-[#1a1a1a] text-white">العمل يطابق شروط الدليل الإرشادي بالكامل</option>
-              <option value="سبب الرفض غير دقيق" className="bg-[#1a1a1a] text-white">سبب الرفض غير دقيق</option>
-              <option value="هناك خطأ في قياس المشاهدات" className="bg-[#1a1a1a] text-white">هناك خطأ في قياس المشاهدات</option>
-              <option value="أسباب أخرى" className="bg-[#1a1a1a] text-white">أسباب أخرى</option>
+              <option value="" className="bg-surface-2 text-white/50">-- اختر سبب الاعتراض --</option>
+              <option value="العمل يطابق شروط الدليل الإرشادي بالكامل" className="bg-surface-2 text-white">العمل يطابق شروط الدليل الإرشادي بالكامل</option>
+              <option value="سبب الرفض غير دقيق" className="bg-surface-2 text-white">سبب الرفض غير دقيق</option>
+              <option value="هناك خطأ في قياس المشاهدات" className="bg-surface-2 text-white">هناك خطأ في قياس المشاهدات</option>
+              <option value="أسباب أخرى" className="bg-surface-2 text-white">أسباب أخرى</option>
             </select>
           </div>
 

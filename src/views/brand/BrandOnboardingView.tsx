@@ -96,7 +96,7 @@ export const BrandOnboardingView: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl rounded-[32px] bg-[#0E0E0E] border border-white/[0.18] p-8 text-right shadow-[0_24px_80px_rgba(0,0,0,0.95)]">
+      <div className="relative w-full max-w-xl rounded-[32px] bg-surface border border-white/[0.18] p-8 text-right shadow-[0_24px_80px_rgba(0,0,0,0.95)]">
         <button
           onClick={() => setIsBrandOnboardingOpen(false)}
           className="absolute top-6 left-6 w-9 h-9 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] text-white flex items-center justify-center transition-all cursor-pointer"
@@ -123,7 +123,7 @@ export const BrandOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-5">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">معلومات المنظمة والعلامة التجارية</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">كيف يتعرف عليك صناع المحتوى في صفحة الحملات؟</p>
+              <p className="text-xs text-muted mt-1">كيف يتعرف عليك صناع المحتوى في صفحة الحملات؟</p>
             </div>
 
             <AvatarUpload
@@ -189,7 +189,7 @@ export const BrandOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-5">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">ما هو هدفك التسويقي الأساسي؟</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">سنخصص لوحة التحكم والمقاييس بناءً على أولويتك</p>
+              <p className="text-xs text-muted mt-1">سنخصص لوحة التحكم والمقاييس بناءً على أولويتك</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -209,7 +209,7 @@ export const BrandOnboardingView: React.FC = () => {
                   }`}
                 >
                   <span className="text-xs font-bold text-white block mb-1">{g.title}</span>
-                  <span className="text-[11px] text-[#A3A3A3] leading-relaxed">{g.desc}</span>
+                  <span className="text-[11px] text-muted leading-relaxed">{g.desc}</span>
                 </div>
               ))}
             </div>
@@ -222,7 +222,7 @@ export const BrandOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-5">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">الميزات التي تود تفعيلها</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">اختر الأدوات التي تحتاجها لإدارة حملاتك بنجاح</p>
+              <p className="text-xs text-muted mt-1">اختر الأدوات التي تحتاجها لإدارة حملاتك بنجاح</p>
             </div>
 
             <div className="flex flex-col gap-2.5">

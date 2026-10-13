@@ -14,7 +14,9 @@ import {
   FileCheck2,
   CreditCard,
   Building2,
-  Store
+  Store,
+  Menu,
+  X
 } from 'lucide-react';
 
 interface NavItemDef {
@@ -36,6 +38,7 @@ export const FloatingNavRail: React.FC = () => {
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   // Group definitions for Creator
   const creatorGroups: NavItemDef[][] = [
@@ -84,6 +87,9 @@ export const FloatingNavRail: React.FC = () => {
   const activeId = role === 'creator' 
     ? (creatorView === 'campaigns-for-you' || creatorView === 'campaign-detail' || creatorView === 'brand-profile' ? 'discover' : creatorView)
     : (brandView === 'campaign-manage' || brandView === 'create-campaign' ? 'campaigns' : brandView);
+
+  // أول 4 صفحات في الشريط السفلي، والباقي تحت "المزيد"
+  const moreItems = currentGroups.flat().slice(4);
 
   const handleNavClick = (id: string) => {
     if (role === 'creator') {
@@ -217,7 +223,7 @@ export const FloatingNavRail: React.FC = () => {
                       {/* Tooltip when rail is collapsed */}
                       {!isHovered && hoveredTooltip === item.id && (
                         <div className="absolute right-[82px] top-1/2 -translate-y-1/2 z-50 pointer-events-none">
-                          <div className="px-3 py-1.5 rounded-xl bg-[#141414]/95 backdrop-blur-2xl border border-white/[0.18] shadow-[0_10px_25px_rgba(0,0,0,0.8),0_0_14px_rgba(255,255,255,0.08)] whitespace-nowrap text-xs font-semibold text-white animate-in fade-in zoom-in-95 duration-150">
+                          <div className="px-3 py-1.5 rounded-xl bg-surface/95 backdrop-blur-2xl border border-white/[0.18] shadow-[0_10px_25px_rgba(0,0,0,0.8),0_0_14px_rgba(255,255,255,0.08)] whitespace-nowrap text-xs font-semibold text-white animate-in fade-in zoom-in-95 duration-150">
                             {item.label}
                           </div>
                         </div>
@@ -236,9 +242,9 @@ export const FloatingNavRail: React.FC = () => {
           ========================================================================= */}
       <nav
         aria-label="شريط التنقل السفلي للهواتف"
-        className="md:hidden fixed bottom-4 inset-x-4 z-40 h-16 rounded-full bg-[#0A0A0A]/90 backdrop-blur-2xl border border-white/[0.16] shadow-[0_16px_40px_rgba(0,0,0,0.9)] flex items-center justify-around px-3 select-none"
+        className="md:hidden fixed bottom-4 inset-x-4 z-40 h-16 rounded-full bg-base/90 backdrop-blur-2xl border border-white/[0.16] shadow-[0_16px_40px_rgba(0,0,0,0.9)] flex items-center justify-around px-3 select-none"
       >
-        {currentGroups.flat().slice(0, 5).map((item) => {
+        {currentGroups.flat().slice(0, 4).map((item) => {
           const Icon = item.icon;
           const isActive = activeId === item.id;
 
@@ -272,7 +278,54 @@ export const FloatingNavRail: React.FC = () => {
             </button>
           );
         })}
+
+        {/* زر "المزيد" يفتح باقي الصفحات */}
+        <button
+          onClick={() => setIsMoreOpen(true)}
+          className={`relative flex items-center justify-center w-12 h-12 rounded-full transition-colors ${
+            moreItems.some((i) => i.id === activeId) ? 'text-white bg-white/[0.14]' : 'text-white/50'
+          }`}
+          aria-label="المزيد"
+        >
+          <Menu strokeWidth={1.75} className="w-5 h-5" />
+        </button>
       </nav>
+
+      {/* قائمة "المزيد" للجوال */}
+      {isMoreOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" onClick={() => setIsMoreOpen(false)}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="absolute bottom-24 inset-x-4 rounded-[28px] bg-surface border border-white/[0.14] p-3 shadow-2xl"
+          >
+            <div className="flex items-center justify-between px-2 pb-2">
+              <span className="text-sm font-bold text-white font-heading">المزيد</span>
+              <button onClick={() => setIsMoreOpen(false)} className="p-2 text-white/60" aria-label="إغلاق">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {moreItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeId === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => { handleNavClick(item.id); setIsMoreOpen(false); }}
+                    className={`relative flex flex-col items-center gap-1.5 py-3 rounded-2xl text-[11px] ${
+                      isActive ? 'bg-white text-black' : 'bg-white/[0.05] text-white/80'
+                    }`}
+                  >
+                    <Icon strokeWidth={1.75} className="w-5 h-5" />
+                    <span>{item.label}</span>
+                    {item.hasDot && <span className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-current" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

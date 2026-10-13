@@ -63,7 +63,7 @@ export const DraftsView: React.FC = () => {
               جديد
             </span>
           </div>
-          <p className="text-xs text-[#A3A3A3] mt-1">
+          <p className="text-xs text-muted mt-1">
             ارفع مسودات الفيديوهات وناقش التعديلات مع البراند مباشرة قبل النشر النهائي
           </p>
         </div>
@@ -131,7 +131,7 @@ export const DraftsView: React.FC = () => {
                 />
                 <div className="flex flex-col min-w-0">
                   <h3 className="text-xs font-bold text-white truncate">{draft.title}</h3>
-                  <p className="text-[11px] text-[#A3A3A3] line-clamp-1 mt-0.5">{draft.notes}</p>
+                  <p className="text-[11px] text-muted line-clamp-1 mt-0.5">{draft.notes}</p>
                   <span className="text-[10px] text-white/40 mt-1">{draft.submittedAt}</span>
                 </div>
               </div>
@@ -145,7 +145,7 @@ export const DraftsView: React.FC = () => {
             {/* Top header of selected draft */}
             <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
               <div>
-                <span className="text-xs text-[#A3A3A3]">{selectedDraft.campaignTitle}</span>
+                <span className="text-xs text-muted">{selectedDraft.campaignTitle}</span>
                 <h2 className="text-base font-bold text-white font-heading mt-0.5">{selectedDraft.title}</h2>
               </div>
               <button

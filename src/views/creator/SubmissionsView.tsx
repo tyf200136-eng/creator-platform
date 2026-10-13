@@ -113,7 +113,7 @@ export const SubmissionsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
         <div>
           <h1 className="text-2xl font-bold text-white font-heading">أعمالي</h1>
-          <p className="text-xs text-[#A3A3A3] mt-1">
+          <p className="text-xs text-muted mt-1">
             جميع المقاطع والتصاميم التي أرسلتها وحالتها
           </p>
         </div>
@@ -230,7 +230,7 @@ export const SubmissionsView: React.FC = () => {
                             />
                             <div className="flex flex-col min-w-0 max-w-xs">
                               <span className="font-bold text-white truncate">{sub.campaignTitle}</span>
-                              <span className="text-[11px] text-[#A3A3A3]">{sub.brandName} · {sub.submittedAt}</span>
+                              <span className="text-[11px] text-muted">{sub.brandName} · {sub.submittedAt}</span>
                               <a
                                 href={sub.videoUrl}
                                 target="_blank"
@@ -404,7 +404,7 @@ export const SubmissionsView: React.FC = () => {
                                     className="w-4 h-4 rounded-full object-cover ring-1 ring-white/20 shrink-0"
                                   />
                                 )}
-                                <span className="text-[11px] text-[#A3A3A3] truncate">{des.brandName} · {des.submittedAt}</span>
+                                <span className="text-[11px] text-muted truncate">{des.brandName} · {des.submittedAt}</span>
                               </div>
                               {des.note && (
                                 <span className="text-[10px] text-white/40 mt-0.5 truncate">{des.note}</span>
@@ -589,7 +589,7 @@ export const SubmissionsView: React.FC = () => {
       {/* Campaign Picker Modal for "+ إرسال عمل جديد" */}
       {isCampaignPickerOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-          <div className="w-full max-w-lg rounded-[28px] bg-[#121212] border border-white/20 p-6 flex flex-col gap-5 text-right shadow-2xl">
+          <div className="w-full max-w-lg rounded-[28px] bg-surface border border-white/20 p-6 flex flex-col gap-5 text-right shadow-2xl">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <span>اختر الحملة لإرسال عملك</span>
@@ -602,7 +602,7 @@ export const SubmissionsView: React.FC = () => {
               </button>
             </div>
 
-            <p className="text-xs text-[#A3A3A3] leading-relaxed">
+            <p className="text-xs text-muted leading-relaxed">
               اختر الحملة التي تريد إرسال عملك إليها (حملات الفيديو تفتح نموذج تدقيق المقاطع، وحملات التصميم تفتح نموذج رفع التصاميم):
             </p>
 

@@ -235,7 +235,7 @@ export const AnalyticsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
         <div>
           <h1 className="text-2xl font-bold text-white font-heading">تحليلات الأداء والنمو</h1>
-          <p className="text-xs text-[#A3A3A3] mt-1">
+          <p className="text-xs text-muted mt-1">
             رصد نمو المشاهدات ومعدلات التفاعل والأرباح المكتسبة لجميع مقاطعك
           </p>
         </div>
@@ -250,7 +250,7 @@ export const AnalyticsView: React.FC = () => {
       </div>
 
       {/* 2. STICKY GLASS FILTER BAR */}
-      <div className="sticky top-16 z-30 p-3 sm:p-4 rounded-[24px] bg-[#101010]/90 backdrop-blur-3xl border border-white/[0.14] shadow-[0_16px_40px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.2)] flex flex-wrap items-center justify-between gap-4">
+      <div className="sticky top-16 z-30 p-3 sm:p-4 rounded-[24px] bg-surface/90 backdrop-blur-3xl border border-white/[0.14] shadow-[0_16px_40px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.2)] flex flex-wrap items-center justify-between gap-4">
         {/* Right side: Period Tabs + Custom Date Picker */}
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.05] border border-white/[0.08]">
@@ -288,7 +288,7 @@ export const AnalyticsView: React.FC = () => {
 
               {/* Custom Date Range Popover */}
               {isCustomOpen && (
-                <div className="absolute right-0 top-10 z-50 w-64 p-3.5 rounded-2xl bg-[#161616]/95 border border-white/[0.18] shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-right">
+                <div className="absolute right-0 top-10 z-50 w-64 p-3.5 rounded-2xl bg-surface-2/95 border border-white/[0.18] shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-right">
                   <span className="text-xs font-bold text-white">تحديد نطاق الأيام</span>
                   <div className="grid grid-cols-3 gap-1.5">
                     {[14, 21, 45, 60, 120, 180].map((days) => (
@@ -401,7 +401,7 @@ export const AnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">المشاهدات المعتمدة</span>
+            <span className="text-xs text-muted font-medium">المشاهدات المعتمدة</span>
             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activeKpi === 'views' ? 'bg-white text-black' : 'bg-white/[0.08] text-white/70'}`}>
               <Eye className="w-4 h-4" />
             </div>
@@ -430,7 +430,7 @@ export const AnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">صافي الأرباح</span>
+            <span className="text-xs text-muted font-medium">صافي الأرباح</span>
             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activeKpi === 'earnings' ? 'bg-white text-black' : 'bg-white/[0.08] text-white/70'}`}>
               <RiyalSymbol className="w-4 h-4" />
             </div>
@@ -460,7 +460,7 @@ export const AnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">المقاطع المنشورة</span>
+            <span className="text-xs text-muted font-medium">المقاطع المنشورة</span>
             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activeKpi === 'clips' ? 'bg-white text-black' : 'bg-white/[0.08] text-white/70'}`}>
               <Video className="w-4 h-4" />
             </div>
@@ -487,7 +487,7 @@ export const AnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">المقاطع المقبولة</span>
+            <span className="text-xs text-muted font-medium">المقاطع المقبولة</span>
             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activeKpi === 'approved' ? 'bg-white text-black' : 'bg-white/[0.08] text-emerald-400'}`}>
               <CheckCircle2 className="w-4 h-4" />
             </div>

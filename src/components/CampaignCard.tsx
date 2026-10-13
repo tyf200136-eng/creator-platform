@@ -50,7 +50,7 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
       className={`group relative flex flex-col rounded-[24px] bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] p-3 text-right cursor-pointer transition-all duration-300 hover:bg-white/[0.07] hover:border-white/[0.28] hover:shadow-[0_16px_40px_rgba(0,0,0,0.8),0_0_24px_rgba(255,255,255,0.08)] hover:-translate-y-1 ${className}`}
     >
       {/* 16:9 Cover Image with Grayscale default + Bloom to color on hover */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[18px] bg-neutral-900">
+      <div className="on-media relative aspect-[16/9] w-full overflow-hidden rounded-[18px] bg-neutral-900">
         {campaign.coverImage && (
           <img
             src={campaign.coverImage}
@@ -168,7 +168,7 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
             )}
 
             {!isDesign && (
-              <span className="text-[11px] text-[#A3A3A3] whitespace-nowrap">
+              <span className="text-[11px] text-muted whitespace-nowrap">
                 · {campaign.timeAgo}
               </span>
             )}
@@ -229,13 +229,13 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
            ========================================================================= */
         <div className="mt-3 flex items-center justify-between gap-2 px-1">
           {/* Budget */}
-          <div className="flex items-baseline gap-1 text-xs text-[#A3A3A3]">
+          <div className="flex items-baseline gap-1 text-xs text-muted">
             <span className="font-semibold text-white font-mono tabular-nums">
               {campaign.spentBudget.toLocaleString()}
             </span>
             <span>/</span>
             <span className="font-mono tabular-nums">{campaign.totalBudget.toLocaleString()}</span>
-            <RiyalSymbol className="w-3 h-3 text-[#A3A3A3] inline-block mr-0.5" />
+            <RiyalSymbol className="w-3 h-3 text-muted inline-block mr-0.5" />
           </div>
 
           {/* Left cluster: Participants pill + Rate Pill */}

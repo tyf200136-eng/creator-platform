@@ -3,6 +3,8 @@ import { useApp } from '../context/AppContext';
 import RiyalSymbol from './RiyalSymbol';
 import MessagesButton from './chat/MessagesButton';
 import NotificationsMenu from './NotificationsMenu';
+import ThemeToggle from './ThemeToggle';
+
 import {
   Search,
   Bell,
@@ -113,10 +115,10 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
   const balanceNumber = role === 'creator' ? creatorProfile.balance : brandProfile.balance;
 
   return (
-    <header className="sticky top-0 z-20 h-16 w-full border-b border-white/[0.08] bg-[#0A0A0A]/85 backdrop-blur-2xl px-6 flex items-center justify-between">
+    <header className="sticky top-0 z-20 h-16 w-full border-b border-white/[0.08] bg-base/85 backdrop-blur-2xl px-4 md:px-6 gap-2 flex items-center justify-between">
       {/* Right: Page Title */}
-      <div className="flex items-center gap-3">
-        <h1 className="text-lg font-bold tracking-tight text-white font-heading">
+      <div className="flex items-center gap-3 min-w-0">
+        	<h1 className="text-base md:text-lg truncate font-bold tracking-tight text-white font-heading">
           {getPageTitle()}
         </h1>
         {role === 'creator' && (
@@ -149,11 +151,12 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
       </div>
 
       {/* Left: Floating Wallet Pill + Notifications + Avatar Menu */}
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-2 md:gap-3 shrink-0">
+        <ThemeToggle />
         {/* =========================================================================
             FLOATING GLASS "WALLET" PILL IN TOP BAR
             ========================================================================= */}
-        <div className="relative" ref={walletRef}>
+        <div className="relative hidden sm:block" ref={walletRef}>
           <button
             onClick={() => setIsWalletOpen(!isWalletOpen)}
             className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.14] hover:bg-white/[0.1] hover:border-white/25 transition-all cursor-pointer shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
@@ -173,7 +176,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
 
           {/* Wallet Popover Card */}
           {isWalletOpen && (
-            <div className="absolute left-0 top-12 w-72 rounded-[24px] bg-[#121212]/95 border border-white/[0.16] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_24px_rgba(255,255,255,0.08)] z-50 text-right backdrop-blur-3xl animate-in fade-in duration-150">
+            <div className="absolute left-0 top-12 w-72 rounded-[24px] bg-surface/95 border border-white/[0.16] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.95),0_0_24px_rgba(255,255,255,0.08)] z-50 text-right backdrop-blur-3xl animate-in fade-in duration-150">
               <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
                 <div className="flex items-center gap-1.5">
                   <Wallet className="w-4 h-4 text-white" />
@@ -186,7 +189,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
 
               {/* Main Balance */}
               <div className="py-3 flex flex-col gap-1">
-                <span className="text-[11px] text-[#A3A3A3]">الرصيد المتاح الحالي</span>
+                <span className="text-[11px] text-muted">الرصيد المتاح الحالي</span>
                 <div className="flex items-baseline gap-1.5">
                   <span className="text-2xl font-black text-white font-mono tabular-nums font-heading">
                     {balanceNumber.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -277,7 +280,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
               referrerPolicy="no-referrer"
               className="w-6 h-6 rounded-full object-cover ring-1 ring-white/20"
             />
-            <span className="text-xs font-bold text-white max-w-[90px] truncate">
+            <span className="hidden md:inline text-xs font-bold text-white max-w-[90px] truncate">
               {role === 'creator' ? creatorProfile.name.split(' ')[0] : brandProfile.name.split(' ')[0]}
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-white/60" />
@@ -285,7 +288,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
 
           {/* Avatar Menu Dropdown */}
           {isAvatarMenuOpen && (
-            <div className="absolute left-0 top-12 w-64 rounded-[22px] bg-[#121212] border border-white/[0.15] p-2.5 shadow-[0_24px_60px_rgba(0,0,0,0.9),0_0_24px_rgba(255,255,255,0.06)] z-50 text-right backdrop-blur-3xl animate-in fade-in duration-150">
+            <div className="absolute left-0 top-12 w-64 rounded-[22px] bg-surface border border-white/[0.15] p-2.5 shadow-[0_24px_60px_rgba(0,0,0,0.9),0_0_24px_rgba(255,255,255,0.06)] z-50 text-right backdrop-blur-3xl animate-in fade-in duration-150">
               {/* Profile summary header */}
               <div className="p-2 border-b border-white/[0.08] flex items-center gap-3">
                 <img
@@ -298,7 +301,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title }) => {
                   <p className="text-xs font-bold text-white truncate">
                     {role === 'creator' ? creatorProfile.name : brandProfile.name}
                   </p>
-                  <p className="text-[11px] text-[#A3A3A3] truncate">
+                  <p className="text-[11px] text-muted truncate">
                     {role === 'creator' ? creatorProfile.handle : brandProfile.website}
                   </p>
                 </div>

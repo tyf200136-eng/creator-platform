@@ -191,7 +191,7 @@ export const CampaignDetailView: React.FC = () => {
       <div className="flex items-center justify-between">
         <button
           onClick={() => setCreatorView('discover')}
-          className="flex items-center gap-2 text-xs text-[#A3A3A3] hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-2 text-xs text-muted hover:text-white transition-colors cursor-pointer"
         >
           <ArrowRight className="w-4 h-4" />
           <span>الرجوع إلى اكتشف</span>
@@ -207,7 +207,7 @@ export const CampaignDetailView: React.FC = () => {
       </div>
 
       {/* Hero Cover Banner with Full Width Image */}
-      <div className="relative aspect-[21/9] min-h-[300px] w-full rounded-[28px] overflow-hidden border border-white/[0.14] bg-neutral-950">
+      <div className="on-media relative aspect-[21/9] min-h-[300px] w-full rounded-[28px] overflow-hidden border border-white/[0.14] bg-neutral-950">
         <img
           src={selectedCampaign.coverImage}
           alt={selectedCampaign.title}
@@ -319,7 +319,7 @@ export const CampaignDetailView: React.FC = () => {
           {/* Description */}
           <div className="p-6 rounded-[24px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] flex flex-col gap-3">
             <h2 className="text-base font-bold text-white font-heading">عن الحملة والهدف منها</h2>
-            <p className="text-xs sm:text-sm text-[#A3A3A3] leading-relaxed">
+            <p className="text-xs sm:text-sm text-muted leading-relaxed">
               {selectedCampaign.description}
             </p>
 
@@ -360,7 +360,7 @@ export const CampaignDetailView: React.FC = () => {
                         {rule.ratePer1k}
                       </span>
                       <RiyalSymbol className="w-3.5 h-3.5 text-white" />
-                      <span className="text-xs text-[#A3A3A3]">/ 1,000 مشاهدة</span>
+                      <span className="text-xs text-muted">/ 1,000 مشاهدة</span>
                     </div>
 
                     <div className="text-[11px] text-white/60 pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono">
@@ -503,7 +503,7 @@ export const CampaignDetailView: React.FC = () => {
             {/* Rate Header */}
             {isDesign ? (
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[#A3A3A3]">مكافأة العمل</span>
+                <span className="text-xs text-muted">مكافأة العمل</span>
                 <div className="flex items-baseline gap-1 text-xl font-bold text-white font-mono">
                   <span>{pricePerDesign}</span>
                   <RiyalSymbol className="w-4 h-4 text-white inline-block" />
@@ -512,7 +512,7 @@ export const CampaignDetailView: React.FC = () => {
               </div>
             ) : (
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[#A3A3A3]">معدل الحملة</span>
+                <span className="text-xs text-muted">معدل الحملة</span>
                 <div className="flex items-baseline gap-1 text-xl font-bold text-white font-mono">
                   <span>{selectedCampaign.ratePer1k}</span>
                   <RiyalSymbol className="w-4 h-4 text-white inline-block" />
@@ -701,7 +701,7 @@ export const CampaignDetailView: React.FC = () => {
                   })}
                 </div>
 
-                <p className="text-[11px] text-[#A3A3A3] leading-relaxed">
+                <p className="text-[11px] text-muted leading-relaxed">
                   تكتمل الحملة تلقائياً بمجرد اعتماد {totalSlots} تصاميم مطابقة لمعايير العلامة التجارية.
                 </p>
               </div>
@@ -720,7 +720,7 @@ export const CampaignDetailView: React.FC = () => {
                   />
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-[#A3A3A3] pt-1">
+                <div className="flex items-center justify-between text-[11px] text-muted pt-1">
                   <div className="flex items-baseline gap-1">
                     <span>تم صرف:</span>
                     <span className="text-white font-mono">{selectedCampaign.spentBudget.toLocaleString()}</span>
@@ -911,7 +911,7 @@ export const CampaignDetailView: React.FC = () => {
 
       {/* Floating Demo State Switcher for Design Campaigns */}
       {isDesign && (
-        <div className="fixed bottom-6 left-6 z-40 bg-[#121212]/95 backdrop-blur-2xl border border-white/20 p-2 sm:p-2.5 rounded-2xl shadow-[0_16px_50px_rgba(0,0,0,0.85),0_0_24px_rgba(255,255,255,0.08)] flex items-center gap-2 text-xs animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <div className="fixed bottom-6 left-6 z-40 bg-surface/95 backdrop-blur-2xl border border-white/20 p-2 sm:p-2.5 rounded-2xl shadow-[0_16px_50px_rgba(0,0,0,0.85),0_0_24px_rgba(255,255,255,0.08)] flex items-center gap-2 text-xs animate-in fade-in slide-in-from-bottom-2 duration-300">
           <div className="flex items-center gap-1.5 pl-2 border-l border-white/10 text-white/70 font-semibold shrink-0">
             <FlaskConical className="w-3.5 h-3.5 text-amber-300" />
             <span className="text-[11px] hidden sm:inline">وضع العرض التجريبي:</span>

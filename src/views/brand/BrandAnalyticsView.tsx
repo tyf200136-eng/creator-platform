@@ -293,7 +293,7 @@ export const BrandAnalyticsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
         <div>
           <h1 className="text-2xl font-bold text-white font-heading">تحليلات الأداء والعائد التسويقي</h1>
-          <p className="text-xs text-[#A3A3A3] mt-1">
+          <p className="text-xs text-muted mt-1">
             رصد انتشار الفيديوهات، العائد على الإنفاق (ROAS)، ومتوسط تكلفة الـ CPM الفعلي
           </p>
         </div>
@@ -309,7 +309,7 @@ export const BrandAnalyticsView: React.FC = () => {
       </div>
 
       {/* 2. STICKY GLASS FILTER BAR (Campaign dropdown + Period + Platforms + Toggles) */}
-      <div className="sticky top-16 z-30 p-3 sm:p-4 rounded-[24px] bg-[#101010]/90 backdrop-blur-3xl border border-white/[0.14] shadow-[0_16px_40px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.2)] flex flex-wrap items-center justify-between gap-4">
+      <div className="sticky top-16 z-30 p-3 sm:p-4 rounded-[24px] bg-surface/90 backdrop-blur-3xl border border-white/[0.14] shadow-[0_16px_40px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.2)] flex flex-wrap items-center justify-between gap-4">
         {/* Right side: Campaign Dropdown + Period Tabs + Custom Date */}
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Owner Only: Campaign Dropdown */}
@@ -329,7 +329,7 @@ export const BrandAnalyticsView: React.FC = () => {
 
             {/* Campaign Selection Dropdown Popover */}
             {isCampaignDropdownOpen && (
-              <div className="absolute right-0 top-11 z-50 w-72 rounded-2xl bg-[#161616]/95 border border-white/[0.18] p-2 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-3xl flex flex-col gap-1 text-right animate-in fade-in duration-150">
+              <div className="absolute right-0 top-11 z-50 w-72 rounded-2xl bg-surface-2/95 border border-white/[0.18] p-2 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-3xl flex flex-col gap-1 text-right animate-in fade-in duration-150">
                 <button
                   onClick={() => {
                     setIsLoading(true);
@@ -405,7 +405,7 @@ export const BrandAnalyticsView: React.FC = () => {
               </button>
 
               {isCustomOpen && (
-                <div className="absolute right-0 top-10 z-50 w-64 p-3.5 rounded-2xl bg-[#161616]/95 border border-white/[0.18] shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-right">
+                <div className="absolute right-0 top-10 z-50 w-64 p-3.5 rounded-2xl bg-surface-2/95 border border-white/[0.18] shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-right">
                   <span className="text-xs font-bold text-white">تحديد نطاق الأيام</span>
                   <div className="grid grid-cols-3 gap-1.5">
                     {[14, 21, 45, 60, 120, 180].map((days) => (
@@ -513,7 +513,7 @@ export const BrandAnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">المشاهدات المعتمدة</span>
+            <span className="text-xs text-muted font-medium">المشاهدات المعتمدة</span>
             <Eye className="w-3.5 h-3.5 text-white/70" />
           </div>
           <span className="text-2xl font-black text-white font-mono mt-2 font-heading">
@@ -535,7 +535,7 @@ export const BrandAnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">الصرف الفعلي</span>
+            <span className="text-xs text-muted font-medium">الصرف الفعلي</span>
             <RiyalSymbol className="w-3.5 h-3.5 text-white/70" />
           </div>
           <div className="flex items-baseline gap-1 mt-2">
@@ -557,7 +557,7 @@ export const BrandAnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">تكلفة الـ 1,000 (eCPM)</span>
+            <span className="text-xs text-muted font-medium">تكلفة الـ 1,000 (eCPM)</span>
             <TrendingDown className="w-3.5 h-3.5 text-emerald-400" />
           </div>
           <div className="flex items-baseline gap-1 mt-2">
@@ -582,7 +582,7 @@ export const BrandAnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">المقاطع النشطة</span>
+            <span className="text-xs text-muted font-medium">المقاطع النشطة</span>
             <Video className="w-3.5 h-3.5 text-white/70" />
           </div>
           <div className="flex items-baseline gap-1 mt-2">
@@ -604,7 +604,7 @@ export const BrandAnalyticsView: React.FC = () => {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#A3A3A3] font-medium">منشورات جديدة اليوم</span>
+            <span className="text-xs text-muted font-medium">منشورات جديدة اليوم</span>
             <CalendarPlus className="w-3.5 h-3.5 text-amber-300" />
           </div>
           <div className="flex items-baseline gap-1 mt-2">

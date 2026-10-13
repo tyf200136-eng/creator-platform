@@ -265,7 +265,7 @@ export const WithdrawModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md max-h-[92vh] overflow-y-auto rounded-[28px] bg-[#121212] border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)]">
+      <div className="relative w-full max-w-md max-h-[92vh] overflow-y-auto rounded-[28px] bg-surface border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)]">
         {step !== 'processing' && (
           <button
             onClick={handleClose}
@@ -284,7 +284,7 @@ export const WithdrawModal: React.FC = () => {
             </div>
             <div className="flex flex-col gap-1.5">
               <h2 className="text-xl font-bold text-white font-heading">رصيدك أقل من الحد الأدنى للسحب</h2>
-              <p className="text-xs text-[#A3A3A3] max-w-xs">
+              <p className="text-xs text-muted max-w-xs">
                 رصيدك المتاح {money(balance)} ريال، وأقل مبلغ للسحب {MIN_WITHDRAW} ريال. كمّل في الحملات وتقدر تسحب أول ما توصل.
               </p>
             </div>
@@ -304,7 +304,7 @@ export const WithdrawModal: React.FC = () => {
               </div>
               <div className="flex flex-col gap-1">
                 <h2 className="text-xl font-bold text-white font-heading">تحقق من هويتك</h2>
-                <p className="text-xs text-[#A3A3A3] max-w-xs">
+                <p className="text-xs text-muted max-w-xs">
                   لحماية أرباحك، أرسلنا رمز تحقق إلى جوالك{' '}
                   <span className="font-mono text-white" dir="ltr">{maskedPhone}</span>
                 </p>
@@ -359,7 +359,7 @@ export const WithdrawModal: React.FC = () => {
             <div>
               <span className="text-xs font-semibold text-white/50">سحب الأرباح</span>
               <h2 className="text-xl font-bold text-white font-heading mt-0.5">بيانات الحساب البنكي</h2>
-              <p className="text-xs text-[#A3A3A3]">لازم يكون الحساب باسمك أنت</p>
+              <p className="text-xs text-muted">لازم يكون الحساب باسمك أنت</p>
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -386,7 +386,7 @@ export const WithdrawModal: React.FC = () => {
                   اختر البنك
                 </option>
                 {SAUDI_BANKS.map((b) => (
-                  <option key={b.code} value={b.code} className="bg-[#121212] text-white">
+                  <option key={b.code} value={b.code} className="bg-surface text-white">
                     {b.name}
                   </option>
                 ))}
@@ -437,7 +437,7 @@ export const WithdrawModal: React.FC = () => {
             <div>
               <span className="text-xs font-semibold text-white/50">سحب الأرباح</span>
               <h2 className="text-xl font-bold text-white font-heading mt-0.5">كم تبي تسحب؟</h2>
-              <p className="text-xs text-[#A3A3A3] flex items-center gap-1">
+              <p className="text-xs text-muted flex items-center gap-1">
                 رصيدك المتاح: <span className="font-mono font-bold text-white">{money(balance)}</span> <RiyalSymbol />
               </p>
             </div>
@@ -502,7 +502,7 @@ export const WithdrawModal: React.FC = () => {
             <div>
               <span className="text-xs font-semibold text-white/50">سحب الأرباح</span>
               <h2 className="text-xl font-bold text-white font-heading mt-0.5">راجع طلبك</h2>
-              <p className="text-xs text-[#A3A3A3]">تأكد من البيانات قبل التأكيد، ما تقدر تعدّل الطلب بعد إرساله</p>
+              <p className="text-xs text-muted">تأكد من البيانات قبل التأكيد، ما تقدر تعدّل الطلب بعد إرساله</p>
             </div>
 
             <div className="flex flex-col gap-2 p-4 rounded-2xl bg-white/[0.04] border border-white/[0.1] text-xs">
@@ -564,7 +564,7 @@ export const WithdrawModal: React.FC = () => {
             </div>
             <div className="flex flex-col gap-1.5">
               <h2 className="text-xl font-bold text-white font-heading">استلمنا طلب السحب</h2>
-              <p className="text-xs text-[#A3A3A3] max-w-xs">
+              <p className="text-xs text-muted max-w-xs">
                 بيوصلك <span className="font-mono text-white">{money(net)}</span> ريال على حسابك في {bank?.name} خلال 1 إلى 3 أيام عمل.
               </p>
             </div>

@@ -92,7 +92,7 @@ export const CampaignManageView: React.FC = () => {
                 <StatusBadge tone="success">نشطة</StatusBadge>
               )}
             </div>
-            <span className="text-xs text-[#A3A3A3] mt-0.5">
+            <span className="text-xs text-muted mt-0.5">
               ميزانية: {selectedCampaign.totalBudget.toLocaleString()} <RiyalSymbol /> · تم صرف: {selectedCampaign.spentBudget.toLocaleString()} <RiyalSymbol /> · معدل: {selectedCampaign.ratePer1k} <RiyalSymbol /> / 1K
             </span>
           </div>
@@ -351,7 +351,7 @@ export const CampaignManageView: React.FC = () => {
                       <span className="text-xs font-bold text-white truncate">{sub.linkedAccountHandle}</span>
                       <PlatformIcon platform={sub.platform} size={12} className="text-white/70" />
                     </div>
-                    <span className="text-[10px] text-[#A3A3A3] mt-0.5">{sub.views.toLocaleString()} مشاهدة</span>
+                    <span className="text-[10px] text-muted mt-0.5">{sub.views.toLocaleString()} مشاهدة</span>
                     <div className="mt-1">
                       {sub.status === 'approved' ? (
                         <StatusBadge tone="success">معتمد</StatusBadge>
@@ -378,7 +378,7 @@ export const CampaignManageView: React.FC = () => {
                   </div>
                   <div>
                     <h2 className="text-sm font-bold text-white font-mono">{currentSubmission.linkedAccountHandle}</h2>
-                    <span className="text-xs text-[#A3A3A3]">تاريخ الرفع: {currentSubmission.submittedAt}</span>
+                    <span className="text-xs text-muted">تاريخ الرفع: {currentSubmission.submittedAt}</span>
                   </div>
                 </div>
 
@@ -494,7 +494,7 @@ export const CampaignManageView: React.FC = () => {
                 <span className="text-xs font-bold text-white">{d.title}</span>
                 <StatusBadge tone="warning" pulse>بانتظار القرار</StatusBadge>
               </div>
-              <p className="text-xs text-[#A3A3A3]">{d.notes}</p>
+              <p className="text-xs text-muted">{d.notes}</p>
               <div className="flex items-center gap-2 pt-2 border-t border-white/[0.06]">
                 <button
                   onClick={() => showToast('تمت الموافقة على مسودة الفيديو، أُشعر الصانع بإمكانية النشر المباشر')}
@@ -523,7 +523,7 @@ export const CampaignManageView: React.FC = () => {
                 <img src={app.creatorAvatar} alt={app.creatorName} className="w-12 h-12 rounded-full object-cover ring-1 ring-white/20" />
                 <div>
                   <h3 className="text-sm font-bold text-white">{app.creatorName}</h3>
-                  <span className="text-xs text-[#A3A3A3] font-mono">{app.creatorHandle} · {app.pastViews}</span>
+                  <span className="text-xs text-muted font-mono">{app.creatorHandle} · {app.pastViews}</span>
                 </div>
               </div>
               <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs text-white/80 leading-relaxed">

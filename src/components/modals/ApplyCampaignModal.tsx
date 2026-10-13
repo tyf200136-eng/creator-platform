@@ -81,7 +81,7 @@ export const ApplyCampaignModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-[28px] bg-[#121212] border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)] max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg rounded-[28px] bg-surface border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)] max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={close}
@@ -100,7 +100,7 @@ export const ApplyCampaignModal: React.FC = () => {
           <h2 className="text-xl font-bold text-white font-heading">
             التقديم على الحملة
           </h2>
-          <p className="text-xs text-[#A3A3A3]">
+          <p className="text-xs text-muted">
             {selectedCampaign.title}
           </p>
         </div>

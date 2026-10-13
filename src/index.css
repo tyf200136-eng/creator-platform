@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+/* ألوان الموقع — غيّرها هنا بس */
+@theme {
+  --color-base: #0A0A0A;      /* خلفية الصفحة */
+  --color-surface: #121212;   /* القوائم والنوافذ */
+  --color-surface-2: #1A1A1A;
+  --color-muted: #A3A3A3;     /* النص الثانوي */
+}
+
+/* الوضع الفاتح */
+[data-theme="light"] {
+  --color-white: #0A0A0A;
+  --color-black: #FFFFFF;
+  --color-base: #F5F5F4;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #EDEDEC;
+  --color-muted: #5C5C5C;
+  /* ألوان الحالات تغمق عشان تنقرأ على الأبيض */
+  --color-emerald-400: #059669;
+  --color-red-400: #DC2626;
+  --color-amber-400: #B45309;
+  --color-yellow-400: #A16207;
+  color-scheme: light;
+}
+
+/* أي شي فوق صورة يبقى داكن حتى في الوضع الفاتح */
+.on-media {
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-muted: #A3A3A3;
+  color: var(--color-white);
+}
+
 @layer base {
   :root {
     --font-heading: 'Alexandria', sans-serif;
@@ -8,8 +40,7 @@
 
   body {
     font-family: var(--font-body);
-    background-color: #0A0A0A;
-    color: #FFFFFF;
+background-color: var(--color-base); color: var(--color-white);
     direction: rtl;
     min-height: 100vh;
   }
@@ -18,7 +49,7 @@
   textarea::placeholder {
     color: rgba(255, 255, 255, 0.3);
   }
-  
+
   h1, h2, h3, h4, h5, h6, .font-heading {
     font-family: var(--font-heading);
     letter-spacing: -0.02em;
@@ -46,7 +77,7 @@
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.11);
+  border: 1px solid color-mix(in oklab, var(--color-white) 11%, transparent);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
@@ -72,14 +103,14 @@
 }
 
 .white-glow-button {
-  background-color: #FFFFFF;
-  color: #0A0A0A;
+  background-color:var(--color-white);
+  color: var(--color-black);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
   transition: all 0.25s ease;
 }
 .white-glow-button:hover {
-  background-color: #F4F4F5;
-  box-shadow: 0 0 32px rgba(255, 255, 255, 0.65);
+  background-color: color-mix(in oklab, var(--color-white) 90%, var(--color-black));
+  box-shadow: 0 0 32px color-mix(in oklab, var(--color-white) 65%, transparent);
   transform: translateY(-1px);
 }
 

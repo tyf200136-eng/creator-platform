@@ -77,7 +77,7 @@ export const FloatingDock: React.FC = () => {
   return (
     <div className="fixed bottom-22 md:bottom-6 left-1/2 -translate-x-1/2 z-30 w-full max-w-3xl px-4 pointer-events-auto">
       {/* Container with premium glassmorphism, white border & shadow */}
-      <div className="rounded-[26px] bg-[#0A0A0A]/85 backdrop-blur-3xl border border-white/[0.18] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_24px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.2)] flex flex-col gap-2.5">
+      <div className="rounded-[26px] bg-base/85 backdrop-blur-3xl border border-white/[0.18] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_24px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.2)] flex flex-col gap-2.5">
         {/* Top: AI Natural Language Search Field */}
         <form onSubmit={handleAiSubmit} className="relative flex items-center w-full">
           <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/50">
@@ -180,7 +180,7 @@ export const FloatingDock: React.FC = () => {
               </button>
 
               {activeDropdown === 'sort' && (
-                <div className="absolute bottom-10 right-0 w-36 rounded-xl bg-[#141414] border border-white/[0.16] p-1.5 shadow-2xl z-50 text-right backdrop-blur-2xl">
+                <div className="absolute bottom-10 right-0 w-36 rounded-xl bg-surface border border-white/[0.16] p-1.5 shadow-2xl z-50 text-right backdrop-blur-2xl">
                   <button
                     onClick={() => {
                       setSortOption('popular');
@@ -228,7 +228,7 @@ export const FloatingDock: React.FC = () => {
               </button>
 
               {activeDropdown === 'category' && (
-                <div className="absolute bottom-10 right-0 w-40 rounded-xl bg-[#141414] border border-white/[0.16] p-1.5 shadow-2xl z-50 text-right backdrop-blur-2xl">
+                <div className="absolute bottom-10 right-0 w-40 rounded-xl bg-surface border border-white/[0.16] p-1.5 shadow-2xl z-50 text-right backdrop-blur-2xl">
                   {['all', 'عطور فاخرة', 'مقاهي ومشروبات', 'تطبيقات وتوصيل', 'ألعاب ورياضات إلكترونية', 'أزياء ورجالية', 'بودكاست وإعلام'].map((cat) => (
                     <button
                       key={cat}

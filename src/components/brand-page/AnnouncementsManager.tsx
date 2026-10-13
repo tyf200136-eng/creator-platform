@@ -95,9 +95,9 @@ export const AnnouncementsManager: React.FC<{ brandName: string }> = ({ brandNam
             onChange={(e) => setCampaignId(e.target.value)}
             className="h-9 px-3 rounded-full bg-white/[0.06] border border-white/[0.12] text-xs text-white focus:outline-none max-w-[260px]"
           >
-            <option value="" className="bg-[#141414]">بدون ربط بحملة</option>
+            <option value="" className="bg-surface">بدون ربط بحملة</option>
             {myCampaigns.map((c) => (
-              <option key={c.id} value={c.id} className="bg-[#141414]">
+              <option key={c.id} value={c.id} className="bg-surface">
                 {c.title}
               </option>
             ))}

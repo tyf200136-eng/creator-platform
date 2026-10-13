@@ -394,7 +394,7 @@ export const CreateCampaignView: React.FC = () => {
             <h1 className="text-2xl font-bold text-white font-heading">
               {modelStep ? 'إنشاء وإطلاق حملة جديدة' : chosenType === 'design' ? 'إطلاق حملة تصميم جرافيك' : 'إطلاق حملة مقاطع وفيديوهات'}
             </h1>
-            <p className="text-xs text-[#A3A3A3]">
+            <p className="text-xs text-muted">
               {modelStep ? 'اختر نوع الحملة التي ترغب في تمويلها ومكافأة المبدعين عليها' : 'حدد التفاصيل والمواصفات والميزانية المطلوبة'}
             </p>
           </div>
@@ -452,7 +452,7 @@ export const CreateCampaignView: React.FC = () => {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-heading">
               اختر نموذج الدفع للحملة
             </h2>
-            <p className="text-xs sm:text-sm text-[#A3A3A3]">
+            <p className="text-xs sm:text-sm text-muted">
               كيف تبي تكافئ صناع المحتوى؟
             </p>
           </div>
@@ -476,7 +476,7 @@ export const CreateCampaignView: React.FC = () => {
                   <h3 className="text-xl font-bold text-white font-heading">
                     حملة مقاطع
                   </h3>
-                  <p className="text-xs text-[#A3A3A3] mt-2 leading-relaxed">
+                  <p className="text-xs text-muted mt-2 leading-relaxed">
                     تدفع لكل 1,000 مشاهدة حقيقية معتمدة — مقاطع كليبنغ وUGC مخصصة لمنصات التواصل.
                   </p>
                 </div>
@@ -506,7 +506,7 @@ export const CreateCampaignView: React.FC = () => {
                   <h3 className="text-xl font-bold text-white font-heading">
                     حملة تصميم
                   </h3>
-                  <p className="text-xs text-[#A3A3A3] mt-2 leading-relaxed">
+                  <p className="text-xs text-muted mt-2 leading-relaxed">
                     تدفع مبلغ ثابت لكل تصميم تقبله، والتصميم يصير ملكك — مصممون محترفون يبدعون منشورات لبراندك.
                   </p>
                 </div>
@@ -1328,7 +1328,7 @@ export const CreateCampaignView: React.FC = () => {
             <CampaignCard campaign={liveCampaignPreview} />
 
             {/* Live Details Breakdown */}
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex flex-col gap-2 text-[11px] text-[#A3A3A3]">
+            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex flex-col gap-2 text-[11px] text-muted">
               <div className="flex items-center justify-between">
                 <span>نوع الحملة:</span>
                 <span className="text-white font-bold">

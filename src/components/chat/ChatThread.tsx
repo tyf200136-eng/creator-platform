@@ -101,7 +101,7 @@ const WorkPicker: React.FC<{ onPick: (a: ChatAttachment) => void; onClose: () =>
     <div dir="rtl" className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-lg max-h-[80vh] rounded-[26px] bg-[#121212] border border-white/[0.16] p-5 flex flex-col gap-4 text-right"
+        className="w-full max-w-lg max-h-[80vh] rounded-[26px] bg-surface border border-white/[0.16] p-5 flex flex-col gap-4 text-right"
       >
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold text-white font-heading">أرفق عمل من أعمالك</h3>
@@ -213,7 +213,7 @@ export const ChatThread: React.FC<{ conversation: Conversation; onBack: () => vo
             <MoreVertical className="w-4 h-4" />
           </button>
           {menuOpen && (
-            <div className="absolute left-0 top-11 w-40 rounded-2xl bg-[#141414] border border-white/[0.18] p-1.5 shadow-2xl z-20">
+            <div className="absolute left-0 top-11 w-40 rounded-2xl bg-surface border border-white/[0.18] p-1.5 shadow-2xl z-20">
               <button
                 type="button"
                 onClick={() => {

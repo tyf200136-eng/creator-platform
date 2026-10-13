@@ -335,22 +335,22 @@ export const InteractiveAnalyticsChart: React.FC<InteractiveAnalyticsChartProps>
           <defs>
             {/* Primary Area Gradient */}
             <linearGradient id="primaryAreaGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.22" />
-              <stop offset="60%" stopColor="#FFFFFF" stopOpacity="0.05" />
-              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+              <stop offset="0%" style={{ stopColor: 'var(--color-white)' }} stopOpacity="0.22" />
+              <stop offset="60%" style={{ stopColor: 'var(--color-white)' }} stopOpacity="0.05" />
+              <stop offset="100%" style={{ stopColor: 'var(--color-white)' }} stopOpacity="0" />
             </linearGradient>
 
             {/* Vertical Spotlight Beam Gradient */}
             <linearGradient id="scrubSpotlightBeam" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.4" />
-              <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.12" />
-              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.01" />
+              <stop offset="0%" style={{ stopColor: 'var(--color-white)' }} stopOpacity="0.4" />
+              <stop offset="40%" style={{ stopColor: 'var(--color-white)' }} stopOpacity="0.12" />
+              <stop offset="100%" style={{ stopColor: 'var(--color-white)' }} stopOpacity="0.01" />
             </linearGradient>
 
             {/* Selection Drag Gradient */}
             <linearGradient id="dragSelectionGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.08" />
+              <stop offset="0%" style={{ stopColor: 'var(--color-white)' }} stopOpacity="0.25" />
+              <stop offset="100%" style={{ stopColor: 'var(--color-white)' }} stopOpacity="0.08" />
             </linearGradient>
           </defs>
 
@@ -416,15 +416,15 @@ export const InteractiveAnalyticsChart: React.FC<InteractiveAnalyticsChartProps>
 
           {/* Primary Solid Glowing Line */}
           <path
-            d={primaryLinePath}
-            fill="none"
-            stroke="#FFFFFF"
-            strokeWidth="2.75"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            pointerEvents="none"
-            className="drop-shadow-[0_0_12px_rgba(255,255,255,0.85)]"
-          />
+          d={primaryLinePath}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          pointerEvents="none"
+          className="text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.85)]"
+        />
 
           {/* Event Markers on the Line (Small Ring Dots with Sparkle) */}
           {activePoints.map((pt, idx) => {
@@ -435,15 +435,15 @@ export const InteractiveAnalyticsChart: React.FC<InteractiveAnalyticsChartProps>
             return (
               <g key={pt.id} className="cursor-pointer group/event">
                 {/* Ping Ring */}
-                <circle
-                  cx={ptX}
-                  cy={ptY}
-                  r={8}
-                  fill="none"
-                  stroke="#FFFFFF"
-                  strokeWidth="1.5"
-                  className="animate-ping opacity-60"
-                />
+              <circle
+                cx={ptX}
+                cy={ptY}
+                r={5}
+                fill="currentColor"
+                stroke="var(--color-black)"
+                strokeWidth="2"
+                className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+              />
                 {/* Solid Ring */}
                 <circle
                   cx={ptX}
@@ -516,7 +516,7 @@ export const InteractiveAnalyticsChart: React.FC<InteractiveAnalyticsChartProps>
               transform: `translate(${hoveredX > width * 0.75 ? '-100%' : hoveredX < width * 0.25 ? '0%' : '-50%'}, -100%)`,
             }}
           >
-            <div className="p-3 rounded-[20px] bg-[#141414]/95 backdrop-blur-2xl border border-white/[0.18] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_20px_rgba(255,255,255,0.1)] min-w-[190px] flex flex-col gap-2">
+            <div className="p-3 rounded-[20px] bg-surface/95 backdrop-blur-2xl border border-white/[0.18] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_20px_rgba(255,255,255,0.1)] min-w-[190px] flex flex-col gap-2">
               {/* Tooltip Header: Date */}
               <div className="flex items-center justify-between pb-1.5 border-b border-white/[0.08]">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-white">
@@ -572,7 +572,7 @@ export const InteractiveAnalyticsChart: React.FC<InteractiveAnalyticsChartProps>
               {/* Secondary Series (Spend) Value */}
               {hasSecondarySeries && hoveredPoint.secondaryValue !== undefined && (
                 <div className="flex items-center justify-between text-xs pt-1 border-t border-white/[0.06]">
-                  <span className="text-[10px] text-[#A3A3A3]">{secondaryLabel}:</span>
+                  <span className="text-[10px] text-muted">{secondaryLabel}:</span>
                   <div className="flex items-baseline gap-1 font-mono font-bold text-white/90">
                     <span>{hoveredPoint.secondaryValue.toLocaleString()}</span>
                     {secondaryIsCurrency && <RiyalSymbol className="w-2.5 h-2.5 text-white/80" />}

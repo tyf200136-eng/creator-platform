@@ -242,7 +242,7 @@ export const DesignCampaignManage: React.FC = () => {
               <StatusBadge tone="success">حملة تصميم نشطة</StatusBadge>
             </div>
             {/* Header financial line */}
-            <div className="text-xs sm:text-sm text-[#A3A3A3] font-medium flex flex-wrap items-center gap-2">
+            <div className="text-xs sm:text-sm text-muted font-medium flex flex-wrap items-center gap-2">
               <span>الميزانية {selectedCampaign.totalBudget.toLocaleString()} <RiyalSymbol /></span>
               <span className="text-white/20">·</span>
               <span>المصروف {selectedCampaign.spentBudget.toLocaleString()} <RiyalSymbol /></span>
@@ -448,7 +448,7 @@ export const DesignCampaignManage: React.FC = () => {
                           />
                           <div className="min-w-0">
                             <p className="text-xs font-bold text-white truncate">{design.designerName}</p>
-                            <p className="text-[10px] text-[#A3A3A3] font-mono truncate">{design.designerHandle}</p>
+                            <p className="text-[10px] text-muted font-mono truncate">{design.designerHandle}</p>
                           </div>
                         </div>
 
@@ -494,7 +494,7 @@ export const DesignCampaignManage: React.FC = () => {
               })}
 
               {filteredDesigns.length === 0 && (
-                <div className="col-span-full py-16 text-center text-[#A3A3A3] flex flex-col items-center gap-3">
+                <div className="col-span-full py-16 text-center text-muted flex flex-col items-center gap-3">
                   <div className="w-14 h-14 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-white/40">
                     <LayoutGrid className="w-6 h-6" />
                   </div>
@@ -609,7 +609,7 @@ export const DesignCampaignManage: React.FC = () => {
                 <img src={app.creatorAvatar} alt={app.creatorName} className="w-12 h-12 rounded-full object-cover ring-1 ring-white/20" />
                 <div>
                   <h3 className="text-sm font-bold text-white">{app.creatorName}</h3>
-                  <span className="text-xs text-[#A3A3A3] font-mono">{app.creatorHandle}</span>
+                  <span className="text-xs text-muted font-mono">{app.creatorHandle}</span>
                 </div>
               </div>
               <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs text-white/80 leading-relaxed">
@@ -633,7 +633,7 @@ export const DesignCampaignManage: React.FC = () => {
             </div>
           ))}
           {applications.length === 0 && (
-            <div className="col-span-full py-16 text-center text-[#A3A3A3]">
+            <div className="col-span-full py-16 text-center text-muted">
               لا توجد طلبات انضمام جديدة حالياً.
             </div>
           )}
@@ -678,7 +678,7 @@ export const DesignCampaignManage: React.FC = () => {
             </div>
           ))}
           {participatingDesigners.length === 0 && (
-            <div className="col-span-full py-16 text-center text-[#A3A3A3]">
+            <div className="col-span-full py-16 text-center text-muted">
               لم يشارك أي مصمم في هذه الحملة بعد.
             </div>
           )}
@@ -760,7 +760,7 @@ export const DesignCampaignManage: React.FC = () => {
       {/* FULL-SCREEN DESIGN REVIEW PANEL MODAL */}
       {selectedDesign && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-2xl overflow-y-auto">
-          <div className="relative w-full max-w-6xl max-h-[92vh] rounded-[32px] bg-[#0E0E0E] border border-white/[0.18] shadow-[0_24px_80px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden text-right">
+          <div className="relative w-full max-w-6xl max-h-[92vh] rounded-[32px] bg-surface border border-white/[0.18] shadow-[0_24px_80px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden text-right">
             
             {/* Top Modal Header */}
             <div className="p-5 border-b border-white/[0.1] flex items-center justify-between gap-4 bg-white/[0.02] shrink-0">
@@ -778,7 +778,7 @@ export const DesignCampaignManage: React.FC = () => {
                     <span className="text-white/40 font-normal">|</span>
                     <span className="text-white/80 font-normal text-xs">{selectedDesign.designerName}</span>
                   </h2>
-                  <span className="text-[11px] text-[#A3A3A3]">تاريخ الرفع: {selectedDesign.submittedAt}</span>
+                  <span className="text-[11px] text-muted">تاريخ الرفع: {selectedDesign.submittedAt}</span>
                 </div>
               </div>
 
@@ -883,7 +883,7 @@ export const DesignCampaignManage: React.FC = () => {
                   >
                     {/* Mockup Frame: Post vs Story vs Raw */}
                     {viewerMockup === 'post' && (
-                      <div className="w-[320px] sm:w-[360px] rounded-[24px] bg-[#121212] border border-white/20 shadow-2xl overflow-hidden flex flex-col">
+                      <div className="w-[320px] sm:w-[360px] rounded-[24px] bg-surface border border-white/20 shadow-2xl overflow-hidden flex flex-col">
                         {/* Mockup IG Header */}
                         <div className="p-3 border-b border-white/10 flex items-center justify-between">
                           <div className="flex items-center gap-2">
@@ -1325,7 +1325,7 @@ export const DesignCampaignManage: React.FC = () => {
       {/* REJECTION REASON MODAL */}
       {isRejectModalOpen && selectedDesign && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-          <div className="w-full max-w-md rounded-[28px] bg-[#121212] border border-white/20 p-6 flex flex-col gap-5 text-right shadow-2xl">
+          <div className="w-full max-w-md rounded-[28px] bg-surface border border-white/20 p-6 flex flex-col gap-5 text-right shadow-2xl">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 text-rose-400" />

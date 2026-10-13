@@ -42,7 +42,7 @@ export const CampaignsForYouView: React.FC = () => {
           </button>
           <div>
             <h1 className="text-2xl font-bold text-white font-heading">حملات لأجلك</h1>
-            <p className="text-xs text-[#A3A3A3]">حملات مخصصة بناءً على أدائك وتصنيف حساباتك المربوطة</p>
+            <p className="text-xs text-muted">حملات مخصصة بناءً على أدائك وتصنيف حساباتك المربوطة</p>
           </div>
         </div>
 

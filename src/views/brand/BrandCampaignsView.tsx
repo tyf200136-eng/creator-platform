@@ -47,7 +47,7 @@ export const BrandCampaignsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
         <div>
           <h1 className="text-2xl font-bold text-white font-heading">حملات المنظمة</h1>
-          <p className="text-xs text-[#A3A3A3] mt-1">
+          <p className="text-xs text-muted mt-1">
             إدارة ميزانيات الحملات، تتبع الفيديوهات المستلمة، وتعديل شروط النشر
           </p>
         </div>
@@ -128,7 +128,7 @@ export const BrandCampaignsView: React.FC = () => {
                   {activeMenuId === camp.id && (
                     <div 
                       onClick={(e) => e.stopPropagation()}
-                      className="absolute left-0 top-10 w-44 rounded-2xl bg-[#141414] border border-white/[0.18] p-1.5 shadow-2xl z-50 text-right backdrop-blur-3xl animate-in fade-in"
+                      className="absolute left-0 top-10 w-44 rounded-2xl bg-surface border border-white/[0.18] p-1.5 shadow-2xl z-50 text-right backdrop-blur-3xl animate-in fade-in"
                     >
                       <button
                         onClick={() => handleAction(camp, 'تعديل الشروط')}
@@ -161,7 +161,7 @@ export const BrandCampaignsView: React.FC = () => {
 
               {/* Title & Stats */}
               <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between text-xs text-[#A3A3A3]">
+                <div className="flex items-center justify-between text-xs text-muted">
                   <span>{camp.category}</span>
                   <div className="flex items-center gap-1 text-white font-mono font-bold">
                     <span>{camp.ratePer1k}</span>

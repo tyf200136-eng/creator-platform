@@ -11,7 +11,7 @@ export const EarningsView: React.FC = () => {
       {/* Header with Big Balance & Withdraw Action */}
       <div className="p-8 rounded-[28px] bg-white/[0.05] backdrop-blur-2xl border border-white/[0.14] shadow-[0_20px_60px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.2)] flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex flex-col gap-2">
-          <span className="text-xs text-[#A3A3A3]">الرصيد المتاح للسحب الفوري</span>
+          <span className="text-xs text-muted">الرصيد المتاح للسحب الفوري</span>
           <div className="flex items-baseline gap-2">
             <span className="text-4xl sm:text-5xl font-black text-white font-mono tabular-nums tracking-tight font-heading">
               {creatorProfile.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -37,7 +37,7 @@ export const EarningsView: React.FC = () => {
       {/* 4 Cards: اليوم / الأسبوع / الشهر / الإجمالي */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-5 rounded-[22px] bg-white/[0.04] border border-white/[0.12] flex flex-col justify-between">
-          <span className="text-xs text-[#A3A3A3]">أرباح اليوم</span>
+          <span className="text-xs text-muted">أرباح اليوم</span>
           <div className="flex items-baseline gap-1 mt-3">
             <span className="text-2xl font-black text-white font-mono tabular-nums font-heading">240.80</span>
             <RiyalSymbol className="w-3.5 h-3.5 text-white/90" />
@@ -46,7 +46,7 @@ export const EarningsView: React.FC = () => {
         </div>
 
         <div className="p-5 rounded-[22px] bg-white/[0.04] border border-white/[0.12] flex flex-col justify-between">
-          <span className="text-xs text-[#A3A3A3]">أرباح هذا الأسبوع</span>
+          <span className="text-xs text-muted">أرباح هذا الأسبوع</span>
           <div className="flex items-baseline gap-1 mt-3">
             <span className="text-2xl font-black text-white font-mono tabular-nums font-heading">1,480.00</span>
             <RiyalSymbol className="w-3.5 h-3.5 text-white/90" />
@@ -55,7 +55,7 @@ export const EarningsView: React.FC = () => {
         </div>
 
         <div className="p-5 rounded-[22px] bg-white/[0.04] border border-white/[0.12] flex flex-col justify-between">
-          <span className="text-xs text-[#A3A3A3]">أرباح هذا الشهر</span>
+          <span className="text-xs text-muted">أرباح هذا الشهر</span>
           <div className="flex items-baseline gap-1 mt-3">
             <span className="text-2xl font-black text-white font-mono tabular-nums font-heading">4,950.50</span>
             <RiyalSymbol className="w-3.5 h-3.5 text-white/90" />
@@ -64,7 +64,7 @@ export const EarningsView: React.FC = () => {
         </div>
 
         <div className="p-5 rounded-[22px] bg-white/[0.04] border border-white/[0.12] flex flex-col justify-between">
-          <span className="text-xs text-[#A3A3A3]">إجمالي ما تم سحبه</span>
+          <span className="text-xs text-muted">إجمالي ما تم سحبه</span>
           <div className="flex items-baseline gap-1 mt-3">
             <span className="text-2xl font-black text-white font-mono tabular-nums font-heading">
               {creatorProfile.totalWithdrawn.toLocaleString()}
@@ -98,7 +98,7 @@ export const EarningsView: React.FC = () => {
                     <RiyalSymbol className="w-3 h-3 text-white inline-block" />
                   </div>
                 </div>
-                <p className="text-xs text-[#A3A3A3] mt-1 leading-relaxed">
+                <p className="text-xs text-muted mt-1 leading-relaxed">
                   مشاهدات مقاطعك في آخر 24 ساعة تخضع لفلترة الروبوتات والتحقق الآلي قبل نقلها للرصيد المتاح.
                 </p>
               </div>
@@ -120,7 +120,7 @@ export const EarningsView: React.FC = () => {
                     <RiyalSymbol className="w-3 h-3 text-white inline-block" />
                   </div>
                 </div>
-                <p className="text-xs text-[#A3A3A3] mt-1 leading-relaxed">
+                <p className="text-xs text-muted mt-1 leading-relaxed">
                   طلبات السحب المرسلة إلى البنك المركزي السعودي (سريع / مدى) وتستغرق عادة بضع دقائق.
                 </p>
               </div>
@@ -142,7 +142,7 @@ export const EarningsView: React.FC = () => {
                     <RiyalSymbol className="w-3 h-3 text-white inline-block" />
                   </div>
                 </div>
-                <p className="text-xs text-[#A3A3A3] mt-1 leading-relaxed">
+                <p className="text-xs text-muted mt-1 leading-relaxed">
                   مبالغ تم إيداعها بنجاح في حسابك البنكي أو محفظة STC Pay مع إشعارات تسليم مؤكدة.
                 </p>
               </div>

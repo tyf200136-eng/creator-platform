@@ -83,7 +83,7 @@ export const BrandProfileView: React.FC<BrandProfileViewProps> = ({ brandName, p
             referrerPolicy="no-referrer"
             className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-black/40 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-base via-black/40 to-transparent pointer-events-none" />
         </div>
 
         <div className="relative -mt-16 px-6 sm:px-8 pb-7 flex flex-col sm:flex-row sm:items-end justify-between gap-5">
@@ -92,7 +92,7 @@ export const BrandProfileView: React.FC<BrandProfileViewProps> = ({ brandName, p
               src={first.brandAvatar}
               alt={selectedBrandName}
               referrerPolicy="no-referrer"
-              className="w-24 h-24 rounded-[22px] object-cover ring-4 ring-[#0A0A0A] shadow-[0_0_30px_rgba(255,255,255,0.12)] shrink-0"
+              className="w-24 h-24 rounded-[22px] object-cover ring-4 ring-base shadow-[0_0_30px_rgba(255,255,255,0.12)] shrink-0"
             />
             <div className="flex flex-col gap-1.5 min-w-0 pb-1">
               <div className="flex items-center gap-2">

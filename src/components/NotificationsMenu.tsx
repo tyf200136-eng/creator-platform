@@ -74,7 +74,7 @@ export const NotificationsMenu: React.FC = () => {
       </button>
 
       {open && (
-        <div className="absolute left-0 top-11 w-[340px] rounded-[20px] bg-[#121212] border border-white/[0.14] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-50 text-right animate-in fade-in duration-150">
+        <div className="absolute left-0 top-11 w-[340px] rounded-[20px] bg-surface border border-white/[0.14] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-50 text-right animate-in fade-in duration-150">
           <div className="flex items-center justify-between pb-2 border-b border-white/[0.08] px-1">
             <span className="text-xs font-bold text-white">الإشعارات</span>
             {unread > 0 && (

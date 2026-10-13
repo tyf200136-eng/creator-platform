@@ -33,7 +33,7 @@ export const Sidebar: React.FC = () => {
   } = useApp();
 
   return (
-    <aside className="w-[240px] shrink-0 h-screen sticky top-0 flex flex-col justify-between p-4 border-l border-white/[0.12] bg-[#0A0A0A]/90 backdrop-blur-2xl z-30 select-none">
+    <aside className="w-[240px] shrink-0 h-screen sticky top-0 flex flex-col justify-between p-4 border-l border-white/[0.12] bg-base/90 backdrop-blur-2xl z-30 select-none">
       {/* Top: Logo & Nav sections */}
       <div className="flex flex-col gap-5 overflow-y-auto pr-1 pl-1">
         {/* Placeholder Logo Box */}
@@ -77,7 +77,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   creatorView === 'home'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18] shadow-[0_0_16px_rgba(255,255,255,0.08)]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Home className="w-4 h-4" />
@@ -89,7 +89,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   creatorView === 'campaigns'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18] shadow-[0_0_16px_rgba(255,255,255,0.08)]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Layers className="w-4 h-4" />
@@ -101,7 +101,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   creatorView === 'discover' || creatorView === 'campaigns-for-you' || creatorView === 'campaign-detail'
                     ? 'bg-white/[0.12] text-white font-semibold border border-white/[0.22] shadow-[0_0_20px_rgba(255,255,255,0.12)]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -121,7 +121,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   creatorView === 'analytics'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <BarChart3 className="w-4 h-4" />
@@ -133,7 +133,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   creatorView === 'submissions'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -147,7 +147,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   creatorView === 'drafts'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -164,7 +164,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   creatorView === 'earnings'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Wallet className="w-4 h-4" />
@@ -181,7 +181,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   creatorView === 'settings'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Settings className="w-4 h-4" />
@@ -201,7 +201,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   brandView === 'dashboard'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18] shadow-[0_0_16px_rgba(255,255,255,0.08)]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Home className="w-4 h-4" />
@@ -213,7 +213,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   brandView === 'campaigns' || brandView === 'campaign-manage'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Layers className="w-4 h-4" />
@@ -230,7 +230,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   brandView === 'analytics'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <BarChart3 className="w-4 h-4" />
@@ -242,7 +242,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   brandView === 'payouts'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <CreditCard className="w-4 h-4" />
@@ -254,7 +254,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   brandView === 'applications'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -269,7 +269,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   brandView === 'creators'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Users2 className="w-4 h-4" />
@@ -286,7 +286,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   brandView === 'balance'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Wallet className="w-4 h-4" />
@@ -298,7 +298,7 @@ export const Sidebar: React.FC = () => {
                 className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${
                   brandView === 'settings'
                     ? 'bg-white/[0.1] text-white font-semibold border border-white/[0.18]'
-                    : 'text-[#A3A3A3] hover:text-white hover:bg-white/[0.04]'
+                    : 'text-muted hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Building2 className="w-4 h-4" />
@@ -314,7 +314,7 @@ export const Sidebar: React.FC = () => {
         {role === 'creator' ? (
           <div className="p-3.5 rounded-[20px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] flex flex-col gap-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] text-[#A3A3A3]">رصيدك</span>
+              <span className="text-[11px] text-muted">رصيدك</span>
               <span className="text-[10px] text-emerald-400">متاح الآن</span>
             </div>
             <div className="flex items-baseline gap-1.5">
@@ -333,7 +333,7 @@ export const Sidebar: React.FC = () => {
         ) : (
           <div className="p-3.5 rounded-[20px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] flex flex-col gap-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] text-[#A3A3A3]">رصيد المنظمة</span>
+              <span className="text-[11px] text-muted">رصيد المنظمة</span>
               <span className="text-[10px] text-emerald-400">نشط</span>
             </div>
             <div className="flex items-baseline gap-1.5">

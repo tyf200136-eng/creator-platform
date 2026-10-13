@@ -103,7 +103,7 @@ export const CreatorOnboardingView: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl rounded-[32px] bg-[#0E0E0E] border border-white/[0.18] p-8 text-right shadow-[0_24px_80px_rgba(0,0,0,0.95)]">
+      <div className="relative w-full max-w-xl rounded-[32px] bg-surface border border-white/[0.18] p-8 text-right shadow-[0_24px_80px_rgba(0,0,0,0.95)]">
         {/* Close */}
         <button
           onClick={() => setIsCreatorOnboardingOpen(false)}
@@ -131,7 +131,7 @@ export const CreatorOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-6">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">بيانات ملفك الشخصي</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">اختر اسمك وصورتك كما سيظهران لأصحاب الحملات</p>
+              <p className="text-xs text-muted mt-1">اختر اسمك وصورتك كما سيظهران لأصحاب الحملات</p>
             </div>
 
             <AvatarUpload
@@ -163,28 +163,28 @@ export const CreatorOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-6">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">كيف تربح من المنصة؟</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">4 طرق معتمدة لإنتاج المحتوى وكسب المكافآت</p>
+              <p className="text-xs text-muted mt-1">4 طرق معتمدة لإنتاج المحتوى وكسب المكافآت</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.1] flex flex-col gap-1">
                 <span className="text-xs font-bold text-white">1. Clipping (قص اللقطات)</span>
-                <p className="text-[11px] text-[#A3A3A3]">قص أفضل لحظات البثوث والبودكاست وإضافة ترجمات ديناميكية.</p>
+                <p className="text-[11px] text-muted">قص أفضل لحظات البثوث والبودكاست وإضافة ترجمات ديناميكية.</p>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.1] flex flex-col gap-1">
                 <span className="text-xs font-bold text-white">2. UGC (محتوى عفوي)</span>
-                <p className="text-[11px] text-[#A3A3A3]">تصوير ومراجعة المنتجات بأسلوب عفوي وشخصي يعزز المصداقية.</p>
+                <p className="text-[11px] text-muted">تصوير ومراجعة المنتجات بأسلوب عفوي وشخصي يعزز المصداقية.</p>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.1] flex flex-col gap-1">
                 <span className="text-xs font-bold text-white">3. سناب وترند تيك توك</span>
-                <p className="text-[11px] text-[#A3A3A3]">استخدام الأصوات الرائجة وتحديات السوشيال ميديا لجلب ملايين المشاهدات.</p>
+                <p className="text-[11px] text-muted">استخدام الأصوات الرائجة وتحديات السوشيال ميديا لجلب ملايين المشاهدات.</p>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.1] flex flex-col gap-1">
                 <span className="text-xs font-bold text-white">4. شعار وأكواد الخصم</span>
-                <p className="text-[11px] text-[#A3A3A3]">إبراز علامة البراند أو كود التخفيض لكسب مكافآت إضافية.</p>
+                <p className="text-[11px] text-muted">إبراز علامة البراند أو كود التخفيض لكسب مكافآت إضافية.</p>
               </div>
             </div>
           </div>
@@ -195,7 +195,7 @@ export const CreatorOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-6">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">وش تصنيفات المحتوى اللي تهمك؟</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">اختر حتى 3 مجالات لعرض الحملات الأنسب لحسابك ({selectedInterests.length}/3)</p>
+              <p className="text-xs text-muted mt-1">اختر حتى 3 مجالات لعرض الحملات الأنسب لحسابك ({selectedInterests.length}/3)</p>
             </div>
 
             <div className="flex flex-wrap gap-2.5">
@@ -226,7 +226,7 @@ export const CreatorOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-6">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">مرتاح في الظهور أمام الكاميرا؟</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">لا تقلق، لدينا مئات الحملات التي لا تتطلب ظهور الوجه إطلاقاً</p>
+              <p className="text-xs text-muted mt-1">لا تقلق، لدينا مئات الحملات التي لا تتطلب ظهور الوجه إطلاقاً</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -246,7 +246,7 @@ export const CreatorOnboardingView: React.FC = () => {
                   }`}
                 >
                   <span className="text-xs font-bold text-white block mb-1">{opt.label}</span>
-                  <span className="text-[11px] text-[#A3A3A3]">{opt.desc}</span>
+                  <span className="text-[11px] text-muted">{opt.desc}</span>
                 </div>
               ))}
             </div>
@@ -259,7 +259,7 @@ export const CreatorOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-6">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">ما هو مستواك وتفرغك للمحتوى؟</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">يساعدنا في ترشيح الحملات والعقود الشهرية المناسبة</p>
+              <p className="text-xs text-muted mt-1">يساعدنا في ترشيح الحملات والعقود الشهرية المناسبة</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -279,7 +279,7 @@ export const CreatorOnboardingView: React.FC = () => {
                   }`}
                 >
                   <span className="text-xs font-bold text-white block mb-1">{lvl.label}</span>
-                  <span className="text-[11px] text-[#A3A3A3]">{lvl.desc}</span>
+                  <span className="text-[11px] text-muted">{lvl.desc}</span>
                 </div>
               ))}
             </div>
@@ -292,7 +292,7 @@ export const CreatorOnboardingView: React.FC = () => {
           <div className="flex flex-col gap-6">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">الشروط وميثاق الصانع</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">نظام دفع شفاف مبني على المشاهدات الحقيقية</p>
+              <p className="text-xs text-muted mt-1">نظام دفع شفاف مبني على المشاهدات الحقيقية</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex flex-col gap-2.5 text-xs text-white/80 leading-relaxed">

@@ -206,7 +206,7 @@ export const BrandDashboardView: React.FC = () => {
               <CheckCircle2 className="w-3 h-3 text-white" />
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-[#A3A3A3] mt-1">
+          <p className="text-xs sm:text-sm text-muted mt-1">
             نظرة عامة على أداء حملات المشاهدات والصرف ونشاط صناع المحتوى
           </p>
         </div>
@@ -259,7 +259,7 @@ export const BrandDashboardView: React.FC = () => {
 
           {/* Top Row: Title + "+ شحن" as a white pill button */}
           <div className="relative z-10 flex items-center justify-between gap-3">
-            <span className="text-xs sm:text-sm font-semibold text-[#A3A3A3] tracking-wide">
+            <span className="text-xs sm:text-sm font-semibold text-muted tracking-wide">
               رصيد المحفظة النشط
             </span>
             <button
@@ -297,7 +297,7 @@ export const BrandDashboardView: React.FC = () => {
             <div className="absolute top-1/2 right-12 w-32 h-10 bg-white/[0.05] rounded-full blur-xl pointer-events-none" />
 
             <div className="flex items-center justify-between relative z-10">
-              <span className="text-xs font-medium text-[#A3A3A3]">المشاهدات المكتسبة</span>
+              <span className="text-xs font-medium text-muted">المشاهدات المكتسبة</span>
               <div className="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center text-white/70">
                 <Eye className="w-4 h-4" />
               </div>
@@ -318,7 +318,7 @@ export const BrandDashboardView: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Compact Tile 1: إجمالي المصروف */}
             <div className="rounded-[24px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] p-5 flex flex-col justify-between group hover:border-white/[0.25] hover:shadow-[0_14px_35px_rgba(0,0,0,0.8)] hover:-translate-y-1 transition-all">
-              <span className="text-xs font-medium text-[#A3A3A3]">إجمالي المصروف</span>
+              <span className="text-xs font-medium text-muted">إجمالي المصروف</span>
               <div className="flex items-baseline gap-1.5 my-2">
                 <span className="text-2xl font-black text-white font-mono tracking-tight font-heading">
                   <CountUpNumber end={114800} />
@@ -330,7 +330,7 @@ export const BrandDashboardView: React.FC = () => {
 
             {/* Compact Tile 2: متوسط تكلفة الـ 1,000 مشاهدة */}
             <div className="rounded-[24px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] p-5 flex flex-col justify-between group hover:border-white/[0.25] hover:shadow-[0_14px_35px_rgba(0,0,0,0.8)] hover:-translate-y-1 transition-all">
-              <span className="text-xs font-medium text-[#A3A3A3]">متوسط تكلفة الـ 1,000 مشاهدة</span>
+              <span className="text-xs font-medium text-muted">متوسط تكلفة الـ 1,000 مشاهدة</span>
               <div className="flex items-baseline gap-1.5 my-2">
                 <span className="text-2xl font-black text-white font-mono tracking-tight font-heading">
                   <CountUpNumber end={4.62} decimals={2} />
@@ -388,7 +388,7 @@ export const BrandDashboardView: React.FC = () => {
                     <h3 className="text-sm sm:text-base font-bold text-white font-heading truncate group-hover:text-white">
                       {camp.name}
                     </h3>
-                    <div className="flex items-center gap-2 text-xs text-[#A3A3A3]">
+                    <div className="flex items-center gap-2 text-xs text-muted">
                       <span>{camp.category}</span>
                       <span>·</span>
                       <span className="font-mono">{camp.creatorsCount} صانع</span>
@@ -515,7 +515,7 @@ export const BrandDashboardView: React.FC = () => {
                 <h3 className="text-sm sm:text-base font-bold text-white font-heading mt-1">
                   {creator.name}
                 </h3>
-                <span className="text-[11px] text-[#A3A3A3] font-mono mt-0.5">
+                <span className="text-[11px] text-muted font-mono mt-0.5">
                   {creator.handle}
                 </span>
 

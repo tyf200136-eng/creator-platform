@@ -106,7 +106,7 @@ export const LoginModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-[28px] bg-[#121212] border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)]">
+      <div className="relative w-full max-w-md rounded-[28px] bg-surface border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)]">
         <button
           onClick={close}
           aria-label="إغلاق"
@@ -122,7 +122,7 @@ export const LoginModal: React.FC = () => {
           <h2 className="text-xl font-bold text-white font-heading">
             {step === 'phone' ? 'تسجيل الدخول برقم الجوال' : 'أدخل رمز التحقق'}
           </h2>
-          <p className="text-xs text-[#A3A3A3]">
+          <p className="text-xs text-muted">
             {step === 'phone' ? (
               'سجّل دخولك أو أنشئ حسابك الجديد'
             ) : (
@@ -184,7 +184,7 @@ export const LoginModal: React.FC = () => {
               >
                 تغيير رقم الجوال
               </button>
-              <span className="text-[#A3A3A3]">
+              <span className="text-muted">
                 {timer > 0 ? (
                   <>
                     إعادة الإرسال بعد <span className="font-mono">{timer}</span> ثانية

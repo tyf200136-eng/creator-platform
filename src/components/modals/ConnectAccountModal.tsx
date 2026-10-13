@@ -39,7 +39,7 @@ export const ConnectAccountModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-[28px] bg-[#121212] border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)]">
+      <div className="relative w-full max-w-md rounded-[28px] bg-surface border border-white/[0.18] p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)]">
         {/* Close Button */}
         <button
           onClick={handleFinish}
@@ -53,7 +53,7 @@ export const ConnectAccountModal: React.FC = () => {
           <div className="flex flex-col gap-5">
             <div>
               <h2 className="text-xl font-bold text-white font-heading">ربط حساب تواصل جديد</h2>
-              <p className="text-xs text-[#A3A3A3] mt-1">اختر المنصة التي تنشر فيها مقاطعك للتحقق التلقائي من المشاهدات</p>
+              <p className="text-xs text-muted mt-1">اختر المنصة التي تنشر فيها مقاطعك للتحقق التلقائي من المشاهدات</p>
             </div>
 
             <div className="grid grid-cols-1 gap-2.5">
@@ -85,7 +85,7 @@ export const ConnectAccountModal: React.FC = () => {
               </div>
               <div>
                 <h2 className="text-lg font-bold text-white font-heading capitalize">سجل دخولك إلى {platform}</h2>
-                <p className="text-xs text-[#A3A3A3]">سيتم التحقق عبر البوابة الرسمية للمنصة</p>
+                <p className="text-xs text-muted">سيتم التحقق عبر البوابة الرسمية للمنصة</p>
               </div>
             </div>
 
@@ -130,7 +130,7 @@ export const ConnectAccountModal: React.FC = () => {
               </div>
               <div>
                 <h2 className="text-lg font-bold text-white font-heading">طلب الأذونات الرسمية</h2>
-                <p className="text-xs text-[#A3A3A3]">تطبيق Content Rewards يطلب الصلاحيات التالية</p>
+                <p className="text-xs text-muted">تطبيق Content Rewards يطلب الصلاحيات التالية</p>
               </div>
             </div>
 
@@ -167,7 +167,7 @@ export const ConnectAccountModal: React.FC = () => {
 
             <div className="flex flex-col gap-1">
               <h2 className="text-xl font-bold text-white font-heading">تم ربط حسابك بنجاح!</h2>
-              <p className="text-xs text-[#A3A3A3]">
+              <p className="text-xs text-muted">
                 أصبح حساب {handle} في {platform} معتمداً الآن، ويمكنك إرسال مقاطعك مباشرة للربح.
               </p>
             </div>

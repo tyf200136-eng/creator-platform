@@ -37,7 +37,7 @@ export const RoleSelectModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl rounded-[32px] bg-[#0E0E0E] border border-white/[0.18] p-8 text-right shadow-[0_24px_80px_rgba(0,0,0,0.95),0_0_50px_rgba(255,255,255,0.08)]">
+      <div className="relative w-full max-w-2xl rounded-[32px] bg-surface border border-white/[0.18] p-8 text-right shadow-[0_24px_80px_rgba(0,0,0,0.95),0_0_50px_rgba(255,255,255,0.08)]">
         {/* Close Button */}
         <button
           onClick={() => setIsRoleSelectModalOpen(false)}
@@ -51,7 +51,7 @@ export const RoleSelectModal: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-heading">
             وش تبي تسوي؟
           </h2>
-          <p className="text-xs sm:text-sm text-[#A3A3A3]">
+          <p className="text-xs sm:text-sm text-muted">
             اختر مسارك في المنصة، وبإمكانك التبديل بين الدورين في أي وقت بضغطة زر
           </p>
         </div>
@@ -78,7 +78,7 @@ export const RoleSelectModal: React.FC = () => {
                 <h3 className="text-lg font-bold text-white font-heading mb-1.5 group-hover:text-white">
                   ابدأ اربح كصانع محتوى
                 </h3>
-                <p className="text-xs text-[#A3A3A3] leading-relaxed">
+                <p className="text-xs text-muted leading-relaxed">
                   قص وشارك مقاطع الفيديو القصيرة على حساباتك، واحصل على أرباح فورية مقابل كل 1,000 مشاهدة تحققها.
                 </p>
               </div>
@@ -108,7 +108,7 @@ export const RoleSelectModal: React.FC = () => {
                 <h3 className="text-lg font-bold text-white font-heading mb-1.5 group-hover:text-white">
                   أطلق حملة لبراندك
                 </h3>
-                <p className="text-xs text-[#A3A3A3] leading-relaxed">
+                <p className="text-xs text-muted leading-relaxed">
                   أنشئ ميزانية تسويقية، حدد سعر كل 1,000 مشاهدة، واجعل مئات صناع المحتوى ينشرون لعلامتك التجارية.
                 </p>
               </div>

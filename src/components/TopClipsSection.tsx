@@ -413,7 +413,7 @@ export const TopClipsSection: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8">
               {/* Huge View Count */}
               <div className="flex flex-col gap-0.5">
-                <div className="flex items-center gap-1.5 text-xs text-[#A3A3A3] font-medium">
+                <div className="flex items-center gap-1.5 text-xs text-muted font-medium">
                   <Eye className="w-3.5 h-3.5 text-white/60" />
                   <span>المشاهدات المعتمدة</span>
                 </div>
@@ -425,7 +425,7 @@ export const TopClipsSection: React.FC = () => {
 
               {/* Creator Earnings Pill in Riyals */}
               <div className="flex flex-col gap-1 sm:border-r sm:border-white/[0.1] sm:pr-6">
-                <div className="flex items-center gap-1.5 text-xs text-[#A3A3A3]">
+                <div className="flex items-center gap-1.5 text-xs text-muted">
                   <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
                   <span>أرباح الصانع من هذا المقطع</span>
                 </div>

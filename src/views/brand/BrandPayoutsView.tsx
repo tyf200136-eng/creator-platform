@@ -21,7 +21,7 @@ export const BrandPayoutsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
         <div>
           <h1 className="text-2xl font-bold text-white font-heading">سجل المدفوعات والتحويلات</h1>
-          <p className="text-xs text-[#A3A3A3] mt-1">
+          <p className="text-xs text-muted mt-1">
             كافة مبالغ المشاهدات المصروفة لصناع المحتوى مع حالة التحويل البنكي
           </p>
         </div>

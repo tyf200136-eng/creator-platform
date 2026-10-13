@@ -223,7 +223,7 @@ export const SubmitClipModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl animate-in fade-in duration-200">
-      <div className={`relative w-full ${isDesignCampaign ? 'max-w-2xl' : 'max-w-lg'} rounded-[28px] bg-[#121212] border border-white/[0.18] p-6 sm:p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)] max-h-[92vh] overflow-y-auto`}>
+      <div className={`relative w-full ${isDesignCampaign ? 'max-w-2xl' : 'max-w-lg'} rounded-[28px] bg-surface border border-white/[0.18] p-6 sm:p-7 text-right shadow-[0_24px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,255,255,0.08)] max-h-[92vh] overflow-y-auto`}>
         {/* Close Button */}
         <button
           onClick={() => {
@@ -248,7 +248,7 @@ export const SubmitClipModal: React.FC = () => {
               <h2 className="text-xl sm:text-2xl font-bold text-white font-heading">
                 ارفع تصميمك
               </h2>
-              <p className="text-xs text-[#A3A3A3] truncate">
+              <p className="text-xs text-muted truncate">
                 {selectedCampaign.title}
               </p>
             </div>
@@ -480,7 +480,7 @@ export const SubmitClipModal: React.FC = () => {
                   onChange={(e) => setDesignAgreed(e.target.checked)}
                   className="mt-0.5 rounded border-white/20 bg-white/10 text-white focus:ring-0"
                 />
-                <span className="text-xs text-[#A3A3A3] leading-relaxed">
+                <span className="text-xs text-muted leading-relaxed">
                   أقرّ بأن التصميم من عملي الأصلي، وبعد القبول تنتقل ملكيته للعلامة التجارية.
                 </span>
               </label>
@@ -514,7 +514,7 @@ export const SubmitClipModal: React.FC = () => {
               <h2 className="text-xl font-bold text-white font-heading">
                 إرسال مقطع جديد للحملة
               </h2>
-              <p className="text-xs text-[#A3A3A3] truncate">
+              <p className="text-xs text-muted truncate">
                 {selectedCampaign.title}
               </p>
             </div>
@@ -621,7 +621,7 @@ export const SubmitClipModal: React.FC = () => {
                   onChange={(e) => setVideoAgreed(e.target.checked)}
                   className="mt-0.5 rounded border-white/20 bg-white/10 text-white focus:ring-0"
                 />
-                <span className="text-xs text-[#A3A3A3] leading-relaxed">
+                <span className="text-xs text-muted leading-relaxed">
                   أقر بأنني التزمت بجميع شروط الحملة وعدم حذف المقطع لمدة 30 يوماً من تاريخ النشر.
                 </span>
               </label>
