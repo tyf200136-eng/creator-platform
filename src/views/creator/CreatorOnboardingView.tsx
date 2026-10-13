@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useNotifications } from '../../context/NotificationsContext';
+import AvatarUpload from '../../components/common/AvatarUpload';
+import FieldError, { fieldBorder } from '../../components/common/FieldError';
 import {
   X,
   ArrowRight,
@@ -11,16 +14,20 @@ import {
 } from 'lucide-react';
 
 export const CreatorOnboardingView: React.FC = () => {
-  const { isCreatorOnboardingOpen, setIsCreatorOnboardingOpen, setCreatorView, showToast } = useApp();
+  const { isCreatorOnboardingOpen, setIsCreatorOnboardingOpen, setCreatorView, showToast, setCreatorProfile } = useApp();
+  const { notify } = useNotifications();
   const [step, setStep] = useState(1);
   const totalSteps = 6;
 
   // Form states
-  const [name, setName] = useState('نورة الدوسري');
-  const [selectedInterests, setSelectedInterests] = useState<string[]>(['عطور فاخرة', 'مقاهي ومشروبات']);
-  const [cameraComfort, setCameraComfort] = useState<'yes' | 'faceless' | 'sometimes' | 'unsure'>('faceless');
-  const [experienceLevel, setExperienceLevel] = useState<'beginner' | 'occasional' | 'regular' | 'fulltime'>('regular');
-  const [agreedTerms, setAgreedTerms] = useState(true);
+  // كل شي يبدأ فاضي، وصانع المحتوى يعبّيه بنفسه
+  const [avatar, setAvatar] = useState('');
+  const [name, setName] = useState('');
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [cameraComfort, setCameraComfort] = useState<'' | 'yes' | 'faceless' | 'sometimes' | 'unsure'>('');
+  const [experienceLevel, setExperienceLevel] = useState<'' | 'beginner' | 'occasional' | 'regular' | 'fulltime'>('');
+  const [agreedTerms, setAgreedTerms] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   if (!isCreatorOnboardingOpen) return null;
 
@@ -47,17 +54,50 @@ export const CreatorOnboardingView: React.FC = () => {
     }
   };
 
-  const handleNext = () => {
-    if (step < totalSteps) {
-      setStep(s => s + 1);
-    } else {
-      setIsCreatorOnboardingOpen(false);
-      setCreatorView('discover');
-      showToast('مرحباً بك في المنصة! تم إعداد حسابك كصانع محتوى بنجاح');
+  // ===================== حالات الخطأ =====================
+  const stepErrors = (() => {
+    const e: Record<string, string | undefined> = {};
+    if (step === 1) {
+      if (!avatar) e.avatar = 'ارفع صورة شخصية، البراندات تشوفها لما تقدّم على حملاتهم';
+      const n = name.trim();
+      if (!n) e.name = 'اكتب اسمك أو لقبك';
+      else if (n.length < 2) e.name = 'الاسم قصير، حرفين على الأقل';
+      else if (n.length > 30) e.name = 'الاسم طويل، 30 حرف كحد أقصى';
     }
+    if (step === 3 && selectedInterests.length === 0) e.interests = 'اختر مجال واحد على الأقل';
+    if (step === 4 && !cameraComfort) e.camera = 'اختر الخيار الأقرب لك';
+    if (step === 5 && !experienceLevel) e.experience = 'اختر مستواك';
+    if (step === 6 && !agreedTerms) e.terms = 'لازم توافق على الشروط عشان تكمل';
+    return e;
+  })();
+  const err = (k: string) => (showErrors ? stepErrors[k] : undefined);
+
+  const finish = () => {
+    setCreatorProfile((prev) => ({ ...prev, name: name.trim(), avatar }));
+    setIsCreatorOnboardingOpen(false);
+    setCreatorView('discover');
+    showToast('أهلاً فيك! حسابك جاهز');
+    notify({
+      side: 'creator',
+      kind: 'system',
+      title: 'كمّل ملفك الشخصي',
+      body: 'أضف نبذتك ومدينتك وبريدك الإلكتروني، عشان تزيد فرص قبولك في الحملات.',
+      target: { type: 'settings' },
+    });
+  };
+
+  const handleNext = () => {
+    if (Object.values(stepErrors).some(Boolean)) {
+      setShowErrors(true);
+      return;
+    }
+    setShowErrors(false);
+    if (step < totalSteps) setStep(s => s + 1);
+    else finish();
   };
 
   const handlePrev = () => {
+    setShowErrors(false);
     if (step > 1) setStep(s => s - 1);
   };
 
@@ -73,7 +113,7 @@ export const CreatorOnboardingView: React.FC = () => {
         </button>
 
         {/* Top Progress Bar */}
-        <div className="flex flex-col gap-2 mb-8">
+        <div className="flex flex-col gap-2 mb-8 ml-12">
           <div className="flex items-center justify-between text-xs text-white/50">
             <span>الخطوة {step} من {totalSteps}</span>
             <span>إعداد حساب صانع المحتوى</span>
@@ -94,31 +134,26 @@ export const CreatorOnboardingView: React.FC = () => {
               <p className="text-xs text-[#A3A3A3] mt-1">اختر اسمك وصورتك كما سيظهران لأصحاب الحملات</p>
             </div>
 
-            <div className="flex items-center gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80"
-                alt="Profile"
-                className="w-16 h-16 rounded-full object-cover ring-2 ring-white/30"
-              />
-              <div className="flex flex-col">
-                <button
-                  type="button"
-                  className="px-3 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.15] border border-white/20 text-xs text-white"
-                >
-                  تغيير الصورة الرمزية
-                </button>
-              </div>
-            </div>
+            <AvatarUpload
+              value={avatar}
+              onChange={setAvatar}
+              label="صورتك الشخصية"
+              hint="JPG أو PNG أو WEBP · حتى 5 ميقابايت"
+              error={err('avatar')}
+            />
 
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-medium text-white/80">اسمك أو لقبك الإبداعي</label>
               <input
                 type="text"
+                maxLength={30}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full h-12 px-4 rounded-xl bg-white/[0.05] border border-white/[0.14] text-sm text-white"
+                placeholder="مثال: نورة الدوسري"
+                className={`w-full h-12 px-4 rounded-xl bg-white/[0.05] border ${fieldBorder(err('name'))} text-sm text-white`}
                 required
               />
+              <FieldError message={err('name')} />
             </div>
           </div>
         )}
@@ -182,6 +217,7 @@ export const CreatorOnboardingView: React.FC = () => {
                 );
               })}
             </div>
+            <FieldError message={err('interests')} />
           </div>
         )}
 
@@ -214,6 +250,7 @@ export const CreatorOnboardingView: React.FC = () => {
                 </div>
               ))}
             </div>
+            <FieldError message={err('camera')} />
           </div>
         )}
 
@@ -246,6 +283,7 @@ export const CreatorOnboardingView: React.FC = () => {
                 </div>
               ))}
             </div>
+            <FieldError message={err('experience')} />
           </div>
         )}
 
@@ -268,7 +306,7 @@ export const CreatorOnboardingView: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>يحق لك سحب أرباحك فور وصولها للرصيد المتاح في أي وقت دون حد أدنى معقد.</span>
+                <span>تقدر تسحب أرباحك متى ما وصل رصيدك 100 ريال، ورسوم السحب 10٪.</span>
               </div>
             </div>
 
@@ -281,6 +319,7 @@ export const CreatorOnboardingView: React.FC = () => {
               />
               <span className="text-xs text-white font-medium">أوافق على الشروط والأحكام وميثاق صناع المحتوى</span>
             </label>
+            <FieldError message={err('terms')} />
           </div>
         )}
 
@@ -301,7 +340,6 @@ export const CreatorOnboardingView: React.FC = () => {
           <button
             type="button"
             onClick={handleNext}
-            disabled={step === 6 && !agreedTerms}
             className="px-7 py-2.5 rounded-full bg-white text-black font-bold text-xs shadow-[0_0_20px_rgba(255,255,255,0.35)] hover:shadow-[0_0_28px_rgba(255,255,255,0.65)] hover:bg-neutral-100 disabled:opacity-40 transition-all flex items-center gap-2"
           >
             <span>{step === totalSteps ? 'إكمال والدخول لاكتشف' : 'متابعة'}</span>

@@ -73,6 +73,8 @@ interface AppContextType {
   payouts: PayoutTransaction[];
   creatorProfile: CreatorProfile;
   brandProfile: BrandProfile;
+  setCreatorProfile: React.Dispatch<React.SetStateAction<CreatorProfile>>;
+  setBrandProfile: React.Dispatch<React.SetStateAction<BrandProfile>>;
   topClips: VideoClip[];
 
   // Selection
@@ -621,6 +623,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     payouts,
     creatorProfile,
     brandProfile,
+    setCreatorProfile,
+    setBrandProfile,
     topClips,
     selectedCampaign,
     setSelectedCampaign,

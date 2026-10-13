@@ -6,6 +6,7 @@ export type NotificationTarget =
   | { type: 'chat'; conversationId: string }
   | { type: 'brand-profile'; brandName: string }      // صانع المحتوى ← مجتمع البراند
   | { type: 'brand-page'; tab: 'questions' | 'members' | 'announcements' } // البراند ← ملف العلامة
+  | { type: 'settings' }
   | { type: 'none' };
 
 export type NotificationKind = 'message' | 'announcement' | 'answer' | 'question' | 'member' | 'system';

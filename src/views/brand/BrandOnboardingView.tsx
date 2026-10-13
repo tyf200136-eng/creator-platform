@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useNotifications } from '../../context/NotificationsContext';
+import AvatarUpload from '../../components/common/AvatarUpload';
+import CategoryTreePicker from '../../components/common/CategoryTreePicker';
+import FieldError, { fieldBorder } from '../../components/common/FieldError';
+import { urlError } from '../../utils/validators';
+
+const DESCRIPTION_MAX = 200;
 import {
   X,
   ArrowRight,
@@ -10,18 +17,20 @@ import {
 } from 'lucide-react';
 
 export const BrandOnboardingView: React.FC = () => {
-  const { isBrandOnboardingOpen, setIsBrandOnboardingOpen, setBrandView, showToast } = useApp();
+  const { isBrandOnboardingOpen, setIsBrandOnboardingOpen, setBrandView, showToast, setBrandProfile } = useApp();
+  const { notify } = useNotifications();
   const [step, setStep] = useState(1);
   const totalSteps = 3;
 
-  const [name, setName] = useState('دخون العشب');
-  const [website, setWebsite] = useState('https://dkhoon.sa');
-  const [description, setDescription] = useState('علامة تجارية سعودية للعطور الفاخرة والعود');
-  const [mainGoal, setMainGoal] = useState<'reach' | 'sales' | 'library' | 'community'>('reach');
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([
-    'تتبع تلقائي للمشاهدات عبر الذكاء الاصطناعي',
-    'فحص الروبوتات Bot Score',
-  ]);
+  // كل شي يبدأ فاضي، وصاحب البراند يعبّيه بنفسه
+  const [logo, setLogo] = useState('');
+  const [name, setName] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [website, setWebsite] = useState('');
+  const [description, setDescription] = useState('');
+  const [mainGoal, setMainGoal] = useState<'' | 'reach' | 'sales' | 'library' | 'community'>('');
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [showErrors, setShowErrors] = useState(false);
 
   if (!isBrandOnboardingOpen) return null;
 
@@ -37,10 +46,52 @@ export const BrandOnboardingView: React.FC = () => {
     setSelectedFeatures(prev => prev.includes(f) ? prev.filter(x => x !== f) : [...prev, f]);
   };
 
+  // ===================== حالات الخطأ =====================
+  const stepErrors = (() => {
+    const e: Record<string, string | undefined> = {};
+    if (step === 1) {
+      if (!logo) e.logo = 'ارفع شعار البراند، يظهر لصناع المحتوى في كل حملاتك';
+      const n = name.trim();
+      if (!n) e.name = 'اكتب اسم البراند';
+      else if (n.length < 2) e.name = 'الاسم قصير، حرفين على الأقل';
+      if (!industry) e.industry = 'اختر مجال البراند';
+      e.website = urlError(website);
+      if (description.trim().length > DESCRIPTION_MAX) e.description = `الوصف أطول من ${DESCRIPTION_MAX} حرف`;
+    }
+    if (step === 2 && !mainGoal) e.goal = 'اختر هدفك الأساسي';
+    return e;
+  })();
+  const err = (k: string) => (showErrors ? stepErrors[k] : undefined);
+
+  const goNext = () => {
+    if (Object.values(stepErrors).some(Boolean)) {
+      setShowErrors(true);
+      return;
+    }
+    setShowErrors(false);
+    if (step < totalSteps) setStep((s) => s + 1);
+    else handleFinish();
+  };
+
   const handleFinish = () => {
+    setBrandProfile((prev) => ({
+      ...prev,
+      name: name.trim(),
+      logo,
+      industry,
+      website: website.trim(),
+      description: description.trim(),
+    }));
     setIsBrandOnboardingOpen(false);
     setBrandView('dashboard');
-    showToast('تم تهيئة ملف المنظمة بنجاح! يمكنك الآن إطلاق أول حملة تسويقية');
+    showToast('حساب البراند جاهز! تقدر تطلق أول حملة');
+    notify({
+      side: 'brand',
+      kind: 'system',
+      title: 'كمّل ملف منظمتك',
+      body: 'أضف السجل التجاري والرقم الضريبي وجوال التواصل، عشان تطلع فواتيرك صحيحة.',
+      target: { type: 'settings' },
+    });
   };
 
   return (
@@ -54,7 +105,7 @@ export const BrandOnboardingView: React.FC = () => {
         </button>
 
         {/* Progress Bar */}
-        <div className="flex flex-col gap-2 mb-8">
+        <div className="flex flex-col gap-2 mb-8 ml-12">
           <div className="flex items-center justify-between text-xs text-white/50">
             <span>الخطوة {step} من {totalSteps}</span>
             <span>تهيئة حساب المنظمة والبراند</span>
@@ -75,37 +126,60 @@ export const BrandOnboardingView: React.FC = () => {
               <p className="text-xs text-[#A3A3A3] mt-1">كيف يتعرف عليك صناع المحتوى في صفحة الحملات؟</p>
             </div>
 
+            <AvatarUpload
+              value={logo}
+              onChange={setLogo}
+              shape="rounded"
+              label="شعار البراند"
+              hint="يفضّل مربع بخلفية واضحة · حتى 5 ميقابايت"
+              error={err('logo')}
+            />
+
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-medium text-white/80">اسم البراند / الشركة</label>
               <input
                 type="text"
+                maxLength={40}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white"
-                required
+                placeholder="مثال: دخون العشب"
+                className={`w-full h-11 px-4 rounded-xl bg-white/[0.05] border ${fieldBorder(err('name'))} text-xs text-white`}
               />
+              <FieldError message={err('name')} />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-white/80">الموقع الإلكتروني أو رابط المتجر</label>
+              <CategoryTreePicker value={industry} onChange={setIndustry} label="مجال البراند" />
+              <FieldError message={err('industry')} />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-medium text-white/80">الموقع الإلكتروني أو رابط المتجر (اختياري)</label>
               <input
                 type="url"
                 value={website}
                 onChange={(e) => setWebsite(e.target.value)}
-                className="w-full h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white font-mono"
+                placeholder="https://"
+                className={`w-full h-11 px-4 rounded-xl bg-white/[0.05] border ${fieldBorder(err('website'))} text-xs text-white font-mono text-left`}
                 dir="ltr"
-                required
               />
+              <FieldError message={err('website')} />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-white/80">وصف مختصر للبراند</label>
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-medium text-white/80">وصف مختصر للبراند (اختياري)</label>
+                <span className="text-[11px] text-white/40 font-mono">{description.length}/{DESCRIPTION_MAX}</span>
+              </div>
               <textarea
                 rows={3}
+                maxLength={DESCRIPTION_MAX}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white resize-none"
+                placeholder="عرّف صناع المحتوى ببراندك في سطرين..."
+                className={`w-full p-3 rounded-xl bg-white/[0.05] border ${fieldBorder(err('description'))} text-xs text-white resize-none`}
               />
+              <FieldError message={err('description')} />
             </div>
           </div>
         )}
@@ -139,6 +213,7 @@ export const BrandOnboardingView: React.FC = () => {
                 </div>
               ))}
             </div>
+            <FieldError message={err('goal')} />
           </div>
         )}
 
@@ -181,7 +256,10 @@ export const BrandOnboardingView: React.FC = () => {
           {step > 1 ? (
             <button
               type="button"
-              onClick={() => setStep(s => s - 1)}
+              onClick={() => {
+                setShowErrors(false);
+                setStep((s) => s - 1);
+              }}
               className="px-5 py-2.5 rounded-full bg-white/[0.06] text-xs font-semibold text-white"
             >
               رجوع
@@ -192,10 +270,7 @@ export const BrandOnboardingView: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => {
-              if (step < totalSteps) setStep(s => s + 1);
-              else handleFinish();
-            }}
+            onClick={goNext}
             className="px-7 py-2.5 rounded-full bg-white text-black font-bold text-xs shadow-[0_0_20px_rgba(255,255,255,0.35)] hover:bg-neutral-100 transition-all flex items-center gap-2"
           >
             <span>{step === totalSteps ? 'أنشئ المنظمة وابدأ' : 'متابعة'}</span>

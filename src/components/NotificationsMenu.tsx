@@ -50,6 +50,10 @@ export const NotificationsMenu: React.FC = () => {
       setPendingTab(t.tab);
       setBrandView('brand-page');
     }
+    if (t.type === 'settings') {
+      if (role === 'brand') setBrandView('settings');
+      else setCreatorView('settings');
+    }
   };
 
   return (
