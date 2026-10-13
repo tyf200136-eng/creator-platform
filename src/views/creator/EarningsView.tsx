@@ -177,7 +177,13 @@ export const EarningsView: React.FC = () => {
                     <span>{tx.amount.toLocaleString()}</span>
                     <RiyalSymbol className="w-2.5 h-2.5 inline-block text-white" />
                   </div>
-                  <span className="text-[10px] text-emerald-400">مكتمل</span>
+                  <span
+                    className={`text-[10px] ${
+                      tx.status === 'pending' ? 'text-amber-300' : tx.status === 'blocked' ? 'text-red-400' : 'text-emerald-400'
+                    }`}
+                  >
+                    {tx.status === 'pending' ? 'قيد المعالجة' : tx.status === 'blocked' ? 'مرفوض' : 'مكتمل'}
+                  </span>
                 </div>
               </div>
             ))}

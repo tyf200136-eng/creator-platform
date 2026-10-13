@@ -5,6 +5,10 @@ import PlatformIcon from '../../components/PlatformIcon';
 import CampaignCard from '../../components/CampaignCard';
 import UnifiedBudgetInput from '../../components/common/UnifiedBudgetInput';
 import CategoryTreePicker from '../../components/common/CategoryTreePicker';
+import CampaignCoverUpload from '../../components/common/CampaignCoverUpload';
+import ReferenceLinksEditor, { ReferenceLink } from '../../components/common/ReferenceLinksEditor';
+import DosDontsEditor from '../../components/common/DosDontsEditor';
+import PlatformPicker from '../../components/common/PlatformPicker';
 import { SocialPlatform, PaymentModel, Campaign, CampaignType, DesignDetails } from '../../types';
 import {
   ArrowRight,
@@ -38,7 +42,14 @@ import {
   Info,
   Megaphone
 } from 'lucide-react';
-
+// تاريخ اليوم (أو بعد عدد أيام) بصيغة YYYY-MM-DD حسب توقيت جهاز المستخدم
+const localDate = (offsetDays = 0) => {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${mm}-${dd}`;
+};
 export const CreateCampaignView: React.FC = () => {
   const { 
     setBrandView, 
@@ -50,7 +61,8 @@ export const CreateCampaignView: React.FC = () => {
 
   // Step 0: Model Selection (Video vs Design)
   const [modelStep, setModelStep] = useState<boolean>(true);
-  const [chosenType, setChosenType] = useState<CampaignType>('video');
+  const [chosenType, setChosenType] = useState<CampaignType>('video'); 
+  
 
   // Multi-step form step (1-5 for video, 1-4 for design)
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -58,14 +70,14 @@ export const CreateCampaignView: React.FC = () => {
   // =========================================================================
   // SHARED FIELDS
   // =========================================================================
-  const [name, setName] = useState('عطر ليالي الشرق الفاخر | إطلاق شتاء 2026');
-  const [description, setDescription] = useState('حملة ترويجية لعطر ليالي الشرق الجديد بمزيج الهيل والعود والزعفران. نركز على مراجعات ثبات الفوحان ولقطات فتح العبوة.');
-  const [category, setCategory] = useState('منتجات استهلاكية · عطور فاخرة');
-  const [coverUrl, setCoverUrl] = useState('https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200&auto=format&fit=crop&q=80');
-
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [coverUrl, setCoverUrl] = useState('');
+  const [referenceLinks, setReferenceLinks] = useState<ReferenceLink[]>([]);
   // DURATION (Shared): Start date + End date with quick chips
-  const [startDate, setStartDate] = useState('2026-10-12');
-  const [endDate, setEndDate] = useState('2026-10-26');
+  const [startDate, setStartDate] = useState(localDate(0))
+  const [endDate, setEndDate] = useState(localDate(14));
   const [durationPreset, setDurationPreset] = useState<'week' | 'two_weeks' | 'month'>('two_weeks');
 
   const setDurationByPreset = (preset: 'week' | 'two_weeks' | 'month') => {
@@ -83,22 +95,19 @@ export const CreateCampaignView: React.FC = () => {
   // =========================================================================
   // VIDEO CAMPAIGN SPECIFIC FIELDS
   // =========================================================================
-  const [videoBudget, setVideoBudget] = useState(15000);
+  const [videoBudget, setVideoBudget] = useState(1000);
   const [ratePer1k, setRatePer1k] = useState(7.5);
-  const [videoTypes, setVideoTypes] = useState<string[]>(['Clipping', 'UGC بوجه']);
-  const [selectedPlatforms, setSelectedPlatforms] = useState<SocialPlatform[]>(['tiktok', 'snapchat', 'instagram']);
+  const [videoTypes, setVideoTypes] = useState<string[]>([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<SocialPlatform[]>([]);
   const [access, setAccess] = useState<'open' | 'application'>('open');
-  const [rules, setRules] = useState<string[]>([
-    'إظهار زجاجة العطر بوضوح خلال أول 3 ثواني',
-    'وضع كود الخصم (ORIENT20) في الكابشن وأول تعليق',
-    'استخدام صوت الحملة الرسمي المرخص',
-  ]);
+  const [rules, setRules] = useState<string[]>([]);
+  const [videoDonts, setVideoDonts] = useState<string[]>([]);
   const [ruleInput, setRuleInput] = useState('');
   const [requireBioLink, setRequireBioLink] = useState(true);
   const [requireSound, setRequireSound] = useState(true);
   const [requirePreApproval, setRequirePreApproval] = useState(false);
-  const [creatorTypes, setCreatorTypes] = useState<string[]>(['UGC', 'Clipper']);
-  const [creatorDescription, setCreatorDescription] = useState('نبحث عن صناع محتوى شباب وبنات في السعودية لديهم أسلوب عفوي ومريح أمام الكاميرا.');
+  const [creatorTypes, setCreatorTypes] = useState<string[]>([]);
+  const [creatorDescription, setCreatorDescription] = useState('');
 
   // Styled Video Content Types with individual Icons
   const videoContentOptions = [
@@ -121,31 +130,18 @@ export const CreateCampaignView: React.FC = () => {
   // a) الطلب, b) المواصفات, c) الميزانية والتسليم, d) الملخص
   // =========================================================================
   const [exactCopy, setExactCopy] = useState('خصم حصري 50% على تشكيلة عطور الشتاء | استخدم كود ORIENT50 مع شحن مجاني لكافة مدن المملكة');
-  const [designDos, setDesignDos] = useState<string[]>([
-    'استخدام ألوان وهوية البراند الرسمية بدقة عالية',
-    'إبراز زجاجة العطر والعبوة الفاخرة بوضوح في المركز',
-    'وضوح الخطوط وسهولة قراءة كود الخصم',
-  ]);
-  const [designDonts, setDesignDonts] = useState<string[]>([
-    'ممنوع استخدام صور منخفضة الجودة أو غير مرخصة',
-    'تجنب ازدحام النصوص غير الضرورية',
-  ]);
-  const [designDoInput, setDesignDoInput] = useState('');
-  const [designDontInput, setDesignDontInput] = useState('');
+  const [designDos, setDesignDos] = useState<string[]>([]);
+  const [designDonts, setDesignDonts] = useState<string[]>([]);
 
   // b) المواصفات: Sizes, Formats, Brand Kit, Bundle
-  const [selectedSizes, setSelectedSizes] = useState<string[]>(['بوست 1080×1350', 'ستوري 1080×1920']);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [carouselSlides, setCarouselSlides] = useState<number>(4);
   const [customWidth, setCustomWidth] = useState<number>(1200);
   const [customHeight, setCustomHeight] = useState<number>(630);
 
-  const [selectedFormats, setSelectedFormats] = useState<string[]>([
-    'PNG عالي الدقة',
-    'ملف PSD',
-    'رابط Figma'
-  ]);
+  const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
 
-  const [brandColors, setBrandColors] = useState<string[]>(['#0A0A0A', '#D4AF37', '#FFFFFF', '#262626']);
+  const [brandColors, setBrandColors] = useState<string[]>([]);
   const [newColorInput, setNewColorInput] = useState('#D97706');
   const [brandFonts, setBrandFonts] = useState('Alexandria / Readex Pro');
   const [isBundle, setIsBundle] = useState<boolean>(false);
@@ -209,14 +205,14 @@ export const CreateCampaignView: React.FC = () => {
     if (chosenType === 'design') {
       return {
         id: 'preview-camp-design',
-        title: name || 'بوستات عرض الجمعة البيضاء',
+        title: name || '  عنوان حملة التصميم ',
         brandName: brandProfile.name,
         brandAvatar: brandProfile.logo,
         isVerified: true,
         timeAgo: 'الآن',
         category,
         coverImage: coverUrl,
-        platforms: ['instagram', 'x', 'tiktok'],
+        platforms: [], // التصميم: صاحب الحملة هو اللي ينشره، فما فيه منصات
         requiresApplication: false,
         campaignType: 'design',
         paymentModel: 'design_fixed',
@@ -245,6 +241,7 @@ export const CreateCampaignView: React.FC = () => {
           deadline: 'باقي 14 يوم',
           revisionRoundsAllowed: revisionRounds,
         },
+        referenceLinks,
         dos: designDos,
         donts: designDonts,
         payoutRules: [],
@@ -274,8 +271,9 @@ export const CreateCampaignView: React.FC = () => {
       allowedTypes: videoTypes,
       startDate,
       endDate,
+      referenceLinks,
       dos: rules,
-      donts: ['أي محتوى مخل بالآداب أو مخالف للشروط المحددة'],
+      donts: videoDonts,
       payoutRules: selectedPlatforms.map(p => ({
         platform: p,
         ratePer1k,
@@ -289,6 +287,7 @@ export const CreateCampaignView: React.FC = () => {
     brandProfile,
     category,
     coverUrl,
+    referenceLinks,
     description,
     startDate,
     endDate,
@@ -298,6 +297,7 @@ export const CreateCampaignView: React.FC = () => {
     videoBudget,
     videoTypes,
     rules,
+    videoDonts,
     totalDesignBudget,
     exactCopy,
     selectedSizes,
@@ -411,7 +411,6 @@ export const CreateCampaignView: React.FC = () => {
             <div
               onClick={() => {
                 setChosenType('video');
-                setName('عطر ليالي الشرق الفاخر | إطلاق شتاء 2026');
                 setModelStep(false);
                 setCurrentStep(1);
               }}
@@ -441,7 +440,6 @@ export const CreateCampaignView: React.FC = () => {
             <div
               onClick={() => {
                 setChosenType('design');
-                setName('بوستات عرض الجمعة البيضاء وتخفيضات العطور');
                 setModelStep(false);
                 setCurrentStep(1);
               }}
@@ -506,11 +504,12 @@ export const CreateCampaignView: React.FC = () => {
                         maxLength={300}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                        placeholder="مثال: نبي مقاطع تبيّن ثبات العطر ولقطات فتح العبوة..."
                         className="w-full p-3 rounded-xl bg-white/[0.05] border border-white/[0.14] text-xs text-white resize-none leading-relaxed"
                         required
                       />
                     </div>
-
+                    <CampaignCoverUpload value={coverUrl} onChange={setCoverUrl} />
                     {/* Shared: Category Tree Dropdown */}
                     <CategoryTreePicker
                       value={category}
@@ -602,51 +601,13 @@ export const CreateCampaignView: React.FC = () => {
                   <div className="p-6 rounded-[26px] bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] flex flex-col gap-5">
                     <h2 className="text-lg font-bold text-white font-heading">2. شروط وتعليمات مقاطع الفيديو</h2>
                     
-                    <div className="flex flex-col gap-2">
-                      {rules.map((rule, idx) => (
-                        <div key={idx} className="p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-between text-xs text-white">
-                          <span>• {rule}</span>
-                          <button
-                            type="button"
-                            onClick={() => setRules(prev => prev.filter((_, i) => i !== idx))}
-                            className="text-rose-400 hover:text-rose-300 text-[11px]"
-                          >
-                            حذف
-                          </button>
-                        </div>
-                      ))}
-
-                      <div className="flex items-center gap-2 mt-1">
-                        <input
-                          type="text"
-                          value={ruleInput}
-                          onChange={(e) => setRuleInput(e.target.value)}
-                          placeholder="أضف شرطاً جديداً للمقطع..."
-                          className="flex-1 h-10 px-3 rounded-xl bg-white/[0.05] border border-white/[0.12] text-xs text-white"
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              e.preventDefault();
-                              if (ruleInput.trim()) {
-                                setRules(p => [...p, ruleInput.trim()]);
-                                setRuleInput('');
-                              }
-                            }
-                          }}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (ruleInput.trim()) {
-                              setRules(p => [...p, ruleInput.trim()]);
-                              setRuleInput('');
-                            }
-                          }}
-                          className="px-4 h-10 rounded-xl bg-white text-black text-xs font-bold shadow-sm"
-                        >
-                          إضافة
-                        </button>
-                      </div>
-                    </div>
+                  <DosDontsEditor
+                    dos={rules}
+                    donts={videoDonts}
+                    onDosChange={setRules}
+                    onDontsChange={setVideoDonts}
+                    divider={false}
+                  />
 
                     <div className="flex flex-col gap-3 pt-3 border-t border-white/[0.08]">
                       <label className="flex items-center justify-between cursor-pointer">
@@ -668,6 +629,7 @@ export const CreateCampaignView: React.FC = () => {
                         />
                       </label>
                     </div>
+                    <ReferenceLinksEditor value={referenceLinks} onChange={setReferenceLinks} />
                   </div>
                 )}
 
@@ -675,6 +637,7 @@ export const CreateCampaignView: React.FC = () => {
                 {currentStep === 3 && (
                   <div className="p-6 rounded-[26px] bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] flex flex-col gap-5">
                     <h2 className="text-lg font-bold text-white font-heading">3. ميزانية الحملة والمنصات</h2>
+                    <PlatformPicker value={selectedPlatforms} onChange={setSelectedPlatforms} />
 
                     {/* Unified Budget Component (Min 1,000 SAR) */}
                     <UnifiedBudgetInput
@@ -841,7 +804,7 @@ export const CreateCampaignView: React.FC = () => {
                         required
                       />
                     </div>
-
+                    <CampaignCoverUpload value={coverUrl} onChange={setCoverUrl} />   
                     {/* Exact text/copy to appear on the design */}
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-semibold text-white/90">النص والعبارات المطلوبة في التصميم (Exact Copy)</label>
@@ -913,86 +876,12 @@ export const CreateCampaignView: React.FC = () => {
                     </div>
 
                     {/* Do's and Don'ts */}
-                    <div className="flex flex-col gap-3 pt-2 border-t border-white/[0.08]">
-                      <label className="text-xs font-semibold text-white/90">الشروط والممنوعات (Do's and Don'ts)</label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {/* Dos */}
-                        <div className="p-3 rounded-xl bg-white/[0.02] border border-emerald-500/20 flex flex-col gap-2">
-                          <span className="text-xs font-bold text-emerald-400">الشروط المطلوبة (Do's)</span>
-                          {designDos.map((d, i) => (
-                            <div key={i} className="text-[11px] text-white/80 flex items-center justify-between">
-                              <span>✓ {d}</span>
-                              <button
-                                type="button"
-                                onClick={() => setDesignDos(prev => prev.filter((_, idx) => idx !== i))}
-                                className="text-white/40 hover:text-rose-400"
-                              >
-                                ×
-                              </button>
-                            </div>
-                          ))}
-                          <div className="flex items-center gap-1 mt-1">
-                            <input
-                              type="text"
-                              value={designDoInput}
-                              onChange={(e) => setDesignDoInput(e.target.value)}
-                              placeholder="أضف شرطاً..."
-                              className="flex-1 h-8 px-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (designDoInput.trim()) {
-                                  setDesignDos(p => [...p, designDoInput.trim()]);
-                                  setDesignDoInput('');
-                                }
-                              }}
-                              className="px-2.5 h-8 rounded-lg bg-white/10 text-xs text-white hover:bg-white hover:text-black"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Donts */}
-                        <div className="p-3 rounded-xl bg-white/[0.02] border border-rose-500/20 flex flex-col gap-2">
-                          <span className="text-xs font-bold text-rose-400">الممنوعات (Don'ts)</span>
-                          {designDonts.map((d, i) => (
-                            <div key={i} className="text-[11px] text-white/80 flex items-center justify-between">
-                              <span>✕ {d}</span>
-                              <button
-                                type="button"
-                                onClick={() => setDesignDonts(prev => prev.filter((_, idx) => idx !== i))}
-                                className="text-white/40 hover:text-rose-400"
-                              >
-                                ×
-                              </button>
-                            </div>
-                          ))}
-                          <div className="flex items-center gap-1 mt-1">
-                            <input
-                              type="text"
-                              value={designDontInput}
-                              onChange={(e) => setDesignDontInput(e.target.value)}
-                              placeholder="أضف ممنوعاً..."
-                              className="flex-1 h-8 px-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (designDontInput.trim()) {
-                                  setDesignDonts(p => [...p, designDontInput.trim()]);
-                                  setDesignDontInput('');
-                                }
-                              }}
-                              className="px-2.5 h-8 rounded-lg bg-white/10 text-xs text-white hover:bg-white hover:text-black"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+<DosDontsEditor
+  dos={designDos}
+  donts={designDonts}
+  onDosChange={setDesignDos}
+  onDontsChange={setDesignDonts}
+/>
                   </div>
                 )}
 
@@ -1166,6 +1055,7 @@ export const CreateCampaignView: React.FC = () => {
                         className="rounded border-white/20 bg-white/10 text-white"
                       />
                     </div>
+                    <ReferenceLinksEditor value={referenceLinks} onChange={setReferenceLinks} />
                   </div>
                 )}
 

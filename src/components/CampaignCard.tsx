@@ -51,12 +51,14 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
     >
       {/* 16:9 Cover Image with Grayscale default + Bloom to color on hover */}
       <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[18px] bg-neutral-900">
-        <img
-          src={campaign.coverImage}
-          alt={campaign.title}
-          referrerPolicy="no-referrer"
-          className="h-full w-full object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
-        />
+        {campaign.coverImage && (
+          <img
+            src={campaign.coverImage}
+            alt={campaign.title}
+            referrerPolicy="no-referrer"
+            className="h-full w-full object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
+          />
+        )}
         {/* Soft dark gradient vignette */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
 
@@ -176,6 +178,7 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
         {/* Left side: Platform icons for video, or format count for design */}
         <div className="flex items-center gap-1 shrink-0">
           {campaign.platforms.slice(0, 3).map((p) => (
+            
             <div
               key={p}
               className="w-5 h-5 rounded-full bg-white/[0.08] border border-white/[0.12] flex items-center justify-center text-white/80 group-hover:text-white group-hover:bg-white/[0.14] transition-colors"
@@ -184,6 +187,9 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
               <PlatformIcon platform={p} size={11} />
             </div>
           ))}
+                    {campaign.platforms.length > 3 && (
+            <span className="text-[10px] font-semibold text-white/60 pr-0.5">+{campaign.platforms.length - 3}</span>
+          )}
         </div>
       </div>
 

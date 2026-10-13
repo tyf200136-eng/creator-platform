@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import PlatformIcon from '../PlatformIcon';
 import { SocialPlatform } from '../../types';
@@ -35,6 +35,14 @@ export const SubmitClipModal: React.FC = () => {
   const [videoUrl, setVideoUrl] = useState('');
   const [platform, setPlatform] = useState<SocialPlatform>('tiktok');
   const [videoAgreed, setVideoAgreed] = useState(false);
+  // أول ما تنفتح النافذة، نختار أول منصة من منصات الحملة (بدل تيك توك الثابتة)
+  useEffect(() => {
+    const allowed = selectedCampaign?.platforms ?? [];
+    if (allowed.length > 0 && !allowed.includes(platform)) {
+      setPlatform(allowed[0]);
+    }
+  }, [isSubmitClipModalOpen, selectedCampaign]);
+  
   const [isVerifying, setIsVerifying] = useState(false);
 
   // Design State

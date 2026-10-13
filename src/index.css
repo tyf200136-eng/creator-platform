@@ -13,7 +13,12 @@
     direction: rtl;
     min-height: 100vh;
   }
-
+  /* النص الإرشادي داخل الخانات: رمادي، ويختفي أول ما يبدأ المستخدم يكتب */
+  input::placeholder,
+  textarea::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  
   h1, h2, h3, h4, h5, h6, .font-heading {
     font-family: var(--font-heading);
     letter-spacing: -0.02em;

@@ -480,11 +480,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       platform: 'tiktok',
       campaignTitle: 'سحب أرباح شخصي',
       date: 'اليوم',
-      status: 'completed',
+      status: 'pending',
       method,
     };
     setPayouts(prev => [newTx, ...prev]);
-    showToast(`تم سحب ${amount.toLocaleString()} ﷼ بنجاح إلى ${method}`);
+    showToast(`استلمنا طلب سحب ${amount.toLocaleString()} ﷼ إلى ${method}`);
   };
 
   const fundBrandBalance = (amount: number, method: string) => {
